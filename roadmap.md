@@ -76,7 +76,7 @@
 
 
 
-- Préviligier dans la mesure du possible l'utilisation du `@supports`
+- Préviligier dans la mesure du possible l'utilisation de `@supports`
 
 - Préviligier l'utilisation du `em` plutôt que le `rem`, `px`... 
 
@@ -98,7 +98,7 @@
 
 ## Views
 
-- Mise en place de [`Panini`](https://www.npmjs.com/package/panini) (rajouter les helpers manquants pour se rapprocher du système de vue [`Pug`](https://www.npmjs.com/package/pug))
+- Mise en place de [`Panini`](https://www.npmjs.com/package/panini) (rajouter les helpers manquants pour se rapprocher de [`Pug`](https://www.npmjs.com/package/pug))
 
 - Utilisation de la balise `data-js-*` pour cibler un élément via javascript (ne plus utiliser les classes CSS).
 
@@ -107,9 +107,9 @@
 
 ## Général
 
-- Gérer les cas d'environnement (`.env` ou via le lancement de la commande `npm`) pour déterminer si le projet est executé en `DEV` ou `PROD`.
+- Gérer les cas d'environnements (`.env` ou via le lancement de la commande `npm`) pour déterminer si le projet est exécuté en `DEV` ou `PROD`.
 
-- Utiliser le `.editorconfig` ci-dessous et installer le plugin sur tous les éditeurs utilisés sur le pôle front : https://editorconfig.org/#download
+- Utiliser le `.editorconfig` ci-dessous et installer le plugin sur les éditeurs que nous utilisons au sein du pôle front : https://editorconfig.org/#download
 ```ini
 # editorconfig.org
 root = true
