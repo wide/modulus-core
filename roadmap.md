@@ -128,6 +128,16 @@ _/!\ Dans le cas d'un projet existant, merci de vérifier la structure du code a
 
 - Mise en place de [`Webpack`](https://webpack.js.org/)
 
+- Mise en place de [`Browsersync`](https://browsersync.io/) ou un autre équivalent
+
+- Prévoir une tâche pour la construction automatique des icons fonts et sprite SVG
+
+- Prévoir une tâche de compression des images (non active par défaut)
+
+- Utilisation du `npm expose` d'Aymeric pour déployer automatiquement sur le Cloud de Wide
+
+- Séparer les vendors JS et CSS pour aléger le développement (nous pouvons concat les fichiers lors du build)
+
 
 
 
