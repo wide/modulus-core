@@ -9,13 +9,13 @@
 - Mise en place d'ESLint (nous pouvons utiliser la configuration de Yohann basée sur la syntaxe Airbnb).
 
 - Développer un système de module JS scopé et avec la possibilité de passation de paramètres
-    ```
+    ```html
     <div data-module="MyModuleJavascript" data-args="{}">
       <!-- MyModuleJavascript is scoped here -->
     </div>
     ```
 
-    ```
+    ```js
     import { APP_NAME } from '../utils/environment';
     import AbstractModule from './AbstractModule';
 
@@ -66,7 +66,15 @@
 - Mise en place d'un linter SCSS
 
 - Mise en place de [`ITCSS: Scalable and Maintainable CSS Architecture`](https://www.npmjs.com/package/pjax) et utiliser la même structure de dossiers pour l'organisation de nos styles.
-  - 
+  - `Settings` – used with preprocessors and contain font, colors definitions, etc.
+  - `Tools` – globally used mixins and functions. It’s important not to output any CSS in the first 2 layers.
+  - `Generic` – reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.
+  - `Elements` – styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here.
+  - `Objects` – class-based selectors which define undecorated design patterns, for example media object known from OOCSS
+  - `Components` – specific UI components. This is where majority of our work takes place and our UI components are often composed of Objects and Components
+  - `Utilities` – utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class
+
+
 
 - Préviligier dans la mesure du possible l'utilisation du `@supports`
 
@@ -75,13 +83,13 @@
 - Ajouter un système de debug permettant le calage des éléments à partir de la maquette.
 
 - Utilisation de la syntaxe CSS `Minimal BEM` (voir exemple ci-dessous):
-  ```
-  /* BEM */
-  .block__element block__element--modifier {}
-
-  /* Minimal BEM */
-  .block_element -modifier {}
-  ```
+```html
+  <!-- BEM -->
+  <div class="block__element block__element--modifier"></div>
+  <!-- Minimal BEM -->
+  <div class="block_element -modifier"></div>
+```
+  
 
 - Définir nos besoins: grilles, custom select, accessibilité, utils... et les intégrer au boilerplate
 
@@ -101,11 +109,10 @@
 
 - Gérer les cas d'environnement (`.env` ou via le lancement de la commande `npm`) pour déterminer si le projet est executé en `DEV` ou `PROD`.
 
-- Utiliser le `.editorconfig` ci-dessous:
-```
+- Utiliser le `.editorconfig` ci-dessous et installer le plugin sur tous les éditeurs utilisés sur le pôle front : https://editorconfig.org/#download
+```ini
 # editorconfig.org
 root = true
-
 [*]
 indent_style = space
 indent_size = 2
@@ -113,11 +120,14 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = false
-```
+``` 
+
+_/!\ Dans le cas d'un projet existant, merci de vérifier la structure du code avant d'ajouter ce type de fichier_
 
 - Génération du `.gitignore`
 
 - Mise en place de [`Webpack`](https://webpack.js.org/)
+
 
 
 
