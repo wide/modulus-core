@@ -45,7 +45,7 @@
 - Développer un gestionnaire de scroll (prévention d'Aymeric: « DOIT ÊTRE ULTRA OPTIMISÉ ») :
   - pouvoir connaitre le sens
   - pouvoir connaitre la position
-  - pouvoir animer facilement des éléments si présent dans le inView avec une classe `.is-animate` (gestion du top, center, bottom et offset).
+  - pouvoir animer facilement des éléments si présent dans le inView (top, center, bottom) avec une classe `.is-animate` (nous pouvons utiliser l'API native `InteractiveObserver`).
   - pouvoir gérer un élément en position sticky
 
 
