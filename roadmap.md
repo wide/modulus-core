@@ -138,6 +138,5 @@ _/!\ Dans le cas d'un projet existant, merci de vérifier la structure du code a
 
 - Séparer les vendors JS et CSS pour aléger le développement (nous pouvons concat les fichiers lors du build)
 
-
-
+- Ajouter une tâche de test pour vérifier SEO, perf et etc... : https://webmasters.googleblog.com/2018/11/pagespeed-insights-now-powered-by.html
 
