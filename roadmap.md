@@ -47,6 +47,7 @@
   - pouvoir connaitre la position
   - pouvoir animer facilement des éléments si présent dans le inView (top, center, bottom) avec une classe `.is-animate` (nous pouvons utiliser l'API native `InteractiveObserver`).
   - pouvoir gérer un élément en position sticky
+  - smoothscroll: https://codepen.io/web-adventurers/pen/xRmRyN
 
 
 - Intégrer les packages suivants:
