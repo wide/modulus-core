@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "name": "boilerplate-integration",
+  "author": "Wide <hello@wideagency.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "scripts": {
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@braintree/browser-detection": "^1.7.0",
+    "body-scroll-lock": "^2.5.10",
+    "debug": "^4.1.0",
+    "joi": "^14.0.1",
+    "pjax": "^0.2.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "rimraf": "^2.6.2"
+  }
+}
