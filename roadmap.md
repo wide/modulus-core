@@ -9,13 +9,13 @@
 - Mise en place d'ESLint (nous pouvons utiliser la configuration de Yohann basée sur la syntaxe Airbnb).
 
 - Développer un système de module JS scopé et avec la possibilité de passation de paramètres
-    ```
+    ```html
     <div data-module="MyModuleJavascript" data-args="{}">
       <!-- MyModuleJavascript is scoped here -->
     </div>
     ```
 
-    ```
+    ```js
     import { APP_NAME } from '../utils/environment';
     import AbstractModule from './AbstractModule';
 
@@ -45,8 +45,9 @@
 - Développer un gestionnaire de scroll (prévention d'Aymeric: « DOIT ÊTRE ULTRA OPTIMISÉ ») :
   - pouvoir connaitre le sens
   - pouvoir connaitre la position
-  - pouvoir animer facilement des éléments si présent dans le inView avec une classe `.is-animate` (gestion du top, center, bottom et offset).
+  - pouvoir animer facilement des éléments si présent dans le inView (top, center, bottom) avec une classe `.is-animate` (nous pouvons utiliser l'API native `InteractiveObserver`).
   - pouvoir gérer un élément en position sticky
+  - smoothscroll: https://codepen.io/web-adventurers/pen/xRmRyN
 
 
 - Intégrer les packages suivants:
@@ -66,22 +67,30 @@
 - Mise en place d'un linter SCSS
 
 - Mise en place de [`ITCSS: Scalable and Maintainable CSS Architecture`](https://www.npmjs.com/package/pjax) et utiliser la même structure de dossiers pour l'organisation de nos styles.
-  - 
+  - `Settings` – used with preprocessors and contain font, colors definitions, etc.
+  - `Tools` – globally used mixins and functions. It’s important not to output any CSS in the first 2 layers.
+  - `Generic` – reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.
+  - `Elements` – styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here.
+  - `Objects` – class-based selectors which define undecorated design patterns, for example media object known from OOCSS
+  - `Components` – specific UI components. This is where majority of our work takes place and our UI components are often composed of Objects and Components
+  - `Utilities` – utilities and helper classes with ability to override anything which goes before in the triangle, eg. hide helper class
 
-- Préviligier dans la mesure du possible l'utilisation du `@supports`
+
+
+- Préviligier dans la mesure du possible l'utilisation de `@supports`
 
 - Préviligier l'utilisation du `em` plutôt que le `rem`, `px`... 
 
 - Ajouter un système de debug permettant le calage des éléments à partir de la maquette.
 
 - Utilisation de la syntaxe CSS `Minimal BEM` (voir exemple ci-dessous):
-  ```
-  /* BEM */
-  .block__element block__element--modifier {}
-
-  /* Minimal BEM */
-  .block_element -modifier {}
-  ```
+```html
+  <!-- BEM -->
+  <div class="block__element block__element--modifier"></div>
+  <!-- Minimal BEM -->
+  <div class="block_element -modifier"></div>
+```
+  
 
 - Définir nos besoins: grilles, custom select, accessibilité, utils... et les intégrer au boilerplate
 
@@ -90,7 +99,7 @@
 
 ## Views
 
-- Mise en place de [`Panini`](https://www.npmjs.com/package/panini) (rajouter les helpers manquants pour se rapprocher du système de vue [`Pug`](https://www.npmjs.com/package/pug))
+- Mise en place de [`Panini`](https://www.npmjs.com/package/panini) (rajouter les helpers manquants pour se rapprocher de [`Pug`](https://www.npmjs.com/package/pug))
 
 - Utilisation de la balise `data-js-*` pour cibler un élément via javascript (ne plus utiliser les classes CSS).
 
@@ -99,13 +108,12 @@
 
 ## Général
 
-- Gérer les cas d'environnement (`.env` ou via le lancement de la commande `npm`) pour déterminer si le projet est executé en `DEV` ou `PROD`.
+- Gérer les cas d'environnements (`.env` ou via le lancement de la commande `npm`) pour déterminer si le projet est exécuté en `DEV` ou `PROD`.
 
-- Utiliser le `.editorconfig` ci-dessous:
-```
+- Utiliser le `.editorconfig` ci-dessous et installer le plugin sur les éditeurs que nous utilisons au sein du pôle front : https://editorconfig.org/#download
+```ini
 # editorconfig.org
 root = true
-
 [*]
 indent_style = space
 indent_size = 2
@@ -113,11 +121,23 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = false
-```
+``` 
+
+_/!\ Dans le cas d'un projet existant, merci de vérifier la structure du code avant d'ajouter ce type de fichier_
 
 - Génération du `.gitignore`
 
 - Mise en place de [`Webpack`](https://webpack.js.org/)
 
+- Mise en place de [`Browsersync`](https://browsersync.io/) ou un autre équivalent
 
+- Prévoir une tâche pour la construction automatique des icons fonts et sprite SVG
+
+- Prévoir une tâche de compression des images (non active par défaut)
+
+- Utilisation du `npm expose` d'Aymeric pour déployer automatiquement sur le Cloud de Wide
+
+- Séparer les vendors JS et CSS pour aléger le développement (nous pouvons concat les fichiers lors du build)
+
+- Ajouter une tâche de test pour vérifier SEO, perf et etc... : https://webmasters.googleblog.com/2018/11/pagespeed-insights-now-powered-by.html
 
