@@ -7,9 +7,8 @@
     "node": ">=10.13.0"
   },
   "scripts": {
-    "start": "gulp",
-    "serve": "gulp serve",
-    "build": "gulp build --production",
+    "start": "npm run clean && gulp",
+    "build": "npm run clean && gulp build --production",
     "clean": "rimraf dist"
   },
   "dependencies": {
