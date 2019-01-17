@@ -10,33 +10,21 @@
 
 - Développer un système de module JS scopé et avec la possibilité de passation de paramètres
     ```html
-    <div data-module="MyModuleJavascript" data-args="{}">
+    <div data-mod="MyModule">
       <!-- MyModuleJavascript is scoped here -->
     </div>
     ```
 
     ```js
-    import { APP_NAME } from '../utils/environment';
-    import AbstractModule from './AbstractModule';
+    import { Module } from 'modulus'
 
-    const MODULE_NAME = 'MyModuleJavascript';
-    const EVENT_NAMESPACE = `${APP_NAME}.${MODULE_NAME}`;
+    export default class MyModule extends Module {
 
-    export default class extends AbstractModule {
-      constructor(options) {
-        super(options);
-
-        // Declaration of properties
+      onInit() {
+        // magic happens here
+        // look at `this.el` or `this.attrs` ;)
       }
 
-      init() {
-        // Set events and such
-      }
-
-      destroy() {
-        super.destroy();
-        this.$el.off(`.${EVENT_NAMESPACE}`);
-      }
     }
     ```
 
