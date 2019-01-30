@@ -1,14 +1,14 @@
 import { Modulus } from 'modulus'
-import Page from './modules/page'
+import Page from '~/components/page'
+import Clickable from '~/components/clickable'
 
-console.log(process)
-
-Modulus.boot({
+export default new Modulus({
   config: {
     debug: true
   },
   plugins: {},
-  modules: {
-    Page
+  components: {
+    Page,
+    Clickable
   }
 })

@@ -20,9 +20,13 @@ const cfg = {
   src: {
     assets: 'src/assets/',
     scss: 'src/assets/scss/',
-    scss_main: 'src/assets/scss/main.scss',
+    scss_entries: [
+      'src/assets/scss/main.scss'
+    ],
     js: 'src/assets/js/',
-    js_main: 'src/assets/js/main.js',
+    js_entries: [
+      'src/assets/js/main.js'
+    ],
     pages: 'src/views/pages/',
     layouts: 'src/views/layouts/',
     partials: 'src/views/partials/',
@@ -45,7 +49,7 @@ const cfg = {
     resolve: {
       alias: {
         '~': path.resolve(`${__dirname}/src/assets/js/`),
-        modulus: path.resolve(`${__dirname}/src/assets/js/libs/modulus/`)
+        modulus: path.resolve(`${__dirname}/src/assets/js/vendors/modulus/`)
       }
     },
     module: {
@@ -89,7 +93,7 @@ gulp.task('build:html', function() {
 
 // build scss to css
 gulp.task('build:css', function() {
-  return gulp.src([cfg.src.scss_main])
+  return gulp.src(cfg.src.scss_entries)
     .pipe($.sourcemaps.init())
     .pipe($.sass({ includePaths: cfg.alias.scss })
     .on('error', $.sass.logError))
@@ -100,7 +104,7 @@ gulp.task('build:css', function() {
 
 // build js
 gulp.task('build:js', function() {
-  return gulp.src(cfg.src.js_main)
+  return gulp.src(cfg.src.js_entries)
     .pipe(named())
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpack, webpack2))

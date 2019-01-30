@@ -1,8 +1,8 @@
-import { Module } from 'modulus'
+import { Component } from 'modulus'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock' 
 import { BREAKPOINTS } from '~/vars'
 
-export default class Page extends Module {
+export default class Page extends Component {
 
   onInit() {
 
