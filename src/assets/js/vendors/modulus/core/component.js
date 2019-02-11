@@ -3,6 +3,7 @@ import EventEmitter from 'tiny-emitter'
 export default class Component extends EventEmitter {
 
   constructor(el, { attrs, dataset, refs }) {
+    super()
     this.el = el
     this.attrs = attrs
     this.dataset = dataset

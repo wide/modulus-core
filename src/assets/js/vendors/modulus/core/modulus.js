@@ -141,7 +141,7 @@ export default class Modulus extends EventEmitter {
 
     // lookup [ref] children
     const refs = {}
-    el.querySelectorAll(`> [ref], *:not([${this.seekAttribute}]) [ref]`).forEach(child => {
+    el.querySelectorAll(`:scope > [ref], *:not([${this.config.seekAttribute}]) [ref]`).forEach(child => {
       const ref = child.getAttribute('ref')
       refs[ref] = child.$component || child
     })
