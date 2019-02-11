@@ -1,6 +1,6 @@
-import EventDispatcher from './event-dispatcher'
+import EventEmitter from 'tiny-emitter'
 
-export default class Modulus extends EventDispatcher {
+export default class Modulus extends EventEmitter {
 
   constructor(opts = {}) {
 

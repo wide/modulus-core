@@ -1,6 +1,6 @@
-export default class Component {
+import EventEmitter from 'tiny-emitter'
 
-  constructor(el, attrs, dataset) {
+export default class Component extends EventEmitter {
     this.el = el
     this.attrs = attrs
     this.dataset = dataset
@@ -16,8 +16,8 @@ export default class Component {
     }
   }
 
-  $on(event, callback, source = null) {
-    this.$modulus.on(source, event, (...args) => {
+  $on(event, callback) {
+    this.$modulus.on(event, (...args) => {
       this.log(`receive event [${event}]`)
       callback(...args)
     })
@@ -25,7 +25,8 @@ export default class Component {
 
   $emit(event, ...args) {
     this.log(`emit event [${event}]`)
-    this.$modulus.emit(this, event, ...args)
+    this.emit(event, ...args) // locally
+    this.$modulus.emit(event, ...args) // globally
   }
 
   $viewport(el, callback, opts = {}) {

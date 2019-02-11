@@ -12,6 +12,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "tiny-emitter": "^2.0.2",
     "@braintree/browser-detection": "^1.7.0",
     "body-scroll-lock": "^2.5.10",
     "debug": "^4.1.0",
