@@ -1,30 +1,29 @@
 import EventEmitter from 'tiny-emitter'
+import Component from './component'
 
 export default class Modulus extends EventEmitter {
 
   constructor(opts = {}) {
 
     super()
-    const { config, plugins, components } = opts
+    const { config, plugins, components, webComponents } = opts
 
     this.config = Object.assign({
       debug: false,
-      seekAttribute: 'data-mod',
-      customElements: false
+      seekAttribute: 'data-mod'
     }, config)
 
     this.plugins = {}
     this.instances = {}
     this.components = components || {}
+    this.webComponents = webComponents || {}
     this.ready = false
 
     // register plugins
     this.registerPlugins(plugins || {})
 
     // register custom elements
-    if(this.config.customElements) {
-      this.registerCustomElements()
-    }
+    this.registerCustomElements()
 
     // parse document
     document.addEventListener('DOMContentLoaded', e => {
@@ -80,44 +79,46 @@ export default class Modulus extends EventEmitter {
    * Register components as native custom elements
    */
   registerCustomElements() {
-    for(let name in this.components) {
-      
-      // sanitize tag name (FooBar -> foo-bar)
-      let tagname = name.replace(/[A-Z]/g, m => '-' + m.toLowerCase())
-      if(tagname.startsWith('-')) tagname = tagname.substr(1)
+    for(let name in this.webComponents) {
 
-      // ignore invalid tagname
-      if(!tagname.includes('-')) {
-        console.error(`Modulus: invalid tagname <${tagname}>`)
+      try {
+
+        // sanitize tag name (FooBar -> foo-bar)
+        let tagname = name.replace(/[A-Z]/g, m => '-' + m.toLowerCase())
+        if(tagname.startsWith('-')) tagname = tagname.substr(1)
+
+        // attach modulus instance to component
+        const ComponentClass = this.webComponents[name]
+        ComponentClass.prototype.$modulus = this
+
+        // register to custom elements registry
+        const self = this
+        window.customElements.define(tagname, class extends HTMLElement {
+
+          // new web component
+          constructor() {
+            super()
+            self.instanciateComponent(name, ComponentClass, this)
+          }
+
+          // attached to DOM
+          connectedCallback() {
+            this.$component.onInit()
+            if(self.ready) this.$component.onReady()
+          }
+
+          // detached from DOM
+          disconnectedCallback() {
+            this.$component.onDestroy()
+          }
+
+        })
+
+      }
+      catch(err) {
+        console.error('Modulus:', err)
         continue
       }
-
-      // attach modulus instance to component
-      const ComponentClass = this.components[name]
-      ComponentClass.prototype.$modulus = this
-
-      // register to custom elements registry
-      const self = this
-      window.customElements.define(tagname, class extends HTMLElement {
-
-        // new web component
-        constructor() {
-          super()
-          self.instanciateComponent(name, ComponentClass, this)
-        }
-
-        // attached to DOM
-        connectedCallback() {
-          this.$component.onInit()
-          if(self.ready) this.$component.onReady()
-        }
-
-        // detached from DOM
-        disconnectedCallback() {
-          this.$component.onDestroy()
-        }
-
-      })
 
     }
   }
