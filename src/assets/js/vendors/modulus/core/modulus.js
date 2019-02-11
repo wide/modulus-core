@@ -138,8 +138,18 @@ export default class Modulus extends EventEmitter {
     const attrs = {}
     Array.from(el.attributes).forEach(attr => attrs[attr] = el.getAttribute(attr))
 
+    // lookup [ref] children
+    const refs = {}
+    el.querySelectorAll(`> [ref], *:not([${this.seekAttribute}]) [ref]`).forEach(child => {
+      const ref = child.getAttribute('ref')
+      refs[ref] = child.$component || child
+    })
+
     // instanciate component object with attributes
-    const instance = new ComponentClass(el, attrs, el.dataset)
+    const instance = new ComponentClass(el, {
+      attrs, refs,
+      dataset: el.dataset
+    })
 
     // bind identity data to instance
     instance.$uid = `${name}-${this.instances[name].length}`
