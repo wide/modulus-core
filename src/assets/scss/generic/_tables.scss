@@ -1,0 +1,21 @@
+// =============================================================================
+// 3# Generic / Tables
+// =============================================================================
+
+table {
+  border-collapse: collapse; // Prevent double borders
+}
+
+caption {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: $black-100;
+  text-align: left;
+  caption-side: bottom;
+}
+
+th {
+  // Matches default `<td>` alignment by inheriting from the `<body>`, or the
+  // closest parent with a set `text-align`.
+  text-align: inherit;
+}

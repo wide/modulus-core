@@ -1,0 +1,37 @@
+// =============================================================================
+// 1# Settings / Breakpoints
+// =============================================================================
+
+$from-tiny:   500px            !default;
+$to-tiny:     $from-tiny - 1   !default;
+$from-small:  700px            !default;
+$to-small:    $from-small - 1  !default;
+$from-medium: 1000px           !default;
+$to-medium:   $from-medium - 1 !default;
+$from-large:  1200px           !default;
+$to-large:    $from-large - 1  !default;
+$from-big:    1400px           !default;
+$to-big:      $from-big - 1    !default;
+$from-huge:   1600px           !default;
+$to-huge:     $from-huge - 1   !default;
+$from-mega:   1800px           !default;
+$to-mega:     $from-mega - 1   !default;
+$from-giga:   2100px           !default;
+$to-giga:     $from-giga - 1   !default;
+$from-tera:   2400px           !default;
+$to-tera:     $from-tera - 1   !default;
+$from-peta:   2700px           !default;
+$to-peta:     $from-peta - 1   !default;
+
+$mockups: (
+  tiny: $to-tiny,
+  small: $to-small,
+  medium: $to-medium,
+  large: $to-large,
+  big: $to-big,
+  huge: $to-huge,
+  mega: $to-mega,
+  giga: $to-giga,
+  tera: $to-tera,
+  peta: $to-peta
+);

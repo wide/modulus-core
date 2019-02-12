@@ -1,0 +1,335 @@
+// =============================================================================
+// 2# Tools / Mixins
+// =============================================================================
+
+///
+/// Set the color of the highlight that appears over a link while it's being tapped.
+/// By default, the highlight is suppressed.
+///
+/// @param  {Color} $value [rgba(0, 0, 0, 0)] - The value of the highlight.
+/// @output `-webkit-tap-highlight-color`
+///
+@mixin tap-highlight-color($value: rgba(0, 0, 0, 0)) {
+  -webkit-tap-highlight-color: $value;
+}
+
+///
+/// Set whether or not touch devices use momentum-based scrolling for the given element.
+/// By default, applies momentum-based scrolling for the current element.
+///
+/// @param  {String} $value ["touch"] - The type of scrolling.
+/// @output `-webkit-overflow-scrolling`
+///
+@mixin overflow-scrolling($value: touch) {
+  -webkit-overflow-scrolling: $value;
+}
+
+///
+/// Generate a font-size and baseline-compatible line-height.
+///
+/// @param  {Number}  $font-size           - The size of the font.
+/// @param  {Number}  $line-height [auto]  - The line box height.
+/// @param  {Boolean} $important   [false] - Whether the font-size is important.
+/// @output `font-size`, `line-height`
+///
+@mixin font-size($font-size, $line-height: auto, $important: false) {
+  $important: important($important);
+  font-size: rem($font-size) $important;
+
+  @if ($line-height == 'auto') {
+    line-height: ceil($font-size / $line-height) * ($line-height / $font-size) $important;
+  }
+  @else {
+    @if (type-of($line-height) == number or $line-height == 'inherit' or $line-height == 'normal') {
+      line-height: $line-height $important;
+    }
+    @else if ($line-height != 'none' and $line-height != false) {
+      @error 'D’oh! `#{$line-height}` is not a valid value for `$line-height`.';
+    }
+  }
+}
+
+///
+/// Vertically-center the direct descendants of the current element.
+///
+/// Centering is achieved by displaying children as inline-blocks. Any whitespace
+/// between elements is nullified by redefining the font size of the container
+/// and its children.
+///
+/// @output `font-size`, `display`, `vertical-align`
+///
+@mixin vertical-center {
+  font-size: 0;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+  }
+
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1rem;
+  }
+}
+
+///
+/// Generate `:hover` style in one go.
+///
+/// @content Wrapped in `:hover` pseudo-classe.
+/// @output  Wraps the given content in `:hover` pseudo-classe.
+///
+@mixin hover {
+  &:hover {
+    @content;
+  }
+}
+
+///
+/// Generate `:focus` and `:hover` styles in one go.
+///
+/// @content Wrapped in `:focus` and `:hover` pseudo-classes.
+/// @output  Wraps the given content in `:focus` and `:hover` pseudo-classes.
+///
+@mixin hover-focus {
+  &:focus,
+  &:hover {
+    @content;
+  }
+}
+
+///
+/// Generate `:active` and `:focus` styles in one go.
+///
+/// @content Wrapped in `:active` and `:focus` pseudo-classes.
+/// @output  Wraps the given content in `:active` and `:focus` pseudo-classes.
+///
+@mixin active-focus {
+  &:active,
+  &:focus {
+    @content;
+  }
+}
+
+///
+/// Injects generic rules for disabling `ul`, `ol`, `li` styles.
+///
+/// @output `list-style`, `margin`, `padding`.
+///
+@mixin list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+///
+/// Prevent text from wrapping onto multiple lines for the current element.
+///
+/// An ellipsis is appended to the end of the line.
+///
+/// 1. Ensure that the node has a maximum width after which truncation can occur.
+/// 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor nodes.
+///
+/// @param  {Number} $width [100%] - The maximum width of element.
+/// @output `max-width`, `word-wrap`, `white-space`, `overflow`, `text-overflow`.
+///
+@mixin truncate($width: 100%) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal; /* [2] */
+
+  @if $width {
+    max-width: $width; /* [1] */
+  }
+}
+
+///
+/// Applies accessible hiding to the current element.
+///
+/// @param  {Boolean} $important [true] - Whether the visibility is important.
+/// @output Properties for removing the element from the document flow.
+///
+@mixin accessibly-hidden($important: true) {
+  $important: important($important);
+  position: absolute $important;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  margin: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  border: 0;
+}
+
+///
+/// Allows an accessibly hidden element to be focusable via keyboard navigation.
+///
+/// @content For styling the now visible element.
+/// @output  Injects `:focus`, `:active` pseudo-classes.
+///
+@mixin accessibly-focusable {
+  @include actus {
+    clip: auto;
+    width: auto;
+    height: auto;
+
+    @content;
+  }
+}
+
+///
+/// Hide the current element from all.
+/// The element will be hidden from screen readers and removed from the document flow.
+///
+/// @param  {Boolean} $important [true] - Whether the visibility is important.
+/// @output `display`, `visibility`
+///
+@mixin hidden($important: true) {
+  $important: important($important);
+  display: none $important;
+  visibility: hidden $important;
+}
+
+///
+/// Show the current element for all.
+/// The element will be accessible from screen readers and visible in the document flow.
+///
+/// @param  {String}  $display   [block] - The rendering box used for the element.
+/// @param  {Boolean} $important [true]  - Whether the visibility is important.
+/// @output `display`, `visibility`
+///
+@mixin shown($display: block, $important: true) {
+  $important: important($important);
+  display: $display $important;
+  visibility: visible  $important;
+}
+
+///
+/// Micro clearfix rules for containing floats.
+///
+/// 1. The space content is one way to avoid an Opera bug when the
+///    contenteditable attribute is included anywhere else in the document.
+///    Otherwise it causes space to appear at the top and bottom of elements
+///    that are clearfixed.
+/// 2. The use of `table` rather than `block` is only necessary if using
+///    `:before` to contain the top-margins of child elements.
+///
+/// @link   http://nicolasgallagher.com/micro-clearfix-hack/
+/// @param  {String} $display [table] - `table` or `block` see point number #2.
+/// @output Injects `::before` and `::after` pseudo-element.
+///
+@mixin clearfix($display: table) {
+  *zoom: 1; // for IE
+
+  &::before,
+  &::after {
+    content: ' '; /* [1] */
+    display: $display; /* [2] */
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+///
+/// Mixin to lock the aspect ratio of an element – or make it
+/// fit to content if it exceeds the boundaries of the aspect ratio.
+///
+/// Note! the ratio is produced using the :before and :after pseudo-elements.
+/// Why it won't work on empty tags like <img />, <input /> etc.
+///
+/// If used with flexbox – the ratio keeping pesudo element will actas a hidden flex-item.
+///
+/// @example scss
+/// @include aspect-ratio();            // No arguments defaults to a 1:1 ratio
+/// @include aspect-ratio(16, 9);       // Width and height
+/// @include aspect-ratio(1.777778);    // Ratio (calculated width/height)
+/// @include aspect-ratio(4px, 3px);    // Comparable units
+/// @include aspect-ratio($ratio: 1.2); // Keywords
+///
+/// @param  {List} $arglist - `ratio` or `width`, `height`
+/// @output Injects `::before` and `::after` pseudo-element.
+///
+@mixin aspect-ratio($arglist...) {
+  $map : keywords($arglist);
+  $height: map-get($map, height) or nth-or-null($arglist, 2);
+  $width: map-get($map, width) or nth-or-null($arglist, 1);
+  $ratio: map-get($map, ratio) or if($width and $height, $width/$height, nth-or-null($arglist, 1)) or 1;
+  $padding: 1/$ratio * 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+    width:1px;
+    margin-left:-1px;
+  }
+
+  &::before {
+    float: left;
+    padding-bottom: $padding;
+  }
+}
+
+///
+/// Set position of an element using the syntax "padding-shorthand-syntax"
+/// (`position`, `top`, `right`, `bottom`, `left` and `z-index`)... and it takes keywords too.
+///
+/// @example scss
+///                                                         //  T    R    B    L    Z-INDEX
+///                                                         // -----------------------------
+/// @include position();                                    //  0    0    0    0      1
+/// @include position(absolute, 10px);                      // 10px 10px 10px 10px    1
+/// @include position(absolute, 10px, 20px);                // 10px 20px 10px 20px    1
+/// @include position(absolute, 10px, 20px, 30px);          // 10px 20px 30px 20px    1
+/// @include position(absolute, 10px, 20px, 30px, 40px);    // 10px 20px 30px 40px    1
+/// @include position(absolute, 10px, 20px, 30px, 40px, 2); // 10px 20px 30px 40px    2
+/// @include position($bottom: 30px);                       //  0    0   30px  0      1
+/// @include position(absolute, 10px, $bottom: 30px);       // 10px 10px 30px 10px    1
+/// @include position(absolute, 10px, $z-index: 2);         // 10px 10px 10px 10px    2
+///
+/// @param  {List} $arglist - `position`, `top`, `right`, `bottom`, `left` and z-index.
+/// @output  `position`, `top`, `right`, `bottom`, `left` and `z-index`.
+///
+@mixin position($arglist...) {
+  $map: keywords($arglist);
+  position: map-get($map, position) or nth-or-null($arglist, 1) or absolute;
+  top: map-get($map, top) or nth-or-null($arglist, 2) or 0;
+  right: map-get($map, right) or nth-or-null($arglist, 3) or nth-or-null($arglist, 2) or 0;
+  bottom: map-get($map, bottom) or nth-or-null($arglist, 4) or nth-or-null($arglist, 2) or 0;
+  left: map-get($map, left) or nth-or-null($arglist, 5) or nth-or-null($arglist, 3) or nth-or-null($arglist, 2) or 0;
+  z-index: map-get($map, z-index) or nth-or-null($arglist, 6) or 1;
+}
+
+///
+/// Set edges properties of an element to a unit above/below
+/// using a "padding-shorthand-syntax" (top, right-left, bottom)...
+/// and it takes keywords too.
+///
+/// @example scss
+///                                           //  T    R    B    L
+///                                           // --------------------
+/// @include trbl();                          //  0    0    0    0
+/// @include trbl(10px);                      // 10px 10px 10px 10px
+/// @include trbl(10px, 20px);                // 10px 20px 10px 20px
+/// @include trbl(10px, 20px, 30px);          // 10px 20px 30px 20px
+/// @include trbl(10px, 20px, 30px, 40px);    // 10px 20px 30px 40px
+/// @include trbl($bottom: 30px);             //  0    0   30px   0
+/// @include trbl(10px, $bottom: 30px);       // 10px 10px 30px 10px
+///
+/// @param  {List} $arglist - `top`, `right`, `bottom` and `left`
+/// @output  `top`, `right`, `bottom`, `left`.
+///
+@mixin trbl($arglist...) {
+  $map: keywords($arglist);
+  top: map-get($map, top) or nth-or-null($arglist, 1) or 0;
+  right: map-get($map, right) or nth-or-null($arglist, 2) or nth-or-null($arglist, 1) or 0;
+  bottom: map-get($map, bottom) or nth-or-null($arglist, 3) or nth-or-null($arglist, 1) or 0;
+  left: map-get($map, left) or nth-or-null($arglist, 4) or nth-or-null($arglist, 2) or nth-or-null($arglist, 1) or 0;
+}
