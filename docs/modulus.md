@@ -7,7 +7,7 @@
 
 In `src/assets/js/components/my-clickable.js`, export a class extending the `Component` interface:
 ```js
-import { Component } from 'modulus'
+import Component from 'modulus/component'
 
 export default class MyClickable extends Component {
   onInit() {
@@ -24,7 +24,7 @@ export default class MyClickable extends Component {
 
 In `src/assets/js/main.js`, import `MyClickable` and add it to the components list and/or web components list:
 ```js
-import { Modulus } from 'modulus'
+import Modulus from 'modulus'
 import MyClickable from '~/components/my-clickable'
 
 export default new Modulus({
