@@ -7,7 +7,10 @@ export default class Intersection extends Component {
 
     viewport.observe({
       target: this.el.querySelectorAll('[data-src]'),
-      callback: el => el.src = el.dataset.src
+      callback(el, entry) {
+        console.log('appears!', entry)
+        el.src = el.dataset.src
+      }
     })
 
   }
