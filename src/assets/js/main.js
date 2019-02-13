@@ -1,6 +1,7 @@
-import { Modulus } from 'modulus'
+import Modulus from 'modulus'
 import Page from '~/components/page'
 import Clickable from '~/components/clickable'
+import Intersection from '~/components/intersection'
 
 export default new Modulus({
   config: {
@@ -9,6 +10,7 @@ export default new Modulus({
   plugins: {},
   components: {
     Page,
-    Clickable
+    Clickable,
+    Intersection
   }
 })

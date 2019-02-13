@@ -1,4 +1,4 @@
-import { Component } from 'modulus'
+import Component from 'modulus/component'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock' 
 import { BREAKPOINTS } from '~/vars'
 
