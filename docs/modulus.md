@@ -1,5 +1,11 @@
 # Modulus - Scoped Component Approach
 
+- [How to](#how-to-create-a-component)
+- [Lifecycle](#lifecycle)
+- [API](#api)
+- Plugins:
+  - [Viewport](modulus/viewport.md)
+
 
 ## How to create a component
 

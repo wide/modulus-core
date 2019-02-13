@@ -1,10 +1,23 @@
-export default class Viewport {
+export class Viewport {
 
-  static observe({ scope, target, once, callback }) {
+  constructor() {
+    this.observers = []
+  }
+
+
+  /**
+   * Observe an element when it appears in the viewport
+   * @param {Object}                opts 
+   * @param {HTMLElement}           opts.scope 
+   * @param {HTMLElement|NodeList}  opts.target 
+   * @param {Boolean}               opts.once 
+   * @param {Function}              opts.callback 
+   */
+  observe({ scope, target, once, callback }) {
 
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if(entry.isIntersecting) {
+        if(entry.isIntersecting) { // avoid first call
           callback(entry.target, entry)
           if(once) observer.unobserve(entry.target)
         }
@@ -14,49 +27,46 @@ export default class Viewport {
     const els = (target.forEach) ? target : [target]
     els.forEach(node => observer.observe(node))
 
+    this.observers.push(observer)
     return observer
   }
 
-  static affix({ scope, target, offset, topClass, bottomClass, callback }) {
 
+  /**
+   * Affix an element in a parent: fixed to absolute
+   * @param {Object}                opts 
+   * @param {HTMLElement}           opts.scope 
+   * @param {HTMLElement|NodeList}  opts.target 
+   * @param {Integer}               opts.offset 
+   * @param {String}                opts.topClass 
+   * @param {String}                opts.bottomClass 
+   * @param {Function}              opts.callback 
+   */
+  affix({ scope, target, offset, topClass, bottomClass, callback }) {
+    // @todo
   }
 
-  static scroll({ scope, target, callback }) {
 
+  /**
+   * Listen parent's scroll and give information to element on value, ratio and direction
+   * @param {Object}                opts 
+   * @param {HTMLElement}           opts.scope 
+   * @param {HTMLElement|NodeList}  opts.target 
+   * @param {Function}              opts.callback 
+   */
+  scroll({ scope, target, callback }) {
+    // @todo
+  }
+
+
+  /**
+   * Destroy all observers and listeners
+   */
+  destroy() {
+    this.observers.forEach(observer => observer.disconnect())
+    this.observers = []
   }
 
 }
 
-/*
-
-this.$viewport.intersection({
-  scope: document.body,
-  offset: 40,
-  once: true,
-  callback(offsetTop, direction) {
-    offsetTop // 250px from scope offset top
-    direction // UP, DOWN, undefined
-  }
-})
-
-this.$viewport.affix({
-  scope: document.body,
-  offset: 40,
-  topClass: 'affixed-top',
-  bottomClass: 'affixed-bottom',
-  callback(offsetTop, direction, position) {
-    offsetTop // 250px from scope offset top
-    direction // UP, DOWN or undefined
-    position // TOP, BOTTOM or undefined
-  }
-})
-
-this.$viewport.scroll({
-  scope: document.body,
-  callback(offsetTop, direction) {
-    offsetTop // 250px from scope offset top
-    direction // UP, DOWN, undefined
-  }
-})
-
-*/
+export default new Viewport()
