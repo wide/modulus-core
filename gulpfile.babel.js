@@ -21,7 +21,7 @@ const cfg = {
     assets: 'src/assets/',
     scss: 'src/assets/scss/',
     scss_entries: [
-      'src/assets/scss/index.scss'
+      'src/assets/scss/main.scss'
     ],
     js: 'src/assets/js/',
     js_entries: [

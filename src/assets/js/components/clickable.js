@@ -1,4 +1,4 @@
-import { Component } from 'modulus'
+import Component from 'modulus/component'
 
 export default class Clickable extends Component {
 
