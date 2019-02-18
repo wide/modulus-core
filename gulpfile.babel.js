@@ -6,60 +6,11 @@ import panini         from 'panini'
 import webpackStream  from 'webpack-stream'
 import webpack2       from 'webpack'
 import named          from 'vinyl-named'
-import path           from 'path'
+import cfg            from './config'
 
 const $ = plugins()
 const PRODUCTION = !!(yargs.argv.production)
-
-
-/**
- * CONFIG
- */
-
-const cfg = {
-  src: {
-    assets: 'src/assets/',
-    scss: 'src/assets/scss/',
-    scss_entries: [
-      'src/assets/scss/main.scss'
-    ],
-    js: 'src/assets/js/',
-    js_entries: [
-      'src/assets/js/main.js'
-    ],
-    pages: 'src/views/pages/',
-    layouts: 'src/views/layouts/',
-    partials: 'src/views/partials/',
-    helpers: 'src/views/helpers/',
-    data: 'src/views/data/',
-  },
-  dist: {
-    assets: 'dist/assets/',
-    css: 'dist/assets/css',
-    js: 'dist/assets/js',
-    pages: 'dist/'
-  },
-  alias: {
-    scss: [
-      'node_modules/bootstrap/scss/'
-    ]
-  },
-  webpack: {
-    mode: PRODUCTION ? 'production' : 'development',
-    resolve: {
-      alias: {
-        '~': path.resolve(`${__dirname}/src/assets/js/`),
-        modulus: path.resolve(`${__dirname}/src/assets/js/vendors/modulus/`)
-      }
-    },
-    module: {
-      rules: [{
-        test: /.js$/,
-        use: [{ loader: 'babel-loader' }]
-      }]
-    }
-  }
-}
+cfg.webpack.mode = PRODUCTION ? 'production' : 'development'
 
 
 /**
@@ -67,44 +18,44 @@ const cfg = {
  */
 
 // delete templates
-gulp.task('clear:html', function(done) {
+function clearHTML(done) {
   panini.refresh()
   done()
-})
+}
 
 // build copy assets
-gulp.task('copy:assets', function() {
-  return gulp.src(`${cfg.src.assets}{fonts,icons,img}`)
+function copyAssets() {
+  return gulp.src(`${cfg.src.assets}**/*`)
     .pipe(gulp.dest(cfg.dist.assets))
-})
+}
 
 // build handlebars to html
-gulp.task('build:html', function() {
-  return gulp.src(`${cfg.src.pages}**/*.{html,hbs,handlebars}`)
+function buildHTML() {
+  return gulp.src(`${cfg.src.html.pages}**/*.{html,hbs,handlebars}`)
     .pipe(panini({
-      root: cfg.src.pages,
-      layouts: cfg.src.layouts,
-      partials: cfg.src.partials,
-      helpers: cfg.src.helpers,
-      data: cfg.src.data
+      root: cfg.src.html.pages,
+      layouts: cfg.src.html.layouts,
+      partials: cfg.src.html.partials,
+      helpers: cfg.src.html.helpers,
+      data: cfg.src.html.data
     }))
-    .pipe(gulp.dest(cfg.dist.pages))
-})
+    .pipe(gulp.dest(cfg.dist.html))
+}
 
 // build scss to css
-gulp.task('build:css', function() {
-  return gulp.src(cfg.src.scss_entries)
+function buildCSS(...entries) {
+  return gulp.src(entries)
     .pipe($.sourcemaps.init())
-    .pipe($.sass({ includePaths: cfg.alias.scss })
+    .pipe($.sass({ includePaths: cfg.src.scss.alias })
     .on('error', $.sass.logError))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.css))
     .pipe(browser.reload({ stream: true }))
-})
+}
 
 // build js
-gulp.task('build:js', function() {
-  return gulp.src(cfg.src.js_entries)
+function buildJS(...entries) {
+  return gulp.src(entries)
     .pipe(named())
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpack, webpack2))
@@ -113,29 +64,47 @@ gulp.task('build:js', function() {
     ))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.js))
-})
+}
 
 // serve files
-gulp.task('serve', function(done) {
+function serve(done) {
   browser.init({
 		server: {
-			baseDir: cfg.dist.pages,
+			baseDir: cfg.dist.html,
 			directory: true
     }
   })
   done()
-})
+}
 
 // watch changes
 function watch() {
-  gulp.watch(`${cfg.src.assets}{fonts,icons,img}`, gulp.series('copy:assets'))
-  gulp.watch(`${cfg.src.pages}**/*.html`).on('all', gulp.series('clear:html', 'build:html', browser.reload))
-  gulp.watch(`${cfg.src.layouts}**/*.html`).on('all', gulp.series('clear:html', 'build:html', browser.reload))
-  gulp.watch(`${cfg.src.partials}**/*.html`).on('all', gulp.series('clear:html', 'build:html', browser.reload))
-  gulp.watch(`${cfg.src.scss}**/*.scss`).on('all', gulp.series('build:css'))
-  gulp.watch(`${cfg.src.js}**/*.js`).on('all', gulp.series('build:js', browser.reload))
+
+  gulp.watch(`${cfg.src.assets}**/*`, gulp.series(copyAssets))
+
+  gulp.watch([
+    `${cfg.src.html.pages}**/*.html`,
+    `${cfg.src.html.layouts}**/*.html`,
+    `${cfg.src.html.partials}**/*.html`
+  ]).on('all', gulp.series(clearHTML, buildHTML, browser.reload))
+
+  cfg.src.scss.entries.forEach(entry => {
+    gulp.watch([entry.file, ...entry.watch]).on('all', gulp.series(() => buildCSS(entry.file)))
+  })
+
+  cfg.src.js.entries.forEach(entry => {
+    gulp.watch([entry.file, ...entry.watch]).on('all', gulp.series(() => buildJS(entry.file)))
+  })
 }
 
 // npm tasks
-gulp.task('build', gulp.series('clear:html', 'build:html', 'build:css', 'build:js'))
+gulp.task('clean:html', clearHTML)
+gulp.task('copy:assets', copyAssets)
+gulp.task('build:html', buildHTML)
+gulp.task('build:css', () => buildCSS(...cfg.src.scss.entries.map(entry => entry.file)))
+gulp.task('build:js', () => buildJS(...cfg.src.js.entries.map(entry => entry.file)))
+gulp.task('serve', serve)
+
+// npm global tasks
+gulp.task('build', gulp.series('clean:html', 'build:html', 'build:css', 'build:js', 'copy:assets'))
 gulp.task('default', gulp.series('build', 'serve', watch))
