@@ -4,7 +4,7 @@
     <title>{{site.title}}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="{{root}}assets/css/main.css?{{hash}}">
   </head>
   <body data-mod="Page">
     
@@ -16,7 +16,13 @@
 
     {{> footer}}
 
-    <script src="assets/js/main.js"></script>
+    <!-- IE polyfill -->
+    <script type="text/javascript">
+      if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="assets/js/polyfill.js"><\/script>'); // IE Polyfill
+    </script>
+    <!-- /IE polyfill -->
+
+    <script src="{{root}}assets/js/main.js?{{hash}}"></script>
 
   </body>
 </html>
