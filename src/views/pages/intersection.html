@@ -1,0 +1,51 @@
+<div class="container">
+
+  <style>
+    h2 {
+      margin-top: 50px;
+    }
+    section {
+      display: flex;
+      flex-flow: row wrap;
+    }
+    .box {
+      width: 500px;
+      padding-top: 500px;
+      background: green;
+      transition: all 400ms 400ms;
+      margin-right: 30px;
+      margin-bottom: 30px;
+    }
+    .box.outscreen {
+      background: red;
+    }
+  </style>
+
+
+  <h2>Simple component exemple</h2>
+  <section>
+    <button data-mod="Clickable">click here</button>
+  </section>
+
+
+  <h2>Intersection exemple</h2>
+  <section data-mod="Intersection">
+
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+    <div class="box outscreen"></div>
+
+  </section>
+
+</div>
