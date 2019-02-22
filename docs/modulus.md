@@ -3,9 +3,11 @@
 - [How to](#how-to-create-a-component)
 - [Lifecycle](#lifecycle)
 - [API](#api)
+- Base components:
+  - [Accordion](modulus/components/accordion.md)
 - Plugins:
-  - [Viewport](modulus/viewport.md)
-  - [Breakpoint](modulus/breakpoint.md)
+  - [Viewport](modulus/plugins/viewport.md)
+  - [Breakpoint](modulus/plugins/breakpoint.md)
 
 
 ## How to create a component
