@@ -1,10 +1,9 @@
 import Component from 'modulus/component'
-import viewport from 'modulus/plugins/viewport'
 
 export default class Intersection extends Component {
   onInit() {
 
-    viewport.observe({
+    this.$viewport.observe({
       target: this.el.querySelectorAll('.outscreen'),
       callback: el => el.classList.remove('outscreen')
     })

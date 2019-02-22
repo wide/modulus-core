@@ -33,8 +33,4 @@ export default class Component extends EventEmitter {
     this.$modulus.emit(event, ...args) // globally
   }
 
-  $viewport(el, callback, opts = {}) {
-    (new IntersectionObserver(entries => callback(entries[0]), opts)).observe(el)
-  }
-
 }

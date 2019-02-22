@@ -39,7 +39,8 @@ export default class Modulus extends EventEmitter {
    */
   registerPlugins(plugins) {
     for(let name in plugins) {
-      this.plugins[name] = plugins[name](Component, this)
+      this.plugins[name] = plugins[name]
+      this.plugins[name].onInstall(this, Component)
     }
   }
 

@@ -1,7 +1,17 @@
-export class Viewport {
+export default class Viewport {
 
   constructor() {
     this.observers = []
+  }
+
+
+  /**
+   * Bind instance to modulus
+   * @param {Modulus} modulus 
+   * @param {Component} Component 
+   */
+  onInstall(modulus, Component) {
+    modulus.$viewport = Component.prototype.$viewport = this
   }
 
 
@@ -62,11 +72,9 @@ export class Viewport {
   /**
    * Destroy all observers and listeners
    */
-  destroy() {
+  onDestroy() {
     this.observers.forEach(observer => observer.disconnect())
     this.observers = []
   }
 
 }
-
-export default new Viewport()
