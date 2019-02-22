@@ -1,19 +1,42 @@
 # Modulus - Viewport plugin
 
-## Usage
 
+## Installation
+
+In `main.js`
 ```js
-import viewport from 'modulus/plugins/viewport'
+import Viewport from 'modulus/plugins/viewport'
 
-viewport.observe({
-  target: document.querySelector('img[data-lazysrc]'),
-  callback(el) {
-    el.src = el.dataset.lazysrc
+export default new Modulus({
+  plugins: {
+    viewport: new Viewport()
   }
 })
 ```
 
-The `callback` function will be called when the target appears in the viewport.
+
+## Usage
+
+### `Viewport.observe()`
+
+Observe an element in a specific scope and trigger the callback when it appears.
+
+```js
+import Component from 'modulus/component'
+
+export default class Intersection extends Component {
+  onInit() {
+
+    this.$viewport.observe({
+      target: document.querySelector('img[data-lazysrc]'),
+      callback(el) {
+        el.src = el.dataset.lazysrc
+      }
+    })
+
+  }
+}
+```
 
 You can also specify more options :
 ```js
@@ -24,3 +47,11 @@ You can also specify more options :
   callback // function to call
 }
 ```
+
+### `Viewport.affix()`
+
+@todo
+
+### `Viewport.scroll()`
+
+@todo

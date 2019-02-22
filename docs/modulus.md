@@ -5,6 +5,7 @@
 - [API](#api)
 - Plugins:
   - [Viewport](modulus/viewport.md)
+  - [Breakpoint](modulus/breakpoint.md)
 
 
 ## How to create a component
