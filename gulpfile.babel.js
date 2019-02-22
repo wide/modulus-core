@@ -93,7 +93,7 @@ function watch() {
   })
 
   cfg.src.js.entries.forEach(entry => {
-    gulp.watch([entry.file, ...entry.watch]).on('all', gulp.series(() => buildJS(entry.file)))
+    gulp.watch([entry.file, ...entry.watch]).on('all', gulp.series(() => buildJS(entry.file), browser.reload))
   })
 }
 
