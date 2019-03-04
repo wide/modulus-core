@@ -3,14 +3,22 @@ import yargs          from 'yargs'
 import browser        from 'browser-sync'
 import gulp           from 'gulp'
 import panini         from 'panini'
+import handlebars     from 'handlebars'
+import prettify       from 'prettify'
+import helpers        from 'handlebars-helpers'
 import webpackStream  from 'webpack-stream'
 import webpack2       from 'webpack'
 import named          from 'vinyl-named'
 import cfg            from './config'
 
+// gulp plugins
 const $ = plugins()
 const PRODUCTION = !!(yargs.argv.production)
 cfg.webpack.mode = PRODUCTION ? 'production' : 'development'
+
+// register helpers
+prettify.register(handlebars, cfg.src.html.options.prettify)
+helpers({ handlebars })
 
 
 /**

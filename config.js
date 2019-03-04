@@ -31,7 +31,12 @@ export default {
       layouts: 'src/views/layouts/',
       partials: 'src/views/partials/',
       helpers: 'src/views/helpers/',
-      data: 'src/views/data/'
+      data: 'src/views/data/',
+      options: {
+        prettify: {
+          wrap_line_length: 0
+        }
+      }
     }
   },
   dist: {
