@@ -1,6 +1,6 @@
 import Component from 'modulus/component'
 
-export default class Selector extends Component {
+export default class Slider extends Component {
 
   onInit() {
     

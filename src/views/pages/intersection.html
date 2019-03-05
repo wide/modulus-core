@@ -11,13 +11,14 @@
     .box {
       width: 500px;
       padding-top: 500px;
-      background: green;
-      transition: all 400ms 400ms;
+      transition: all 400ms 200ms;
       margin-right: 30px;
       margin-bottom: 30px;
+      background: green;
+      opacity: 0;
     }
-    .box.outscreen {
-      background: red;
+    .box.fade-enter {
+      opacity: 1;
     }
   </style>
 
@@ -31,20 +32,20 @@
   <h2>Intersection exemple</h2>
   <section data-mod="Intersection">
 
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
-    <div class="box outscreen"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
+    <div class="box" data-viewport-transition="fade:enter,leave"></div>
 
   </section>
 

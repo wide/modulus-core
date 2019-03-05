@@ -17,35 +17,83 @@ import { slideDown, slideUp } from '~/utils/dom'
  */
 export default class Accordion extends Component {
 
+  /**
+   * Initialize accordion component
+   */
   onInit() {
     this.triggers = this.el.querySelectorAll('[aria-controls]')
-    this.triggers.forEach(t => t.addEventListener('click', e => this.toggle(t)))
+    for(let i = 0; i < this.triggers.length; i++) {
+      this.listenTrigger(this.triggers[i])
+    }
   }
 
+
+  /**
+   * Listen click event and toggle to related target
+   * @param {HTMLElement} trigger 
+   */
+  listenTrigger(trigger) {
+    trigger.addEventListener('click', e => this.toggle(trigger))
+  }
+
+
+  /**
+   * Toggle both trigger and related target
+   * @param {HTMLElement} trigger 
+   * @return {Promise}
+   */
   toggle(trigger) {
     const target = this.getTarget(trigger)
-    if(this.isClose(trigger, target)) this.open(trigger, target)
-    else this.close(trigger, target)
+    return this.isClose(trigger, target)
+      ? this.open(trigger, target)
+      : this.close(trigger, target)
   }
 
+
+  /**
+   * Get trigger's relatied target based on `aria-controls` attribute
+   * @param {HTMLELement} trigger 
+   * @return {HTMLElement}
+   */
   getTarget(trigger) {
     const id = trigger.getAttribute('aria-controls')
     return document.getElementById(id)
   }
 
+
+  /**
+   * Check close state of a specific trigger
+   * @param {HTMLElement} trigger 
+   * @param {HTMLElement} target 
+   * @return {Bool}
+   */
   isClose(trigger, target) {
     return target.hidden
   }
 
+
+  /**
+   * Open specific trigger and target
+   * @param {HTMLElement} trigger 
+   * @param {HTMLElement} target 
+   * @return {Promise}
+   */
   open(trigger, target) {
     trigger.setAttribute('aria-expanded', true)
     target.hidden = false
-    slideDown(target, ANIM_DURATION)
+    return slideDown(target, ANIM_DURATION)
   }
 
+
+  /**
+   * Close specific trigger and target
+   * @param {HTMLElement} trigger 
+   * @param {HTMLElement} target 
+   * @return {Promise}
+   */
   close(trigger, target) {
     trigger.setAttribute('aria-expanded', false)
-    slideUp(target, ANIM_DURATION).then(e => target.hidden = true)
+    return slideUp(target, ANIM_DURATION).then(e => target.hidden = true)
   }
 
 }

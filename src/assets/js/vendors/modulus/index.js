@@ -3,15 +3,18 @@ import Component from './component'
 
 export default class Modulus extends EventEmitter {
 
-  constructor(opts = {}) {
+
+  /**
+   * New Modulus instance
+   * @param {Object} opts 
+   * @param {Object}  opts.config
+   * @param {Object}  opts.plugins - list of plugins to register
+   * @param {Object}  opts.components - list of regular components to register
+   * @param {Object}  opts.webComponents - list of web components to register
+   */
+  constructor({ config, plugins, components, webComponents }) {
 
     super()
-    const { config, plugins, components, webComponents } = opts
-
-    this.config = Object.assign({
-      debug: false,
-      seekAttribute: 'data-mod'
-    }, config)
 
     this.plugins = {}
     this.instances = {}
@@ -19,13 +22,16 @@ export default class Modulus extends EventEmitter {
     this.webComponents = webComponents || {}
     this.ready = false
 
-    // register plugins
-    this.registerPlugins(plugins || {})
+    this.config = Object.assign({
+      debug: false,
+      seekAttribute: 'data-mod'
+    }, config)
 
-    // register custom elements
+    // register plugins and custom elements
+    this.registerPlugins(plugins || {})
     this.registerCustomElements()
 
-    // parse document
+    // parse document for regular components
     document.addEventListener('DOMContentLoaded', e => {
       this.parseDocument()
       this.dispatchReadyState()
@@ -35,7 +41,7 @@ export default class Modulus extends EventEmitter {
 
   /**
    * Add plugins and allow them to modify Component prototype
-   * @param {Collection} plugins 
+   * @param {Object} plugins 
    */
   registerPlugins(plugins) {
     for(let name in plugins) {
@@ -49,30 +55,40 @@ export default class Modulus extends EventEmitter {
    * Parse document and instanciate all components in [data-mod] attributes
    */
   parseDocument() {
-    document.querySelectorAll(`[${this.config.seekAttribute}]`).forEach(el => {
+    const els = document.querySelectorAll(`[${this.config.seekAttribute}]`)
+    for(let i = 0; i < els.length; i++) {
 
       // seek related module class
-      const name = el.getAttribute(this.config.seekAttribute)
+      const name = els[i].getAttribute(this.config.seekAttribute)
       const ComponentClass = this.components[name]
 
       // register component instance
       if(ComponentClass) {
 
         // new regular component
-        this.instanciateComponent(name, ComponentClass, el)
+        this.instanciateComponent(name, ComponentClass, els[i])
 
         // attached to DOM (immediate)
-        el.$component.onInit()
+        els[i].$component.onInit()
 
         // detached from DOM
-        const parent = el.parentElement
-        const mut = new MutationObserver(e => {
-          if(!parent.contains(el)) el.$component.onDestroy()
-        })
-        mut.observe(parent, { childList: true })
+        this.observeDestruction(els[i])
       }
       else console.error(`Modulus: unknown component [${name}]`)
+    }
+  }
+
+
+  /**
+   * Create mutation observe for DOM removal event
+   * @param {HTMLElement} el 
+   */
+  observeDestruction(el) {
+    const parent = el.parentElement
+    const mut = new MutationObserver(e => {
+      if(!parent.contains(el)) el.$component.onDestroy()
     })
+    mut.observe(parent, { childList: true })
   }
 
 
@@ -84,9 +100,9 @@ export default class Modulus extends EventEmitter {
 
       try {
 
-        // sanitize tag name (FooBar -> foo-bar)
+        // hyphenize tag name (FooBar -> foo-bar)
         let tagname = name.replace(/[A-Z]/g, m => '-' + m.toLowerCase())
-        if(tagname.startsWith('-')) tagname = tagname.substr(1)
+        if(tagname[0] === '-') tagname = tagname.substr(1)
 
         // attach modulus instance to component
         const ComponentClass = this.webComponents[name]
@@ -128,7 +144,7 @@ export default class Modulus extends EventEmitter {
   /**
    * Instance component and bind related data
    * @param {String} name 
-   * @param {Class} ModuleClass 
+   * @param {Component} ModuleClass 
    * @param {HTMLElement} el 
    */
   instanciateComponent(name, ComponentClass, el) {
@@ -138,20 +154,20 @@ export default class Modulus extends EventEmitter {
 
     // parse attributes and data-attributes
     const attrs = {}
-    Array.from(el.attributes).forEach(attr => attrs[attr] = el.getAttribute(attr))
+    for(let i in el.attributes) {
+      attrs[el.attributes[i]] = el.getAttribute(el.attributes[i])
+    }
 
     // lookup [ref] children
     const refs = {}
-    el.querySelectorAll(`:scope > [ref], *:not([${this.config.seekAttribute}]) [ref]`).forEach(child => {
-      const ref = child.getAttribute('ref')
-      refs[ref] = child.$component || child
-    })
+    const els = el.querySelectorAll(`:scope > [ref], *:not([${this.config.seekAttribute}]) [ref]`)
+    for(let i = 0; i < els.length; i++) {
+      const ref = els[j].getAttribute('ref')
+      refs[ref] = els[j].$component || els[j]
+    }
 
     // instanciate component object with attributes
-    const instance = new ComponentClass(el, {
-      attrs, refs,
-      dataset: el.dataset
-    })
+    const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
     instance.$uid = `${name}-${this.instances[name].length}`
@@ -173,7 +189,9 @@ export default class Modulus extends EventEmitter {
   dispatchReadyState() {
     this.ready = true
     for(let name in this.instances) {
-      this.instances[name].forEach(i => i.onReady())
+      for(let i in this.instances[name]) {
+        this.instances[name][i].onReady()
+      }
     }
   }
 

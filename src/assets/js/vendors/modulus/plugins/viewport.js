@@ -1,7 +1,14 @@
+import callbacks from './viewport/callbacks'
+
 export default class Viewport {
 
+
+  /**
+   * New viewport plugin
+   */
   constructor() {
     this.observers = []
+    this.defaultModifiers = ['enter']
   }
 
 
@@ -12,6 +19,36 @@ export default class Viewport {
    */
   onInstall(modulus, Component) {
     modulus.$viewport = Component.prototype.$viewport = this
+    this.autoObserve()
+  }
+
+
+  /**
+   * Automatically observe `data-viewport-transition` attribute
+   * and generate css class based on the attribute value.
+   * 
+   * Ex. `[data-viewport-transition="fade"]` will add `.fade-enter` and `.fade-leave"` when entering/leaving viewport
+   */
+  autoObserve() {
+
+    // get transitionable elements
+    const els = document.querySelectorAll('[data-viewport-transition]')
+    for(let i = 0; i < els.length; i++) {
+
+      // extract modifiers
+      const [name, _modifiers] = els[i].dataset.viewportTransition.split(':')
+      const modifiers = _modifiers ? _modifiers.split(',') : this.defaultModifiers
+
+      // create observer
+      this.observe({
+        target: els[i],
+        enter: modifiers.includes('enter'),
+        leave: modifiers.includes('leave'),
+        once: modifiers.includes('once'),
+        callback: callbacks.enterLeaveTransition(name)
+      })
+    }
+
   }
 
 
@@ -21,22 +58,32 @@ export default class Viewport {
    * @param {HTMLElement}           opts.scope 
    * @param {HTMLElement|NodeList}  opts.target 
    * @param {Boolean}               opts.once 
+   * @param {Boolean}               opts.enter 
+   * @param {Boolean}               opts.leave 
    * @param {Function}              opts.callback 
    */
-  observe({ scope, target, once, callback }) {
+  observe({ scope, target, once = false, enter = true, leave = false, callback }) {
 
+    let hasEntered = false
+
+    // create viewport observer
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) { // avoid first call
-          callback(entry.target, entry)
-          if(once) observer.unobserve(entry.target)
+      for(let i in entries) {
+        if((enter && entries[i].isIntersecting) || (hasEntered && leave && !entries[i].isIntersecting)) {
+          if(enter) hasEntered = true
+          callback(entries[i].target, entries[i])
+          if(once) observer.unobserve(entries[i].target)
         }
-      })
+      }
     }, { root: scope })
 
-    const els = (target.forEach) ? target : [target]
-    els.forEach(node => observer.observe(node))
+    // attach target to observer
+    const els = (target instanceof NodeList) ? target : [target]
+    for(let i = 0; i < els.length; i++) {
+      observer.observe(els[i])
+    }
 
+    // register observer for futur destruction
     this.observers.push(observer)
     return observer
   }
@@ -70,10 +117,12 @@ export default class Viewport {
 
 
   /**
-   * Destroy all observers and listeners
+   * Donnect and destroy running observers
    */
   onDestroy() {
-    this.observers.forEach(observer => observer.disconnect())
+    for(let i in this.observers) {
+      this.observers[i].disconnect()
+    }
     this.observers = []
   }
 
