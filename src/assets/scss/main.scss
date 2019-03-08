@@ -1,18 +1,59 @@
-// settings
+// 1# Settings
+// ==========================================================================
+@import 'settings/breakpoints';
+@import 'settings/colors';
+@import 'settings/easings';
+@import 'settings/env';
+@import 'settings/fonts';
+@import 'settings/layout';
+@import 'settings/ratios';
+@import 'settings/zindexes';
 
-// tools
 
-// generic
-@import 'bootstrap-reboot';
-@import 'bootstrap-grid';
+// 2# Tools
+// ==========================================================================
+@import 'tools/fonts';
+@import 'tools/functions';
+@import 'tools/layout';
+@import 'tools/mixins';
+@import 'tools/widths';
 
-// elements
-@import 'elements/layout';
 
-// objects
+// 3# Generic
+// ==========================================================================
+@import 'generic/document';
+@import 'generic/typography';
+@import 'generic/links';
+@import 'generic/code';
+@import 'generic/media';
+@import 'generic/tables';
+@import 'generic/forms';
 
-// components
-@import 'components/header';
-@import 'components/footer';
 
-// utilities
+// 4# Elements
+// ==========================================================================
+@import 'elements/forms';
+@import 'elements/headings';
+
+
+// 5# Objects
+// ==========================================================================
+@import 'objects/container';
+@import 'objects/cover';
+@import 'objects/crop';
+@import 'objects/pjax';
+@import 'objects/ratio';
+@import 'objects/table';
+
+
+// 6# Components
+// ==========================================================================
+// @import 'components/';
+
+
+// 7# Utilities
+// ==========================================================================
+@import 'utilities/alignment';
+@import 'utilities/helpers';
+@import 'utilities/print';
+@import 'utilities/states';

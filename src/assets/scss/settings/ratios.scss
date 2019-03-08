@@ -1,0 +1,16 @@
+// =============================================================================
+// 1# Settings / Ratios
+// =============================================================================
+$aspect-ratios: (
+  (1:1),    // Square. Used in some social networks, and in few devices
+  (2:1),    // Univisium
+  (3:2),    // Classic 35 mm still photographic film
+  (4:3),    // Traditional television & computer monitor standard
+  (5:3),    // A common European widescreen standard
+  (5:4),    // Early television & large-format computer monitors
+  (6:5),    // Fox Movietone aspect ratio
+  (7:3),    // Widescreen computer monitors
+  (11:8),   // Academy standard film aspect ratio
+  (16:9),   // HD video standard
+  (16:10),  // A common computer screen ratio
+) !default;
