@@ -1,8 +1,14 @@
 export default class Breakpoint {
 
-  constructor(list) {
+
+  /**
+   * 
+   * @param {Object} opts 
+   * @param {Object} opts.sizes of breakpoint sizes 
+   */
+  constructor({ sizes }) {
     this.current = this.compute()
-    this.list = list
+    this.sizes = sizes
   }
 
 
@@ -37,7 +43,7 @@ export default class Breakpoint {
    */
   compute() {
     let name = null
-    for(let key in this.list) {
+    for(let key in this.sizes) {
       if(this.up(key)) name = key
     }
     return { name, value: window.innerWidth }
@@ -49,7 +55,7 @@ export default class Breakpoint {
    * @param {String} name 
    */
   up(name) {
-    return (window.innerWidth >= this.list[name])
+    return (window.innerWidth >= this.sizes[name])
   }
 
 }
