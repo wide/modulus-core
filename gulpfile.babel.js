@@ -77,9 +77,9 @@ function buildJS(...entries) {
 // serve files
 function serve(done) {
   browser.init({
-		server: {
-			baseDir: cfg.dist.html,
-			directory: true
+    server: {
+      baseDir: cfg.dist.html,
+      directory: true
     }
   })
   done()
@@ -93,7 +93,8 @@ function watch() {
   gulp.watch([
     `${cfg.src.html.pages}**/*.html`,
     `${cfg.src.html.layouts}**/*.html`,
-    `${cfg.src.html.partials}**/*.html`
+    `${cfg.src.html.partials}**/*.html`,
+    `${cfg.src.html.data}**/*.yml`
   ]).on('all', gulp.series(clearHTML, buildHTML, browser.reload))
 
   cfg.src.scss.entries.forEach(entry => {
