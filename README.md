@@ -14,29 +14,33 @@ npm start
 npm run build
 ```
 
-## Modulus System
+## Modulus: quickstart
+
+See [Modulus docs](docs/modulus.md) for more.
 
 Attach scoped JS classes to specific DOM elements :
 
+`src/views/partials/header.html`
 ```html
-<!-- src/views/partials/header.html -->
-<header data-mod="Header" data-foo="bar">
+<header data-mod="Header">
   <nav>...</nav>
 </header>
 ```
 
+`src/assets/js/modules/header.js`
 ```js
-// src/assets/js/modules/header.js
-import { Module } from 'modulus'
+import Component from 'modulus/component'
 
-export default class Header extends Module {
+export default class Header extends Component {
 
   // method called when the module is attached to the DOM element
   onInit() {
+
     this.el // DOM element <header>
-    this.data // { foo: 'bar' }
+    this.dataset // { foo: 'bar' }
+
     this.nav = this.el.querySelector('nav') // inner DOM element <nav>
-    this.$log('hello!') // console.log('Modulus@Header_0: hello!')
+    this.$log('hello!') // console.log('Header_0: hello!')
     this.$on('event', () => this.doSomething()) // listen global event
     this.$emit('event') // dispatch global event
   }
@@ -44,16 +48,13 @@ export default class Header extends Module {
 }
 ```
 
+`src/assets/js/main.js`
 ```js
-// src/assets/js/main.js
-import { Modulus } from 'modulus'
-import Header from './modules/header'
+import Modulus from 'modulus'
+import Header from './components/header'
 
-Modulus.boot({
-  config: {
-    debug: true
-  },
-  modules: {
+export default new Modulus({
+  components: {
     Header
   }
 })
