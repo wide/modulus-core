@@ -70,17 +70,16 @@ In `src/views/partials/clickable.html`, add `<my-clickable></my-clickable>` tag:
 
 1. `Component`s are registered in the `Modulus` instance (`main.js`)
 2. `Web Components` are registered in the customElements registry
-3. DOM is completely loaded, `DOMContentLoaded` event is triggered
-4. `Modulus` parse the document looking for `[data-mod]` attributes
-5. `Modulus` found a matching `Component` for the `[data-mod]` attribute:
+3. `Modulus` parse the document looking for `[data-mod]` attributes
+4. `Modulus` found a matching `Component` for the `[data-mod]` attribute:
     - the `Component` is instanciated
     - the `onInit()` method is called
-6. DOM found a registered custom element:
+5. DOM found a registered custom element:
     - the `Component` is instanciated
     - the `onInit()` method is called
-7. once all `Component`s are loaded:
+6. once all `Component`s are loaded:
     - the `onReady()` method is called
-8. when a `Component`'s DOM element is removed
+7. when a `Component`'s DOM element is removed
     - the `onDestroy()` method is called
 
 
@@ -102,19 +101,23 @@ todo
 
 #### `Component.onInit()`
 
-todo
+Called when the Component is instanciated and binded to the DOM element, with the prupose of:
+- setting properties
+- listening events
 
 #### `Component.onReady()`
 
-todo
+Called when all Components are instanciated and ready to communicate, with the prupose of:
+- triggering events
 
 #### `Component.onDestroy()`
 
-todo
+Called when the Component is removed from the DOM, with the prupose of:
+- detach event lsitener
 
 #### `Component.log(...args)`
 
-todo
+Log a message with the `uid` of the component for better readability.
 
 #### `Component.on(event, callback)`
 
@@ -135,8 +138,3 @@ todo
 #### `Component.$viewport(callback, opts = {})`
 
 todo
-
-
-## Roadmap
-
-- 
