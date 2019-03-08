@@ -47,6 +47,7 @@ function buildHTML() {
       helpers: cfg.src.html.helpers,
       data: cfg.src.html.data
     }))
+    .on('error', notifyError)
     .pipe(gulp.dest(cfg.dist.html))
 }
 
@@ -56,6 +57,7 @@ function buildCSS(...entries) {
     .pipe($.sourcemaps.init())
     .pipe($.sass({ includePaths: cfg.src.scss.alias })
     .on('error', $.sass.logError))
+    .on('error', notifyError)
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.css))
     .pipe(browser.reload({ stream: true }))
@@ -67,6 +69,7 @@ function buildJS(...entries) {
     .pipe(named())
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpack, webpack2))
+    .on('error', notifyError)
     .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e) })
     ))
@@ -85,6 +88,11 @@ function serve(done) {
   done()
 }
 
+// send compilation error to browser
+function notifyError(err) {
+  browser.notify(`<div style="color: red; text-align: left;">${err.formatted.replace(/\n/g, '<br>')}</div>`, 20000)
+}
+
 // watch changes
 function watch() {
 
@@ -98,7 +106,8 @@ function watch() {
   ]).on('all', gulp.series(clearHTML, buildHTML, browser.reload))
 
   cfg.src.scss.entries.forEach(entry => {
-    gulp.watch([entry.file, ...entry.watch]).on('all', gulp.series(() => buildCSS(entry.file)))
+    gulp.watch([entry.file, ...entry.watch])
+      .on('all', gulp.series(() => buildCSS(entry.file)))
   })
 
   cfg.src.js.entries.forEach(entry => {
