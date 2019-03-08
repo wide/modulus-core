@@ -6,7 +6,7 @@ export default class {
    * @param {String} name - css classname to apply
    * @return {Function}
    */
-  static enterLeaveTransition(name) {
+  static cssAnimation(name) {
     return function(el, entry) {
       if(entry.isIntersecting) {
         el.classList.remove(`${name}-leave`)
@@ -18,6 +18,22 @@ export default class {
       }
     }
   }
-  
 
+
+  /**
+   * Trigger enter() / leave() js animations to 
+   * @param {String} name - css classname to apply transitionable element
+   * @return {Function}
+   */
+  static jsAnimation(name, animations) {
+    return function(el, entry) {
+      if(entry.isIntersecting && animations[name].enter) {
+        animations[name].enter(el, entry)
+      }
+      if(!entry.isIntersecting && animations[name].leave) {
+        animations[name].leave(el, entry)
+      }
+    }
+  }
+  
 }

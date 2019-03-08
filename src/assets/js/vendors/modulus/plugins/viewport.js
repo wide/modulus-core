@@ -5,10 +5,17 @@ export default class Viewport {
 
   /**
    * New viewport plugin
+   * @param {Object} opts
+   * @param {Object} opts.config
+   * @param {Object} opts.animations list of JS animations
    */
-  constructor() {
+  constructor({ config, animations }) {
+
     this.observers = []
-    this.defaultModifiers = ['enter']
+    this.defaultAnimModifiers = ['enter']
+
+    this.animations = animations
+    this.config = Object.assign({ animAttribute: 'data-viewport-anim' }, config)
   }
 
 
@@ -19,25 +26,34 @@ export default class Viewport {
    */
   onInstall(modulus, Component) {
     modulus.$viewport = Component.prototype.$viewport = this
-    this.autoObserve()
+    this.observeByAttr()
   }
 
 
   /**
-   * Automatically observe `data-viewport-transition` attribute
-   * and generate css class based on the attribute value.
+   * Automatically observe `data-viewport-anim` attribute
    * 
-   * Ex. `[data-viewport-transition="fade"]` will add `.fade-enter` and `.fade-leave"` when entering/leaving viewport
+   * CSS Animations :
+   * - `[data-viewport-anim="fade"]` will add `.fade-enter` and `.fade-leave` when entering/leaving viewport
+   * - `[data-viewport-anim="fade:enter"]` will add `.fade-enter` when entering viewport only
+   * - `[data-viewport-anim="fade:enter,once"]` will add `.fade-enter` when entering viewport one time only
+   * 
+   * JS Animations :
+   * - `[data-viewport-anim="@fade"]` will call `fade.enter()` and `fade.leave()` when entering/leaving viewport
+   * - `[data-viewport-anim="@fade:enter"]` will call `fade.enter()` when entering viewport only
+   * - `[data-viewport-anim="@fade:enter,once"]` will call `fade.enter()` when entering viewport one time only
    */
-  autoObserve() {
+  observeByAttr() {
 
     // get transitionable elements
-    const els = document.querySelectorAll('[data-viewport-transition]')
+    const els = document.querySelectorAll(`[${this.config.animAttribute}]`)
     for(let i = 0; i < els.length; i++) {
 
-      // extract modifiers
-      const [name, _modifiers] = els[i].dataset.viewportTransition.split(':')
-      const modifiers = _modifiers ? _modifiers.split(',') : this.defaultModifiers
+      // parse name and modifiers
+      const [_name, _modifiers] = els[i].getAttribute(this.config.animAttribute).split(':')
+      const jsAnimation = (_name[0] === '@')
+      const name = jsAnimation ? _name.substr(1) : _name
+      const modifiers = _modifiers ? _modifiers.split(',') : this.defaultAnimModifiers
 
       // create observer
       this.observe({
@@ -45,7 +61,9 @@ export default class Viewport {
         enter: modifiers.includes('enter'),
         leave: modifiers.includes('leave'),
         once: modifiers.includes('once'),
-        callback: callbacks.enterLeaveTransition(name)
+        callback: jsAnimation
+          ? callbacks.jsAnimation(name, this.animations)
+          : callbacks.cssAnimation(name)
       })
     }
 
@@ -53,35 +71,46 @@ export default class Viewport {
 
 
   /**
-   * Observe an element when it appears in the viewport
+   * Observe an element when it intersects in the viewport
    * @param {Object}                opts 
-   * @param {HTMLElement}           opts.scope 
-   * @param {HTMLElement|NodeList}  opts.target 
-   * @param {Boolean}               opts.once 
-   * @param {Boolean}               opts.enter 
-   * @param {Boolean}               opts.leave 
-   * @param {Function}              opts.callback 
+   * @param {HTMLElement}           opts.scope      parent element to set the scope
+   * @param {HTMLElement|NodeList}  opts.target     element(s) to observe in the scope
+   * @param {Boolean}               opts.once       trigger only once and destroy the listener
+   * @param {Boolean}               opts.enter      trigger only when the element appears
+   * @param {Boolean}               opts.leave      trigger only when the element disappears
+   * @param {Function}              opts.callback   action to call
    */
   observe({ scope, target, once = false, enter = true, leave = false, callback }) {
 
+    // keep track of element entering at least once
     let hasEntered = false
 
     // create viewport observer
     const observer = new IntersectionObserver(entries => {
+
+      // for all observed elements
       for(let i in entries) {
+
+        // process if :
+        // - `enter` is specified and element is entering the viewport
+        // - `leave` is specified and element is leaving after entering at least once
         if((enter && entries[i].isIntersecting) || (hasEntered && leave && !entries[i].isIntersecting)) {
-          if(enter) hasEntered = true
+          
+          // set element has entered once
+          if(enter && !hasEntered) hasEntered = true
+
+          // call the action, give the element as first param
           callback(entries[i].target, entries[i])
+
+          // unobserve if the `once` is specifies
           if(once) observer.unobserve(entries[i].target)
         }
       }
     }, { root: scope })
 
-    // attach target to observer
+    // start to observe element(s)
     const els = (target instanceof NodeList) ? target : [target]
-    for(let i = 0; i < els.length; i++) {
-      observer.observe(els[i])
-    }
+    for(let i = 0; i < els.length; i++) observer.observe(els[i])
 
     // register observer for futur destruction
     this.observers.push(observer)
