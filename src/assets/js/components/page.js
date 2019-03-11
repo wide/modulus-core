@@ -7,7 +7,7 @@ export default class Page extends Component {
 
     // lock or unlock body
     this.$on('body.unlock', e => clearAllBodyScrollLocks())
-    this.$on('body.lock', ...targets => {
+    this.$on('body.lock', (...targets) => {
       for(let i = 0; i < targets.lenght; i++) disableBodyScroll(targets[i])
     })
   }
