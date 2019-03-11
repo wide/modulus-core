@@ -12,4 +12,8 @@ export default class Page extends Component {
     })
   }
 
+  onReady() {
+    this.log(`Ready on ${process.env.PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'} mode`)
+  }
+
 }

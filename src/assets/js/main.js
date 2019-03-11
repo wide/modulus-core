@@ -11,7 +11,7 @@ import { BREAKPOINTS } from '~/vars'
 
 export default new Modulus({
   config: {
-    debug: true
+    debug: !process.env.PRODUCTION
   },
   plugins: {
     viewport: new Viewport({ animations }),
