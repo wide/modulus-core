@@ -3,8 +3,6 @@ import Viewport from 'modulus/plugins/viewport'
 import Breakpoint from 'modulus/plugins/breakpoint'
 
 import Page from '~/components/page'
-import Clickable from '~/components/clickable'
-import Intersection from '~/components/intersection'
 
 import animations from '~/utils/animations'
 import { BREAKPOINTS } from '~/vars'
@@ -18,8 +16,6 @@ export default new Modulus({
     breakpoint: new Breakpoint({ sizes: BREAKPOINTS })
   },
   components: {
-    Page,
-    Clickable,
-    Intersection
+    Page
   }
 })
