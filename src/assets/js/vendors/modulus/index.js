@@ -155,7 +155,7 @@ export default class Modulus extends EventEmitter {
 
     // parse attributes and data-attributes
     const attrs = {}
-    for(let i in el.attributes) {
+    for(let i = 0; i < el.attributes.length; i++) {
       attrs[el.attributes[i]] = el.getAttribute(el.attributes[i])
     }
 
@@ -193,7 +193,7 @@ export default class Modulus extends EventEmitter {
   dispatchReadyState() {
     this.ready = true
     for(let name in this.instances) {
-      for(let i in this.instances[name]) {
+      for(let i = 0; i < this.instances[name].length; i++) {
         this.instances[name][i].onReady()
       }
     }

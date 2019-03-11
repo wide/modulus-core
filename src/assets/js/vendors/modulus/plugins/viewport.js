@@ -1,4 +1,4 @@
-import callbacks from './viewport/callbacks'
+import autoObservers from './viewport/list'
 
 export default class Viewport {
 
@@ -9,64 +9,21 @@ export default class Viewport {
    * @param {Object} opts.config
    * @param {Object} opts.animations list of JS animations
    */
-  constructor({ config, animations }) {
-
+  constructor({ animations }) {
     this.observers = []
-    this.defaultAnimModifiers = ['enter']
-
     this.animations = animations
-    this.config = Object.assign({ animAttribute: 'data-viewport-anim' }, config)
+    this.autoObservers = autoObservers
   }
 
 
   /**
-   * Bind instance to modulus
+   * Bind instance to modulus and start auto-observing
    * @param {Modulus} modulus 
    * @param {Component} Component 
    */
   onInstall(modulus, Component) {
     modulus.$viewport = Component.prototype.$viewport = this
-    this.observeByAttr()
-  }
-
-
-  /**
-   * Automatically observe `data-viewport-anim` attribute
-   * 
-   * CSS Animations :
-   * - `[data-viewport-anim="fade"]` will add `.fade-enter` and `.fade-leave` when entering/leaving viewport
-   * - `[data-viewport-anim="fade:enter"]` will add `.fade-enter` when entering viewport only
-   * - `[data-viewport-anim="fade:enter,once"]` will add `.fade-enter` when entering viewport one time only
-   * 
-   * JS Animations :
-   * - `[data-viewport-anim="@fade"]` will call `fade.enter()` and `fade.leave()` when entering/leaving viewport
-   * - `[data-viewport-anim="@fade:enter"]` will call `fade.enter()` when entering viewport only
-   * - `[data-viewport-anim="@fade:enter,once"]` will call `fade.enter()` when entering viewport one time only
-   */
-  observeByAttr() {
-
-    // get transitionable elements
-    const els = document.querySelectorAll(`[${this.config.animAttribute}]`)
-    for(let i = 0; i < els.length; i++) {
-
-      // parse name and modifiers
-      const [_name, _modifiers] = els[i].getAttribute(this.config.animAttribute).split(':')
-      const jsAnimation = (_name[0] === '@')
-      const name = jsAnimation ? _name.substr(1) : _name
-      const modifiers = _modifiers ? _modifiers.split(',') : this.defaultAnimModifiers
-
-      // create observer
-      this.observe({
-        target: els[i],
-        enter: modifiers.includes('enter'),
-        leave: modifiers.includes('leave'),
-        once: modifiers.includes('once'),
-        callback: jsAnimation
-          ? callbacks.jsAnimation(name, this.animations)
-          : callbacks.cssAnimation(name)
-      })
-    }
-
+    for(let i = 0; i < this.autoObservers[i]; i++) this.autoObservers[i](this)
   }
 
 
@@ -89,7 +46,7 @@ export default class Viewport {
     const observer = new IntersectionObserver(entries => {
 
       // for all observed elements
-      for(let i in entries) {
+      for(let i = 0; i < entries.length; i++) {
 
         // process if :
         // - `enter` is specified and element is entering the viewport
@@ -149,7 +106,7 @@ export default class Viewport {
    * Donnect and destroy running observers
    */
   onDestroy() {
-    for(let i in this.observers) {
+    for(let i = 0; i < this.observers.length; i++) {
       this.observers[i].disconnect()
     }
     this.observers = []
