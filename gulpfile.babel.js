@@ -13,8 +13,13 @@ import cfg            from './config'
 
 // gulp plugins
 const $ = plugins()
+
+// set ENV mode
 const PRODUCTION = !!(yargs.argv.production)
 cfg.webpack.mode = PRODUCTION ? 'production' : 'development'
+cfg.webpack.plugins = [
+  new webpack2.DefinePlugin({ 'process.env.PRODUCTION': PRODUCTION })
+]
 
 // register helpers
 prettify.register(handlebars, cfg.src.html.options.prettify)

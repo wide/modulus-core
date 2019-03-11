@@ -2,9 +2,9 @@ export default class Breakpoint {
 
 
   /**
-   * 
+   * New Breapoint plugin
    * @param {Object} opts 
-   * @param {Object} opts.sizes of breakpoint sizes 
+   * @param {Object} opts.sizes of breakpoint sizes
    */
   constructor({ sizes }) {
     this.current = this.compute()

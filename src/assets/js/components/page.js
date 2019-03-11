@@ -1,37 +1,19 @@
 import Component from 'modulus/component'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock' 
-import { BREAKPOINTS } from '~/vars'
 
 export default class Page extends Component {
 
   onInit() {
 
     // lock or unlock body
-    this.$on('body.lock', target => disableBodyScroll(target))
     this.$on('body.unlock', e => clearAllBodyScrollLocks())
-
-    // spread breakpoint change
-    this.breakpoint = BREAKPOINTS.xs
-    window.addEventListener('resize', e => this.dispatchBreakpoint(window.innerWidth))
+    this.$on('body.lock', (...targets) => {
+      for(let i = 0; i < targets.lenght; i++) disableBodyScroll(targets[i])
+    })
   }
 
-
-  /**
-   * Watch screen width and dispatch event is breakpoint changes
-   */
-  dispatchBreakpoint(width) {
-
-    // resolve breakpoint
-    let breakpoint = null
-    for(let bp in BREAKPOINTS) {
-      if(width >= BREAKPOINTS[bp]) breakpoint = bp
-    }
-
-    // if breakpoint has changed -> dispatch event
-    if(breakpoint !== this.breakpoint) {
-      this.breakpoint = breakpoint
-      this.$emit('breakpoint', window.innerWidth, breakpoint)
-    }
+  onReady() {
+    this.log(`Ready on ${process.env.PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'} mode`)
   }
 
 }

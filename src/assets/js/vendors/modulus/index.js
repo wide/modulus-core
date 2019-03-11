@@ -1,5 +1,6 @@
 import EventEmitter from 'tiny-emitter'
 import Component from './component'
+import Logger from './logger'
 
 export default class Modulus extends EventEmitter {
 
@@ -154,7 +155,7 @@ export default class Modulus extends EventEmitter {
 
     // parse attributes and data-attributes
     const attrs = {}
-    for(let i in el.attributes) {
+    for(let i = 0; i < el.attributes.length; i++) {
       attrs[el.attributes[i]] = el.getAttribute(el.attributes[i])
     }
 
@@ -170,7 +171,10 @@ export default class Modulus extends EventEmitter {
     const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
-    instance.$uid = `${name}-${this.instances[name].length}`
+    instance.$uid = `${name}#${el.id || this.instances[name].length}`
+
+    // bind logger to instance
+    instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })
 
     // bind modulus to instance (needed for event dispatching)
     instance.$modulus = this
@@ -189,7 +193,7 @@ export default class Modulus extends EventEmitter {
   dispatchReadyState() {
     this.ready = true
     for(let name in this.instances) {
-      for(let i in this.instances[name]) {
+      for(let i = 0; i < this.instances[name].length; i++) {
         this.instances[name][i].onReady()
       }
     }
