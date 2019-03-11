@@ -1,5 +1,6 @@
 import EventEmitter from 'tiny-emitter'
 import Component from './component'
+import Logger from './logger'
 
 export default class Modulus extends EventEmitter {
 
@@ -170,7 +171,10 @@ export default class Modulus extends EventEmitter {
     const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
-    instance.$uid = `${name}-${this.instances[name].length}`
+    instance.$uid = `${name}#${el.id || this.instances[name].length}`
+
+    // bind logger to instance
+    instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })
 
     // bind modulus to instance (needed for event dispatching)
     instance.$modulus = this

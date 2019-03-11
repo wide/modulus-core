@@ -119,6 +119,10 @@ Called when the Component is removed from the DOM, with the prupose of:
 
 Log a message with the `uid` of the component for better readability.
 
+#### `Component.log.[debug|info|warn|error](...args)`
+
+Log a severity message with the `uid` of the component for better readability.
+
 #### `Component.on(event, callback)`
 
 todo
