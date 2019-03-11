@@ -23,7 +23,9 @@ export default class Viewport {
    */
   onInstall(modulus, Component) {
     modulus.$viewport = Component.prototype.$viewport = this
-    for(let i = 0; i < this.autoObservers[i]; i++) this.autoObservers[i](this)
+    for(let i = 0; i < this.autoObservers.length; i++) {
+      this.autoObservers[i](this)
+    }
   }
 
 
