@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": "src/assets/js",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "modulus": ["./vendors/modulus"]
     }
   }
 }
