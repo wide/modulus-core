@@ -3,7 +3,8 @@
     "baseUrl": "src/assets/js",
     "paths": {
       "~/*": ["./*"],
-      "modulus": ["./vendors/modulus"]
+      "modulus": ["./vendors/modulus"],
+      "modulus/*": ["./vendors/modulus/*"]
     }
   }
 }
