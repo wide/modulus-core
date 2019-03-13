@@ -1,5 +1,5 @@
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs'
 
 function walk(base, dir = '', files = []) {
   fs.readdirSync(base + dir).forEach(file => {
@@ -16,7 +16,7 @@ function walk(base, dir = '', files = []) {
   return files
 }
 
-module.exports = (root) => {
+export default (root) => {
 
   let i = 0, j = 0
   const files = walk(root)

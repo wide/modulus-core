@@ -1,9 +1,9 @@
-const path = require('path')
+import path from 'path'
 
 /**
  * Replace SCSS alias with real path
  */
-module.exports = function(aliases) {
+export default function(aliases) {
   return function(url) {
     const prefix = url.split('/').shift()
     if(aliases[prefix]) {

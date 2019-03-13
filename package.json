@@ -9,7 +9,8 @@
   "scripts": {
     "start": "npm run clean && gulp",
     "build": "npm run clean && gulp build --production",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "create": "gulp create --name"
   },
   "dependencies": {
     "tiny-emitter": "^2.0.2",

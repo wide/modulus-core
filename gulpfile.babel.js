@@ -11,6 +11,7 @@ import webpack2       from 'webpack'
 import named          from 'vinyl-named'
 import sassAliases    from './build/sass-alias'
 import makeImportComponents from './build/make-import-components'
+import createComponent from './build/create-component'
 import cfg            from './config'
 
 // gulp plugins
@@ -131,6 +132,14 @@ function watch() {
   })
 }
 
+// create component
+function create(done) {
+  if(yargs.argv.name) {
+    createComponent(__dirname, yargs.argv.name)
+  }
+  done()
+}
+
 // npm tasks
 gulp.task('clean:html', clearHTML)
 gulp.task('copy:assets', copyAssets)
@@ -138,6 +147,8 @@ gulp.task('build:html', buildHTML)
 gulp.task('build:css', () => buildCSS(...cfg.src.scss.entries.map(entry => entry.file)))
 gulp.task('build:js', () => buildJS(...cfg.src.js.entries.map(entry => entry.file)))
 gulp.task('serve', serve)
+
+gulp.task('create', create)
 
 // npm global tasks
 gulp.task('build', gulp.series('clean:html', 'build:html', 'build:css', 'build:js', 'copy:assets'))
