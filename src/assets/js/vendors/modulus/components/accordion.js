@@ -1,5 +1,6 @@
 import Component from 'modulus/component'
 import { slideDown, slideUp } from '~/utils/dom'
+import { ANIM_DURATION } from '~/consts'
 
 
 /**
