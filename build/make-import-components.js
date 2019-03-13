@@ -23,12 +23,12 @@ module.exports = (root) => {
   const files = walk(root)
 
   const content = 
-`/* AUTO GENERATED */
-${files.map(file => `import m${i++} from '@/${file.path}'`).join("\n")}
-export default {
-  ${files.map(file => `'${file.filename}': m${j++}`).join(",\n")}
-}
-/* AUTO GENERATED */`
+    `/* AUTO GENERATED */
+    ${files.map(file => `import m${i++} from '@/${file.path}'`).join("\n")}
+    export default {
+      ${files.map(file => `'${file.filename}': m${j++}`).join(",\n")}
+    }
+    /* AUTO GENERATED */`
 
   return fs.writeFileSync('./build/import-components.js', content)
 }
