@@ -76,7 +76,7 @@ function buildCSS(...entries) {
 // build js
 function buildJS(...entries) {
 
-  // import components
+  // import components before js compilation
   makeImportComponents(__dirname + '/' + cfg.src.html.partials)
 
   return gulp.src(entries)

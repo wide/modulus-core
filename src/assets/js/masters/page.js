@@ -10,10 +10,8 @@ export default class Page extends Component {
     this.$on('body.lock', (...targets) => {
       for(let i = 0; i < targets.lenght; i++) disableBodyScroll(targets[i])
     })
-  }
 
-  onReady() {
-    this.log(`Ready on ${process.env.PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'} mode`)
+    this.log('hello, this is page')
   }
 
 }

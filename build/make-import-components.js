@@ -16,7 +16,6 @@ function walk(base, dir = '', files = []) {
   return files
 }
 
-
 module.exports = (root) => {
 
   let i = 0, j = 0
