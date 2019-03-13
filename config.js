@@ -7,11 +7,16 @@ export default {
       root: 'src/assets/scss/',
       entries: [{
         file: 'src/assets/scss/main.scss',
-        watch: ['src/assets/scss/**/*.scss']
+        watch: [
+          'src/assets/scss/**/*.scss',
+          'src/views/components/**/*.scss',
+        ]
       }],
-      alias: [
-        'node_modules/bootstrap/scss/'
-      ]
+      alias: {
+        '~': path.resolve(`${__dirname}/src/assets/scss/`),
+        '@': path.resolve(`${__dirname}/src/views/components/`),
+        bootstrap: path.resolve(`${__dirname}/node_modules/bootstrap/scss/`)
+      }
     },
     js: {
       root: 'src/assets/js/',
@@ -19,6 +24,7 @@ export default {
         file: 'src/assets/js/main.js',
         watch: [
           'src/assets/js/**/*.js',
+          'src/views/components/**/*.js',
           '!src/assets/js/polyfill.js'
         ]
       }, {
@@ -29,7 +35,7 @@ export default {
     html: {
       pages: 'src/views/pages/',
       layouts: 'src/views/layouts/',
-      partials: 'src/views/partials/',
+      partials: 'src/views/components/',
       helpers: 'src/views/helpers/',
       data: 'src/views/data/',
       options: {
@@ -49,7 +55,9 @@ export default {
     mode: 'development',
     resolve: {
       alias: {
+        '[ROOT]': __dirname,
         '~': path.resolve(`${__dirname}/src/assets/js/`),
+        '@': path.resolve(`${__dirname}/src/views/components/`),
         modulus: path.resolve(`${__dirname}/src/assets/js/vendors/modulus/`)
       }
     },

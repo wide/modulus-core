@@ -1,9 +1,9 @@
 import Modulus from 'modulus'
 import Viewport from 'modulus/plugins/viewport'
 import Breakpoint from 'modulus/plugins/breakpoint'
+import importComponents from '[ROOT]/build/import-components'
 
 import Page from '~/components/page'
-
 import animations from '~/utils/animations'
 import { BREAKPOINTS } from '~/vars'
 
@@ -16,6 +16,7 @@ export default new Modulus({
     breakpoint: new Breakpoint({ sizes: BREAKPOINTS })
   },
   components: {
-    Page
+    Page,
+    ...importComponents
   }
 })
