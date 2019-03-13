@@ -182,8 +182,8 @@ export default class Modulus extends EventEmitter {
     const refs = {}
     const els = el.querySelectorAll(`:scope > [ref], *:not([${this.config.seekAttribute}]) [ref]`)
     for(let i = 0; i < els.length; i++) {
-      const ref = els[j].getAttribute('ref')
-      refs[ref] = els[j].$component || els[j]
+      const ref = els[i].getAttribute('ref')
+      refs[ref] = els[i].$component || els[i]
     }
 
     // instanciate component object with attributes
