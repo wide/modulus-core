@@ -42,7 +42,7 @@ export default class extends Component {
 }
 ```
 
-You can no include your fresh component in your page:
+You can now include your fresh component in your page:
 ```hbs
 {{> my-component}}
 ```
