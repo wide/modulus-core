@@ -8,8 +8,11 @@
   },
   "scripts": {
     "start": "npm run clean && gulp",
-    "build": "npm run clean && gulp build --production",
     "clean": "rimraf dist",
+    "build:html": "gulp build:html",
+    "build:css": "gulp build:css",
+    "build:js": "gulp build:js",
+    "build": "npm run clean && gulp build --production",
     "create": "gulp create --name"
   },
   "dependencies": {

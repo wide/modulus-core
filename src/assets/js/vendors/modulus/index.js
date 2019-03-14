@@ -167,7 +167,7 @@ export default class Modulus extends EventEmitter {
    * @param {HTMLElement} el 
    * @return {Component}
    */
-  instanciateComponent(name, ComponentClass, el, isController) {
+  instanciateComponent(name, ComponentClass, el, isMaster) {
 
     // create new entry for component name
     this.instances[name] = this.instances[name] || []
@@ -190,7 +190,7 @@ export default class Modulus extends EventEmitter {
     const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
-    instance.$uid = (isController) ? name : `${name}#${el.id || this.instances[name].length}`
+    instance.$uid = (isMaster) ? name : `${name}#${el.id || this.instances[name].length}`
 
     // bind logger to instance
     instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })

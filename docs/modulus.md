@@ -10,57 +10,41 @@
   - [Breakpoint](modulus/plugins/breakpoint.md)
 
 
+
 ## How to create a component
 
-### 1. First, create the component logic
+Run `npm run create my-component` in your terminal, this will create 3 files:
 
-In `src/assets/js/components/my-clickable.js`, export a class extending the `Component` interface:
-```js
-import Component from 'modulus/component'
+- template: `src/views/my-component/my-component.html`
+```html
+<div class="my-component" data-mod="my-component">
 
-export default class MyClickable extends Component {
-  onInit() {
+</div>
+```
 
-    this.el.addEventListener('click', e => {
-      this.el.innerText = 'clicked!'
-    })
+- styles: `src/views/my-component/my-component.scss`
+```css
+.my-component {
 
-  }
 }
 ```
 
-### 2. Then, register it in the Modulus instance
-
-In `src/assets/js/main.js`, import `MyClickable` and add it to the components list and/or web components list:
+- logic: `src/views/my-component/my-component.js`
 ```js
-import Modulus from 'modulus'
-import MyClickable from '~/components/my-clickable'
+import Component from 'modulus/component'
 
-export default new Modulus({
-  components: {
-    MyClickable
-  },
-  webComponents: {
-    MyClickable // needs to be two-words camelcase, will be translated to 'my-clickable'
+export default class extends Component {
+
+  onInit() {
+    this.log('hello, this is [my-component] !')
   }
-})
+
+}
 ```
 
-
-### 3. Finally, bind the logic to the template
-
-#### 3.1. As regular component loaded from template attribute parsing :
-
-In `src/views/partials/clickable.html`, add `[data-mod="MyClickable"]` attribute with the component class name:
-```html
-<button data-mod="MyClickable">click here</button>
-```
-
-#### 3.2. As native custom element loaded from the dom :
-
-In `src/views/partials/clickable.html`, add `<my-clickable></my-clickable>` tag:
-```html
-<my-clickable>click here</my-clickable>
+You can no include your fresh component in your page:
+```hbs
+{{> my-component}}
 ```
 
 
