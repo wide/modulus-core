@@ -2,7 +2,7 @@
 
 Must use the following template :
 ```html
-<div data-mod="Accordion">
+<div data-mod="accordion">
   <button id="trigger-1" aria-expanded="false" aria-controls="body-1">
     Trigger 1
   </button>

@@ -1,5 +1,7 @@
 # Modulus - Scoped Component Approach
 
+Modulus is a framework capable of automatically load and use scoped component, adding logic to a DOM element.
+
 - [How to](#how-to-create-a-component)
 - [Lifecycle](#lifecycle)
 - [API](#api)
@@ -10,57 +12,67 @@
   - [Breakpoint](modulus/plugins/breakpoint.md)
 
 
+## Folders and files
+
+## Configuration and plugins
+
+in `src/assets/js/`
+```
+main.js     -> modulus instance (register plugins and masters)
+plugins/    -> plugins folder (add specific logic to all components)
+  ...
+masters/    -> masters folder (add global component attached to the body)
+  page.js   -> default master component
+  ...
+```
+
+## Components
+
+Components are automatically loaded in Modulus, no action required.
+
+in `src/views/components/`
+```
+header/         -> component folder
+  header.html   -> template
+  header.js     -> logic
+  header.scss   -> styles
+...
+```
+
 ## How to create a component
 
-### 1. First, create the component logic
+Run `npm run create:component my-component` in your terminal, this will create 3 files:
 
-In `src/assets/js/components/my-clickable.js`, export a class extending the `Component` interface:
-```js
-import Component from 'modulus/component'
+- template: `src/views/my-component/my-component.html`
+```html
+<div class="my-component" data-mod="my-component">
 
-export default class MyClickable extends Component {
-  onInit() {
+</div>
+```
 
-    this.el.addEventListener('click', e => {
-      this.el.innerText = 'clicked!'
-    })
+- styles: `src/views/my-component/my-component.scss`
+```css
+.my-component {
 
-  }
 }
 ```
 
-### 2. Then, register it in the Modulus instance
-
-In `src/assets/js/main.js`, import `MyClickable` and add it to the components list and/or web components list:
+- logic: `src/views/my-component/my-component.js`
 ```js
-import Modulus from 'modulus'
-import MyClickable from '~/components/my-clickable'
+import Component from 'modulus/component'
 
-export default new Modulus({
-  components: {
-    MyClickable
-  },
-  webComponents: {
-    MyClickable // needs to be two-words camelcase, will be translated to 'my-clickable'
+export default class extends Component {
+
+  onInit() {
+    this.log('hello, this is [my-component] !')
   }
-})
+
+}
 ```
 
-
-### 3. Finally, bind the logic to the template
-
-#### 3.1. As regular component loaded from template attribute parsing :
-
-In `src/views/partials/clickable.html`, add `[data-mod="MyClickable"]` attribute with the component class name:
-```html
-<button data-mod="MyClickable">click here</button>
-```
-
-#### 3.2. As native custom element loaded from the dom :
-
-In `src/views/partials/clickable.html`, add `<my-clickable></my-clickable>` tag:
-```html
-<my-clickable>click here</my-clickable>
+You can now include your fresh component in your page:
+```hbs
+{{> my-component}}
 ```
 
 
@@ -87,7 +99,7 @@ In `src/views/partials/clickable.html`, add `<my-clickable></my-clickable>` tag:
 
 ### Modulus
 
-#### `new Modulus({ config, plugins, components, webComponents })`
+#### `new Modulus({ config, plugins, masters, components, webComponents })`
 
 todo
 
@@ -119,6 +131,10 @@ Called when the Component is removed from the DOM, with the prupose of:
 
 Log a message with the `uid` of the component for better readability.
 
+#### `Component.log.[debug|info|warn|error](...args)`
+
+Log a severity message with the `uid` of the component for better readability.
+
 #### `Component.on(event, callback)`
 
 todo
@@ -132,9 +148,5 @@ todo
 todo
 
 #### `Component.$emit(event, ...args)`
-
-todo
-
-#### `Component.$viewport(callback, opts = {})`
 
 todo

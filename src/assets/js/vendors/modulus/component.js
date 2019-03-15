@@ -4,8 +4,8 @@ export default class Component extends EventEmitter {
 
   /**
    * New Component
-   * @param {HTMLElement} el
-   * @param {Object} opts
+   * @param {HTMLElement}   el
+   * @param {Object}        opts
    * @param {Object}        opts.attrs - element attributes
    * @param {DOMStringMap}  opts.dataset - element dataset attributes
    * @param {Object}        opts.refs - HTMLElement found by ref
@@ -35,17 +35,6 @@ export default class Component extends EventEmitter {
    * Hook triggered when element is removed from DOM
    */
   onDestroy() {}
-
-
-  /**
-   * Log message in console prefixed with component's UID
-   * @param  {...any} args 
-   */
-  log(...args) {
-    if(this.$modulus.config.debug) {
-      console.log(`${this.$uid}:`, ...args)
-    }
-  }
 
 
   /**

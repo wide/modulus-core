@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "name": "boilerplate-integration",
   "author": "Wide <hello@wideagency.com>",
   "engines": {
@@ -8,8 +8,14 @@
   },
   "scripts": {
     "start": "npm run clean && gulp",
+    "clean": "rimraf dist",
+    "build:html": "gulp build:html",
+    "build:css": "gulp build:css",
+    "build:js": "gulp build:js",
     "build": "npm run clean && gulp build --production",
-    "clean": "rimraf dist"
+    "create:plugin": "gulp create:plugin --name",
+    "create:master": "gulp create:master --name",
+    "create:component": "gulp create:component --name"
   },
   "dependencies": {
     "tiny-emitter": "^2.0.2",
@@ -36,6 +42,7 @@
     "gulp-if": "^2.0.2",
     "gulp-load-plugins": "^1.5.0",
     "gulp-sass": "^4.0.2",
+    "gulp-sass-glob": "^1.0.9",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
     "handlebars-helpers": "^0.10.0",

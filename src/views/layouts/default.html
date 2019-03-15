@@ -3,15 +3,15 @@
 <html>
   <head>
     <title>{{site.title}}</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    {{> metas}}
+    {{> favicons}}
     <link rel="stylesheet" href="{{root}}assets/css/main.css?{{hash}}">
   </head>
-  <body data-mod="Page">
+  <body>
     
     {{> header}}
 
-    <main id="{{page}}">
+    <main>
       {{> body}}
     </main>
 

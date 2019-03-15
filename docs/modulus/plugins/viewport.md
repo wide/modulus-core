@@ -15,7 +15,7 @@ export default new Modulus({
 })
 ```
 
-## Usage in template
+## Enter / Leave animation
 
 The viewport plugin will automatically attach an observer to the `data-viewport-anim` attribute with the following value: `{name}:{modifiers}`.
 
@@ -60,7 +60,12 @@ export default {
   - `once`: destroy the observer once the first animation has been triggered
 
 
-## Usage in Component
+## Lazy load
+
+The viewport plugin will automatically attach an observer to the `data-lazysrc` attribute and load the value value as `src` when the element appears
+.
+
+## API in Component
 
 ### `Viewport.observe()`
 
