@@ -9,10 +9,13 @@ import helpers        from 'handlebars-helpers'
 import webpackStream  from 'webpack-stream'
 import webpack2       from 'webpack'
 import named          from 'vinyl-named'
-import sassAliases    from './build/sass-alias'
+
+import sassAliases          from './build/sass-alias'
 import makeImportComponents from './build/make-import-components'
-import createComponent from './build/create-component'
-import cfg            from './config'
+import createPlugin         from './build/create-plugin'
+import createMaster         from './build/create-master'
+import createComponent      from './build/create-component'
+import cfg                  from './config'
 
 // gulp plugins
 const $ = plugins()
@@ -132,14 +135,6 @@ function watch() {
   })
 }
 
-// create component
-function create(done) {
-  if(yargs.argv.name) {
-    createComponent(__dirname, yargs.argv.name)
-  }
-  done()
-}
-
 // npm tasks
 gulp.task('clean:html', clearHTML)
 gulp.task('copy:assets', copyAssets)
@@ -148,7 +143,9 @@ gulp.task('build:css', () => buildCSS(...cfg.src.scss.entries.map(entry => entry
 gulp.task('build:js', () => buildJS(...cfg.src.js.entries.map(entry => entry.file)))
 gulp.task('serve', serve)
 
-gulp.task('create', create)
+gulp.task('create:plugin', (done) => createPlugin(__dirname, yargs.argv.name, done))
+gulp.task('create:master', (done) => createMaster(__dirname, yargs.argv.name, done))
+gulp.task('create:component', (done) => createComponent(__dirname, yargs.argv.name, done))
 
 // npm global tasks
 gulp.task('build', gulp.series('clean:html', 'build:html', 'build:css', 'build:js', 'copy:assets'))

@@ -13,7 +13,9 @@
     "build:css": "gulp build:css",
     "build:js": "gulp build:js",
     "build": "npm run clean && gulp build --production",
-    "create": "gulp create --name"
+    "create:plugin": "gulp create:plugin --name",
+    "create:master": "gulp create:master --name",
+    "create:component": "gulp create:component --name"
   },
   "dependencies": {
     "tiny-emitter": "^2.0.2",

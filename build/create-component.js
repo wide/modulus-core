@@ -2,34 +2,22 @@ import fs from 'fs'
 import path from 'path'
 import cfg from '../config'
 
-export default (root, name) => {
 
-  const folder = path.resolve(root + '/' + cfg.src.html.partials + name)
+/**
+ * Templates
+ */
 
-  if(fs.existsSync(folder)) {
-    console.error(`Component "${name}" already exists.`)
-  }
-
-  // create folder
-  fs.mkdirSync(folder)
-  console.log(`Creating "${name}" component`)
-
-  // create html file
-  fs.writeFileSync(`${folder}/${name}.html`, 
+const htmlTemplate = (name) =>
 `<div class="${name}" data-mod="${name}">
 
-</div>`)
-  console.log(`-> "${folder}/${name}.html" created`)
+</div>`
 
-  // create html file
-  fs.writeFileSync(`${folder}/${name}.scss`, 
+const scssTemplate = (name) =>
 `.${name} {
 
-}`)
-  console.log(`-> "${folder}/${name}.scss" created`)
+}`
 
-  // create html file
-  fs.writeFileSync(`${folder}/${name}.js`, 
+const jsTemplate = (name) =>
 `import Component from 'modulus/component'
 
 export default class extends Component {
@@ -40,7 +28,50 @@ export default class extends Component {
 
   }
 
-}`)
-  console.log(`-> "${folder}/${name}.js" created`)
+}`
 
+
+/**
+ * Create component folder
+ * @param {String} folder 
+ * @param {String} name 
+ */
+const createFolder = (folder, name) => {
+
+  if(fs.existsSync(folder)) {
+    throw `Component "${folder}" already exists.`
+  }
+
+  fs.mkdirSync(folder)
+  console.log(`-> "${folder}" created`)
+}
+
+
+/**
+ * Create file
+ * @param {String} folder 
+ * @param {String} name 
+ * @param {String} type 
+ * @param {String} content 
+ */
+const createFile = (folder, name, type, content) => {
+  fs.writeFileSync(`${folder}/${name}.${type}`, content)
+  console.log(`-> "${folder}/${name}.${type}" created`)
+}
+
+
+export default (root, name, done) => {
+  try {
+    console.log(`Creating "${name}" component:`)
+    const folder = path.resolve(root + '/' + cfg.src.html.partials + name)
+    createFolder(folder, name)
+    createFile(folder, name, 'html', htmlTemplate(name))
+    createFile(folder, name, 'scss', scssTemplate(name))
+    createFile(folder, name, 'js', jsTemplate(name))
+    done()
+  }
+  catch(err) {
+    console.error('Cannot create component:', err)
+    throw err
+  }
 }

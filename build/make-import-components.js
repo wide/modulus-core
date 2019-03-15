@@ -1,6 +1,12 @@
 import path from 'path'
 import fs from 'fs'
 
+/**
+ * List recusively JS files in a folder
+ * @param {String} base 
+ * @param {String} dir 
+ * @param {Array} files 
+ */
 function walk(base, dir = '', files = []) {
   fs.readdirSync(base + dir).forEach(file => {
     if(fs.statSync(base + dir + file).isDirectory()) {
@@ -16,7 +22,11 @@ function walk(base, dir = '', files = []) {
   return files
 }
 
-export default (root) => {
+/**
+ * Generate a file import with seeken JS files
+ * @param {String} root 
+ */
+function generateImports(root) {
 
   let i = 0, j = 0
   const files = walk(root)
@@ -30,4 +40,14 @@ export default (root) => {
     /* AUTO GENERATED */`
 
   return fs.writeFileSync('./build/import-components.js', content)
+}
+
+
+export default (root) => {
+  try {
+    generateImports(root)
+  }
+  catch(err) {
+    console.error('Cannot generate imports:', err)
+  }
 }
