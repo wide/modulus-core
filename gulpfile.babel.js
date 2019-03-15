@@ -9,7 +9,13 @@ import helpers        from 'handlebars-helpers'
 import webpackStream  from 'webpack-stream'
 import webpack2       from 'webpack'
 import named          from 'vinyl-named'
-import cfg            from './config'
+
+import sassAliases          from './build/sass-alias'
+import makeImportComponents from './build/make-import-components'
+import createPlugin         from './build/create-plugin'
+import createMaster         from './build/create-master'
+import createComponent      from './build/create-component'
+import cfg                  from './config'
 
 // gulp plugins
 const $ = plugins()
@@ -44,7 +50,7 @@ function copyAssets() {
 
 // build handlebars to html
 function buildHTML() {
-  return gulp.src(`${cfg.src.html.pages}**/*.{html,hbs,handlebars}`)
+  return gulp.src(`${cfg.src.html.pages}**/*.html`)
     .pipe(panini({
       root: cfg.src.html.pages,
       layouts: cfg.src.html.layouts,
@@ -60,8 +66,11 @@ function buildHTML() {
 function buildCSS(...entries) {
   return gulp.src(entries)
     .pipe($.sourcemaps.init())
-    .pipe($.sass({ includePaths: cfg.src.scss.alias })
-    .on('error', $.sass.logError))
+    .pipe($.sassGlob())
+    .pipe($.sass({
+      importer: [sassAliases(cfg.src.scss.alias)]
+    }))
+    .on('error', $.sass.logError)
     .on('error', notifyError)
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.css))
@@ -70,6 +79,10 @@ function buildCSS(...entries) {
 
 // build js
 function buildJS(...entries) {
+
+  // import components before js compilation
+  makeImportComponents(__dirname + '/' + cfg.src.html.partials)
+
   return gulp.src(entries)
     .pipe(named())
     .pipe($.sourcemaps.init())
@@ -95,7 +108,9 @@ function serve(done) {
 
 // send compilation error to browser
 function notifyError(err) {
-  browser.notify(`<div style="color: red; text-align: left;">${err.formatted.replace(/\n/g, '<br>')}</div>`, 20000)
+  if(err && err.formatted) {
+    browser.notify(`<div style="color: red; text-align: left;">${err.formatted.replace(/\n/g, '<br>')}</div>`, 20000)
+  }
 }
 
 // watch changes
@@ -127,6 +142,10 @@ gulp.task('build:html', buildHTML)
 gulp.task('build:css', () => buildCSS(...cfg.src.scss.entries.map(entry => entry.file)))
 gulp.task('build:js', () => buildJS(...cfg.src.js.entries.map(entry => entry.file)))
 gulp.task('serve', serve)
+
+gulp.task('create:plugin', (done) => createPlugin(__dirname, yargs.argv.name, done))
+gulp.task('create:master', (done) => createMaster(__dirname, yargs.argv.name, done))
+gulp.task('create:component', (done) => createComponent(__dirname, yargs.argv.name, done))
 
 // npm global tasks
 gulp.task('build', gulp.series('clean:html', 'build:html', 'build:css', 'build:js', 'copy:assets'))

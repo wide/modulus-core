@@ -1,7 +1,4 @@
-/**
- * Default slide transition duration
- */
-export const SLIDE_DURATION = 400
+import { ANIM_DURATION } from '~/consts'
 
 
 /**
@@ -10,7 +7,7 @@ export const SLIDE_DURATION = 400
  * @param {Number} duration ms
  * @return {Promise}
  */
-export function slideUp(el, duration = SLIDE_DURATION) {
+export function slideUp(el, duration = ANIM_DURATION) {
   return new Promise(resolve => {
     el.style.height = el.offsetHeight + 'px'
     el.style.transitionProperty = `height, margin, padding`
@@ -44,7 +41,7 @@ export function slideUp(el, duration = SLIDE_DURATION) {
  * @param {Number} duration ms
  * @return {Promise}
  */
-export function slideDown(el, duration = SLIDE_DURATION) {
+export function slideDown(el, duration = ANIM_DURATION) {
   return new Promise(resolve => {
     el.style.removeProperty('display')
     let display = window.getComputedStyle(el).display
@@ -82,7 +79,7 @@ export function slideDown(el, duration = SLIDE_DURATION) {
  * @param {Number} duration ms
  * @returns {Promise}
  */
-export function slideToggle(el, duration = SLIDE_DURATION) {
+export function slideToggle(el, duration = ANIM_DURATION) {
   return (window.getComputedStyle(el).display === 'none')
     ? slideDown(el, duration)
     : slideUp(el, duration)
