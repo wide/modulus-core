@@ -1,5 +1,7 @@
 # Modulus - Scoped Component Approach
 
+Modulus is a framework capable of automatically load and use scoped component, adding logic to a DOM element.
+
 - [How to](#how-to-create-a-component)
 - [Lifecycle](#lifecycle)
 - [API](#api)
@@ -10,10 +12,36 @@
   - [Breakpoint](modulus/plugins/breakpoint.md)
 
 
+## Folders and files
+
+## Configuration and plugins
+
+in `src/assets/js/`
+```
+main.js     -> modulus instance (register plugins and masters)
+plugins/    -> plugins folder (add specific logic to all components)
+  ...
+masters/    -> masters folder (add global component attached to the body)
+  page.js   -> default master component
+  ...
+```
+
+## Components
+
+Components are automatically loaded in Modulus, no action required.
+
+in `src/views/components/`
+```
+header/         -> component folder
+  header.html   -> template
+  header.js     -> logic
+  header.scss   -> styles
+...
+```
 
 ## How to create a component
 
-Run `npm run create my-component` in your terminal, this will create 3 files:
+Run `npm run create:component my-component` in your terminal, this will create 3 files:
 
 - template: `src/views/my-component/my-component.html`
 ```html
@@ -71,7 +99,7 @@ You can now include your fresh component in your page:
 
 ### Modulus
 
-#### `new Modulus({ config, plugins, components, webComponents })`
+#### `new Modulus({ config, plugins, masters, components, webComponents })`
 
 todo
 
@@ -120,9 +148,5 @@ todo
 todo
 
 #### `Component.$emit(event, ...args)`
-
-todo
-
-#### `Component.$viewport(callback, opts = {})`
 
 todo
