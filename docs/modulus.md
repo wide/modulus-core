@@ -2,7 +2,10 @@
 
 Modulus is a framework capable of automatically load and use scoped component, adding logic to a DOM element.
 
-- [How to](#how-to-create-a-component)
+- [Files](#files)
+- [Entry point](#entry-point)
+- [Plugins](#plugins)
+- [Masters](#masters)
 - [Lifecycle](#lifecycle)
 - [API](#api)
 - Base components:
@@ -12,86 +15,153 @@ Modulus is a framework capable of automatically load and use scoped component, a
   - [Breakpoint](modulus/plugins/breakpoint.md)
 
 
-## Folders and files
-
-## Configuration and plugins
+## Files
 
 in `src/assets/js/`
-```
-main.js     -> modulus instance (register plugins and masters)
-plugins/    -> plugins folder (add specific logic to all components)
-  ...
-masters/    -> masters folder (add global component attached to the body)
-  page.js   -> default master component
-  ...
-```
-
-## Components
-
-Components are automatically loaded in Modulus, no action required.
-
-in `src/views/components/`
-```
-header/         -> component folder
-  header.html   -> template
-  header.js     -> logic
-  header.scss   -> styles
-...
+```bash
+plugins/          # utilities shared across all components such as Viewport, Breakpoint...
+  viewport.js       # add functions to observe an element in the viewport and trigger animation when it appears
+  breakpoint.js     # add functions to get the current breakpoint and dispatch global event on viewport resizing
+masters/          # main logic ruling the page (not attached on a DOM element)
+  page.js           # default master handling body scroll lock
+utils/            # utilities for simple operation
+  animations.js     # collection of enter/leave animations used by the viewport plugin
+  string.js         # string transformation function
+  dom.js            # dom manipulation such as slideUp/slideDown
+vendors/          # local libraries that cannot be loaded using NPM (for ex: Modulus)
+consts.js         # constant values such as BREAKPOINTS and ANIM_DURATION
+main.js           # entry file where Modulus is instanciated with plugins and masters
+polyfill.js       # polyfill for old browser
 ```
 
-## How to create a component
+## Entry point
 
-Run `npm run create:component my-component` in your terminal, this will create 3 files:
-
-- template: `src/views/my-component/my-component.html`
-```html
-<div class="my-component" data-mod="my-component">
-
-</div>
-```
-
-- styles: `src/views/my-component/my-component.scss`
-```css
-.my-component {
-
-}
-```
-
-- logic: `src/views/my-component/my-component.js`
+The main Modulus instance is set in `main.js` with the following parameters:
 ```js
-import Component from 'modulus/component'
+import Modulus from 'modulus'
+import Viewport from 'modulus/plugins/viewport'
+import Breakpoint from 'modulus/plugins/breakpoint'
 
-export default class extends Component {
+import Page from '~/masters/page'
+import importComponents from '[ROOT]/build/import-components'
 
-  onInit() {
-    this.log('hello, this is [my-component] !')
+import animations from '~/utils/animations'
+import { BREAKPOINTS } from '~/consts'
+
+export default new Modulus({
+  config: {
+    debug: !process.env.PRODUCTION
+  },
+  plugins: {
+    viewport: new Viewport({ animations }),
+    breakpoint: new Breakpoint({ sizes: BREAKPOINTS })
+  },
+  masters: {
+    Page
+  },
+  components: {
+    ...importComponents
+  }
+})
+```
+
+## Plugins
+
+Plugins are utilities shared across all components, in order to enhance their capabilities.
+
+For exemple `Viewport` when instanciated:
+- will watch for `data-viewport-anim` attributes and trigger animation when the element appears in viewport
+- add `$viewport` property to all Component so they can access its methods like `this.$viewport.observe()`
+
+### Create a plugin
+
+Run the following command:
+```
+npm run create:plugin my-plugin
+```
+
+The file `plugins/my-plugin.js` will be created with the following content:
+```js
+export default class MyPlugin {
+
+  constructor() {
+
+  }
+
+  onInstall(modulus, Component) {
+    modulus.$myPlugin = Component.prototype.$myPlugin = this
+  }
+
+  onDestroy() {
+
   }
 
 }
 ```
 
-You can now include your fresh component in your page:
-```hbs
-{{> my-component}}
+Once created, you will need to register it in `main.js`:
+```js
+import Modulus from 'modulus'
+import MyPlugin from '~/plugins/my-plugin'
+
+export default new Modulus({
+  plugins: {
+    myPlugin: new MyPlugin()
+  }
+})
 ```
 
+## Masters
+
+Masters are top-level logic (often called "controller") loaded when the body is ready. They use the same `Component` class as regular components.
+
+For exemple `Page` when instanciated, listen for `body.lock` and `body.unlock` events and apply the right method.
+
+###  Create a master
+
+Run the following command:
+```
+npm run create:master my-master
+```
+
+The file `masters/my-master.js` will be created with the following content:
+```js
+import Component from 'modulus/component'
+
+export default class MyMaster extends Component {
+
+  onInit() {
+
+  }
+
+}
+```
+
+Once created, you will need to register it in `main.js`:
+```js
+import Modulus from 'modulus'
+import MyMaster from '~/masters/my-master'
+
+export default new Modulus({
+  masters: {
+    MyMaster
+  }
+})
+```
 
 ## Lifecycle
 
 ### Modulus
 
-1. `Component`s are registered in the `Modulus` instance (`main.js`)
-2. `Web Components` are registered in the customElements registry
+1. `Modulus` is instanciated
+2. `Plugins` and `Masters` are loaded
 3. `Modulus` parse the document looking for `[data-mod]` attributes
 4. `Modulus` found a matching `Component` for the `[data-mod]` attribute:
     - the `Component` is instanciated
     - the `onInit()` method is called
-5. DOM found a registered custom element:
-    - the `Component` is instanciated
-    - the `onInit()` method is called
-6. once all `Component`s are loaded:
+5. once all `Component`s are loaded:
     - the `onReady()` method is called
-7. when a `Component`'s DOM element is removed
+6. when a `Component`'s DOM element is removed
     - the `onDestroy()` method is called
 
 
