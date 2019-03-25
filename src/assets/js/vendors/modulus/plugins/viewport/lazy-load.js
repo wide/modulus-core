@@ -3,8 +3,8 @@
  */
 export default function(viewport) {
   viewport.observe({
-    target: document.querySelectorAll(`img[data-lazysrc]`),
+    target: document.querySelectorAll(`img[${viewport.srcAttribute}]`),
     once: true, // destroy observer after callback
-    callback: el => el.src = el.dataset.lazysrc
+    callback: el => el.src = el.getAttribute(viewport.srcAttribute)
   })
 }

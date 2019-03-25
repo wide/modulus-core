@@ -1,4 +1,5 @@
-import autoObservers from './viewport/list'
+import enterLeave from './viewport/enter-leave'
+import lazyLoad from './viewport/lazy-load'
 
 export default class Viewport {
 
@@ -9,10 +10,20 @@ export default class Viewport {
    * @param {Object} opts.config
    * @param {Object} opts.animations list of JS animations
    */
-  constructor({ animations }) {
+  constructor({ config, animations }) {
+
     this.observers = []
     this.animations = animations
-    this.autoObservers = autoObservers
+
+    this.config = Object.assign({
+      animAttribute: 'data-anim',
+      srcAttribute: 'data-src'
+    }, config)
+
+    this.autoObservers = [
+      enterLeave,
+      lazyLoad
+    ]
   }
 
 
@@ -37,9 +48,10 @@ export default class Viewport {
    * @param {Boolean}               opts.once       trigger only once and destroy the listener
    * @param {Boolean}               opts.enter      trigger only when the element appears
    * @param {Boolean}               opts.leave      trigger only when the element disappears
+   * @param {String}                opts.offset     margin around scope to defer trigger
    * @param {Function}              opts.callback   action to call
    */
-  observe({ scope, target, once = false, enter = true, leave = false, callback }) {
+  observe({ scope, target, once = false, enter = true, leave = false, offset, callback }) {
 
     // keep track of element entering at least once
     let hasEntered = false
@@ -65,7 +77,7 @@ export default class Viewport {
           if(once) observer.unobserve(entries[i].target)
         }
       }
-    }, { root: scope })
+    }, { root: scope, rootMargin: offset })
 
     // start to observe element(s)
     const els = (target instanceof NodeList) ? target : [target]
