@@ -18,15 +18,16 @@
     "create:component": "gulp create:component --name"
   },
   "dependencies": {
-    "tiny-emitter": "^2.0.2",
     "@braintree/browser-detection": "^1.7.0",
     "body-scroll-lock": "^2.5.10",
+    "bootstrap": "4.2.1",
     "debug": "^4.1.0",
     "joi": "^14.0.1",
     "object-fit-images": "^3.2.4",
     "object-fit-videos": "^1.0.4",
     "pjax": "^0.2.7",
-    "bootstrap": "4.2.1"
+    "tiny-emitter": "^2.0.2",
+    "uos": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",
