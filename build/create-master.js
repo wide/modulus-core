@@ -13,9 +13,21 @@ const masterTemplate = (name) =>
 
 export default class ${toCamel(name, true)} extends Component {
 
+  
+  /**
+   * Initialize master component
+   */
   onInit() {
 
     this.log('hello, this is ${name} !')
+
+  }
+
+
+  /**
+   *  Destroy master component
+   */
+  onDestroy() {
 
   }
 

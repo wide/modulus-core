@@ -1,6 +1,5 @@
 export default class Viewport {
 
-
   /**
    * New viewport plugin
    * @param {Object} opts
@@ -20,12 +19,9 @@ export default class Viewport {
 
 
   /**
-   * Bind instance to modulus and start auto-observing
-   * @param {Modulus} modulus 
-   * @param {Component} Component 
+   * Bind plugin necessities
    */
-  onInstall(modulus, Component) {
-    modulus.$viewport = Component.prototype.$viewport = this
+  onInit() {
     this._observeAnimAttrs()
     this._observeLazySrcAttrs()
   }
@@ -35,9 +31,7 @@ export default class Viewport {
    * Deconnect and destroy running observers
    */
   onDestroy() {
-    for(let i = 0; i < this.observers.length; i++) {
-      this.observers[i].disconnect()
-    }
+    this.observers.map(o => o.disconnect())
     this.observers = []
   }
 
@@ -179,6 +173,5 @@ export default class Viewport {
       callback: el => el.src = el.getAttribute(this.srcAttribute)
     })
   }
-
 
 }

@@ -1,33 +1,41 @@
 import updateOnScroll from 'uos'
+import sticky from 'stickybits'
 
 const PARALLAX_COEF = 0.4
 
 export default class Scroll {
 
   constructor({ config } = {}) {
+    this.parallaxed = []
     this.affixed = []
     this.config = Object.assign({
-      parallaxAttr: 'data-parallax'
+      parallaxAttr: 'data-parallax',
+      affixAttr: 'data-affix'
     }, config)
   }
   
 
   /**
-   * Bind instance to modulus
-   * @param {Modulus} modulus 
-   * @param {Component} Component 
+   * Build plugin necessities
    */
-  onInstall(modulus, Component) {
-    modulus.$scroll = Component.prototype.$scroll = this
+  onInit() {
     this._observeParallaxAttrs()
+    this._observeAffixAttrs()
   }
 
 
   /**
-   * Deconnect scroll listener
+   * Deconnect plugin
    */
   onDestroy() {
-    window.removeEventListener('scroll', this._dispatchParallax)
+
+    // destroy parallax instances
+    this.parallaxed.map(p => p(true))
+    this.parallaxed = []
+
+    // destroy affixed instances
+    this.affixed.map(a => a.instances = [])
+    this.affixed = []
   }
 
 
@@ -38,7 +46,9 @@ export default class Scroll {
    * @param {Function} callback 
    */
   progress(from, to, callback) {
-    updateOnScroll(from, to, callback)
+    this.parallaxed.push(
+      updateOnScroll(from, to, callback)
+    )
   }
 
 
@@ -81,8 +91,32 @@ export default class Scroll {
   }
 
 
+  /**
+   * Set element sticky when entering parent viewport
+   * @param {HTMLElement} el 
+   */
   affix(el) {
-    // @todo
+    this.affixed.push(
+      sticky(el, {
+        stickyBitStickyOffset: parseInt(el.getAttribute(`${this.config.affixAttr}.offset`)) || 0,
+        useStickyClasses: true,
+        parentClass: '-affix-parent',
+        stickyClass: '-affix',
+        stuckClass: '-affix-stuck',
+        stickyChangeClass: '-affix'
+      })
+    )
+  }
+
+
+  /**
+   * Apply affix observer to `[data-affix]` attributes
+   */
+  _observeAffixAttrs() {
+    const els = document.querySelectorAll(`[${this.config.affixAttr}]`)
+    for(let i = 0; i < els.length; i++) {
+      this.affix(els[i])
+    }
   }
 
 }

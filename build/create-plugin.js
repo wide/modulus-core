@@ -11,6 +11,7 @@ import { toCamel } from '../src/assets/js/utils/string'
 const pluginTemplate = (name) =>
 `export default class ${toCamel(name, true)} {
 
+  
   /**
    * New ${name} plugin
    */
@@ -20,17 +21,15 @@ const pluginTemplate = (name) =>
 
 
   /**
-   * Bind instance to modulus
-   * @param {Modulus} modulus 
-   * @param {Component} Component 
+   * Initialize plugin
    */
-  onInstall(modulus, Component) {
-    modulus.$${toCamel(name)} = Component.prototype.$${toCamel(name)} = this
+  onInstall() {
+
   }
 
 
   /**
-   * Destroy plugin events
+   * Destroy plugin
    */
   onDestroy() {
 

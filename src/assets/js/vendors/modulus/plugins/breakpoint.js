@@ -13,13 +13,10 @@ export default class Breakpoint {
 
 
   /**
-   * Bind instance to modulus
-   * @param {Modulus} modulus 
-   * @param {Component} Component 
+   * Build plugin necessities
    */
-  onInstall(modulus, Component) {
-    modulus.$breakpoint = Component.prototype.$breakpoint = this
-    this.listen(breakpoint => modulus.emit('breakpoint', breakpoint))
+  onInit() {
+    this.listen(breakpoint => this.$modulus.emit('breakpoint', breakpoint))
   }
 
 
