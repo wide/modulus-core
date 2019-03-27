@@ -279,7 +279,8 @@ export default class Modulus extends EventEmitter {
 
     // lookup [ref] children
     const refs = {}
-    const els = el.querySelectorAll(`:scope > [ref], *:not([${this.config.seekAttribute}]) [ref]`)
+    const els = Array.from(el.querySelectorAll(`*:not([${this.config.seekAttribute}]) [ref]`))
+    els.concat(...Array.from(el.children).filter(child => child.hasAttribute('ref'))) // ie11 fix for direct child ref
     for(let i = 0; i < els.length; i++) {
       const ref = els[i].getAttribute('ref')
       refs[ref] = els[i].$component || els[i]
