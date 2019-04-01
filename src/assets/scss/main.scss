@@ -1,8 +1,9 @@
 // 1# Settings
+// Preprocessor variables and methods (no actual CSS output)
 // ==========================================================================
+@import 'settings/animations';
 @import 'settings/breakpoints';
 @import 'settings/colors';
-@import 'settings/easings';
 @import 'settings/env';
 @import 'settings/fonts';
 @import 'settings/layout';
@@ -11,6 +12,7 @@
 
 
 // 2# Tools
+// Mixins and functions (no actual CSS output)
 // ==========================================================================
 @import 'tools/fonts';
 @import 'tools/functions';
@@ -20,6 +22,8 @@
 
 
 // 3# Generic
+// CSS resets which might include Eric Meyer’s reset, Normalize.css,
+// or your own batch of code
 // ==========================================================================
 @import 'generic/document';
 @import 'generic/typography';
@@ -31,12 +35,14 @@
 
 
 // 4# Elements
+// Single HTML element selectors without classes
 // ==========================================================================
 @import 'elements/forms';
 @import 'elements/headings';
 
 
 // 5# Objects
+// Classes for page structure typically following the OOCSS methodology
 // ==========================================================================
 @import 'objects/container';
 @import 'objects/cover';
@@ -47,6 +53,8 @@
 
 
 // 6# Components
+// Aesthetic classes for styling any & all page elements
+// (often combined with the structure of object classes)
 // ==========================================================================
 
 // DOT NOT CHANGE -> AUTO IMPORT
@@ -54,6 +62,7 @@
 
 
 // 7# Utilities
+// The most specific styles for overriding anything else in the triangle
 // ==========================================================================
 @import 'utilities/alignment';
 @import 'utilities/helpers';
