@@ -8,6 +8,7 @@ import Intersection from '~/components/intersection'
 
 import animations from '~/utils/animations'
 import { BREAKPOINTS } from '~/vars'
+import '~/polyfill'
 
 export default new Modulus({
   config: {

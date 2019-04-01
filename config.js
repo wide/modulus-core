@@ -19,10 +19,14 @@ export default {
         file: 'src/assets/js/main.js',
         watch: [
           'src/assets/js/**/*.js',
-          '!src/assets/js/polyfill.js'
+          '!src/assets/js/polyfill.js',
+          '!src/assets/js/polyfills/*'
         ]
       }, {
         file: 'src/assets/js/polyfill.js',
+        watch: []
+      }, {
+        file: 'src/assets/js/polyfills/*',
         watch: []
       }]
     },

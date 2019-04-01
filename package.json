@@ -12,15 +12,16 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "tiny-emitter": "^2.0.2",
     "@braintree/browser-detection": "^1.7.0",
     "body-scroll-lock": "^2.5.10",
-    "debug": "^4.1.0",
+    "bootstrap": "4.2.1",
+    "bowser": "^2.1.2",
     "joi": "^14.0.1",
     "object-fit-images": "^3.2.4",
     "object-fit-videos": "^1.0.4",
+    "picturefill": "^3.0.3",
     "pjax": "^0.2.7",
-    "bootstrap": "4.2.1"
+    "tiny-emitter": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",

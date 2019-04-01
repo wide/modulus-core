@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{root}}assets/css/main.css?{{hash}}">
   </head>
   <body data-mod="Page">
-    
+
     {{> header}}
 
     <main id="{{page}}">
@@ -19,8 +19,11 @@
 
     <!-- IE polyfill -->
     <script type="text/javascript">
-      if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
-        document.write('<script src="{{root}}assets/js/polyfill.js?{{hash}}"><\/script>');
+      if (navigator.appName == 'Microsoft Internet Explorer' ||
+        !!(navigator.userAgent.match(/Trident/) ||
+          navigator.userAgent.match(/rv:11/))) {
+        document.write('<script src="{{root}}assets/js/babel.js?{{hash}}"><\/script>');
+      }
     </script>
     <!-- /IE polyfill -->
 
