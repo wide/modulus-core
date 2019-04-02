@@ -47,13 +47,13 @@ for (let i = 0; i < polyfillsConfig.length; i += 1) {
  * able to manage some particular case in css.
  */
 const platform = browser.getPlatformType(true)
-const name = browser.getBrowserName(true)
+const name = (browser.getBrowserName(true) === 'internet explorer')
+  ? 'ie'
+  : browser.getBrowserName(true)
 
-document.body.classList.add(
-  `${(platform === 'mobile' || platform === 'tablet') ? '-touch-based' : '-not-touch-based'}`,
-  `-${platform}`,
-  `-${browser.getOSName(true)}`,
-  `-${browser.getEngineName(true)}`,
-  `-${name}`,
-  `-${name}${browser.getBrowserVersion().split('.')[0]}`
-)
+document.body.classList.add(`${(platform === 'mobile' || platform === 'tablet') ? '-touch-based' : '-not-touch-based'}`)
+document.body.classList.add(`-${platform}`)
+document.body.classList.add(`-${browser.getOSName(true)}`)
+document.body.classList.add(`-${browser.getEngineName(true)}`)
+document.body.classList.add(`-${name}`)
+document.body.classList.add(`-${name}${browser.getBrowserVersion().split('.')[0]}`)
