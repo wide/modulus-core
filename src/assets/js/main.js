@@ -7,6 +7,7 @@ import importComponents from '[ROOT]/build/import-components'
 
 import animations from '~/utils/animations'
 import { BREAKPOINTS } from '~/consts'
+import '~/polyfill'
 
 
 export default new Modulus({
