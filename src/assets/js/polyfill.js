@@ -8,18 +8,7 @@ const browser = Bowser.getParser(window.navigator.userAgent)
  */
 const polyfillsConfig = [
   {
-    file: 'object-fit-images',
-    satisfies: browser.satisfies({
-      'Chrome': '<=30',
-      'Firefox': '<=35',
-      'Internet Explorer': '<=11',
-      'Microsoft Edge': '<=18',
-      'Opera': '<=18',
-      'Safari': '<=10'
-    })
-  },
-  {
-    file: 'object-fit-videos',
+    file: 'object-fit',
     satisfies: browser.satisfies({
       'Chrome': '<=30',
       'Firefox': '<=35',
@@ -46,7 +35,7 @@ const polyfillsConfig = [
 for (let i = 0; i < polyfillsConfig.length; i += 1) {
   if (polyfillsConfig[i].satisfies) {
     const script = document.createElement('script')
-    script.src = `/assets/js/${polyfillsConfig[i].file}.js`
+    script.src = `${window.$config.root}assets/js/${polyfillsConfig[i].file}.js`
     document.body.appendChild(script)
   }
 }

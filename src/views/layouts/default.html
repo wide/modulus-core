@@ -27,6 +27,12 @@
     </script>
     <!-- /IE polyfill -->
 
+    <script>
+      window.$config = {
+        env: 'dev',
+        root: '{{root}}'
+      };
+    </script>
     <script src="{{root}}assets/js/main.js?{{hash}}"></script>
 
   </body>
