@@ -1,43 +1,43 @@
 // =============================================================================
-// 1# Settings / Easings
+// 1# Settings / Animations
 // =============================================================================
 
 // Back
-$BackEaseIn: cubic-bezier(0.600, -0.280, 0.735, 0.045);
-$BackEaseOut: cubic-bezier(0.175, 0.885, 0.320, 1.275);
-$BackEaseInOut: cubic-bezier(0.680, -0.550, 0.265, 1.550);
+$BackEaseIn: cubic-bezier(0.600, -0.280, 0.735, 0.045) !default;
+$BackEaseOut: cubic-bezier(0.175, 0.885, 0.320, 1.275) !default;
+$BackEaseInOut: cubic-bezier(0.680, -0.550, 0.265, 1.550) !default;
 
 // Circ
-$CircEaseIn: cubic-bezier(0.600, 0.040, 0.980, 0.335);
-$CircEaseOut: cubic-bezier(0.075, 0.820, 0.165, 1.000);
-$CircEaseInOut: cubic-bezier(0.785, 0.135, 0.150, 0.860);
+$CircEaseIn: cubic-bezier(0.600, 0.040, 0.980, 0.335) !default;
+$CircEaseOut: cubic-bezier(0.075, 0.820, 0.165, 1.000) !default;
+$CircEaseInOut: cubic-bezier(0.785, 0.135, 0.150, 0.860) !default;
 
 // Expo
-$ExpoEaseIn: cubic-bezier(0.950, 0.050, 0.795, 0.035);
-$ExpoEaseOut: cubic-bezier(0.190, 1.000, 0.220, 1.000);
-$ExpoEaseInOut: cubic-bezier(1.000, 0.000, 0.000, 1.000);
+$ExpoEaseIn: cubic-bezier(0.950, 0.050, 0.795, 0.035) !default;
+$ExpoEaseOut: cubic-bezier(0.190, 1.000, 0.220, 1.000) !default;
+$ExpoEaseInOut: cubic-bezier(1.000, 0.000, 0.000, 1.000) !default;
 
 // Sine
-$SineEaseIn: cubic-bezier(0.470, 0.000, 0.745, 0.715);
-$SineEaseOut: cubic-bezier(0.390, 0.575, 0.565, 1.000);
-$SineEaseInOut: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+$SineEaseIn: cubic-bezier(0.470, 0.000, 0.745, 0.715) !default;
+$SineEaseOut: cubic-bezier(0.390, 0.575, 0.565, 1.000) !default;
+$SineEaseInOut: cubic-bezier(0.445, 0.050, 0.550, 0.950) !default;
 
 // Power1 (Quad)
-$Power1EaseIn: cubic-bezier(0.550, 0.085, 0.680, 0.530);
-$Power1EaseOut: cubic-bezier(0.250, 0.460, 0.450, 0.940);
-$Power1EaseInOut: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+$Power1EaseIn: cubic-bezier(0.550, 0.085, 0.680, 0.530) !default;
+$Power1EaseOut: cubic-bezier(0.250, 0.460, 0.450, 0.940) !default;
+$Power1EaseInOut: cubic-bezier(0.455, 0.030, 0.515, 0.955) !default;
 
 // Power2 (Cubic)
-$Power2EaseIn: cubic-bezier(0.550, 0.055, 0.675, 0.190);
-$Power2EaseOut: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-$Power2EaseInOut: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+$Power2EaseIn: cubic-bezier(0.550, 0.055, 0.675, 0.190) !default;
+$Power2EaseOut: cubic-bezier(0.215, 0.610, 0.355, 1.000) !default;
+$Power2EaseInOut: cubic-bezier(0.645, 0.045, 0.355, 1.000) !default;
 
 // Power3 (Quart)
-$Power3EaseIn: cubic-bezier(0.895, 0.030, 0.685, 0.220);
-$Power3EaseOut: cubic-bezier(0.165, 0.840, 0.440, 1.000);
-$Power3EaseInOut: cubic-bezier(0.770, 0.000, 0.175, 1.000);
+$Power3EaseIn: cubic-bezier(0.895, 0.030, 0.685, 0.220) !default;
+$Power3EaseOut: cubic-bezier(0.165, 0.840, 0.440, 1.000) !default;
+$Power3EaseInOut: cubic-bezier(0.770, 0.000, 0.175, 1.000) !default;
 
 // Power4 (Quint)
-$Power4EaseIn: cubic-bezier(0.755, 0.050, 0.855, 0.060);
-$Power4EaseOut: cubic-bezier(0.230, 1.000, 0.320, 1.000);
-$Power4EaseInOut: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+$Power4EaseIn: cubic-bezier(0.755, 0.050, 0.855, 0.060) !default;
+$Power4EaseOut: cubic-bezier(0.230, 1.000, 0.320, 1.000) !default;
+$Power4EaseInOut: cubic-bezier(0.860, 0.000, 0.070, 1.000) !default;

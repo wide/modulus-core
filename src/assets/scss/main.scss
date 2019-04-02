@@ -14,24 +14,14 @@
 // 2# Tools
 // Mixins and functions (no actual CSS output)
 // ==========================================================================
-@import 'tools/fonts';
-@import 'tools/functions';
-@import 'tools/layout';
-@import 'tools/mixins';
-@import 'tools/widths';
+@import 'core/tools/index'; // core import, please do not change
 
 
-// 3# Generic
+// 3# Generic
 // CSS resets which might include Eric Meyer’s reset, Normalize.css,
 // or your own batch of code
 // ==========================================================================
-@import 'generic/document';
-@import 'generic/typography';
-@import 'generic/links';
-@import 'generic/code';
-@import 'generic/media';
-@import 'generic/tables';
-@import 'generic/forms';
+@import 'core/generic/index'; // core import, please do not change
 
 
 // 4# Elements
@@ -52,19 +42,20 @@
 @import 'objects/table';
 
 
-// 6# Components
+// 6# Vendors
+//
+// ==========================================================================
+@import 'core/vendors/**/*'; // core auto import, please do not change
+
+
+// 7# Components
 // Aesthetic classes for styling any & all page elements
 // (often combined with the structure of object classes)
 // ==========================================================================
-
-// DOT NOT CHANGE -> AUTO IMPORT
-@import '../../views/components/**/*';
+@import '../../views/components/**/*'; // auto import, please do not change
 
 
-// 7# Utilities
+// 8# Utilities
 // The most specific styles for overriding anything else in the triangle
 // ==========================================================================
-@import 'utilities/alignment';
-@import 'utilities/helpers';
-@import 'utilities/print';
-@import 'utilities/states';
+@import 'core/utilities/index'; // core import, please do not change

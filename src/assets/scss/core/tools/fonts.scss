@@ -1,5 +1,5 @@
 // =============================================================================
-// 2# Tools / Font Faces
+// 2# Core / Tools / Font Faces
 // =============================================================================
 
 ///
@@ -79,7 +79,7 @@
 /// @require {function} _font-source-declaration
 /// @require {function} _retrieve-bourbon-setting
 ///
-@mixin font-face($font-family, $file-path, $file-formats: $font-formats) {
+@mixin font-face($font-family, $file-path, $file-formats: $font-formats-base) {
   @font-face {
     font-family: $font-family;
     src: font-source-declaration($font-family, $file-path, $file-formats);
