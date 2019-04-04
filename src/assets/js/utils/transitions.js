@@ -1,4 +1,4 @@
-import { ANIM_DURATION } from '~/consts'
+import { animate } from '~/utils/dom'
 
 
 /**
@@ -7,27 +7,13 @@ import { ANIM_DURATION } from '~/consts'
 export default {
 
   noop: {
-    loading: el => new Promise(done => setTimeout(done, 5000)),
-    loaded: el => new Promise(done => setTimeout(done, 5000)),
+    loading: el => Promise.resolve(),
+    loaded: el => Promise.resolve(),
   },
 
   fade: {
-    loading: el => new Promise(done => {
-      el.animate([
-        { opacity: 1 },
-        { opacity: 0 },
-      ], {
-        duration: ANIM_DURATION
-      }).onfinish = done
-    }),
-    loaded: el => new Promise(done => {
-      el.animate([
-        { opacity: 0 },
-        { opacity: 1 },
-      ], {
-        duration: ANIM_DURATION
-      }).onfinish = done
-    })
+    loading: el => animate(el, { opacity: 1 }, { opacity: 0 }),
+    loaded: el => animate(el, { opacity: 0 }, { opacity: 1 })
   }
 
 }

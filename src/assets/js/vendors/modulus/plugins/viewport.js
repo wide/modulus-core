@@ -1,4 +1,6 @@
-export default class Viewport {
+import Plugin from 'modulus/plugin'
+
+export default class Viewport extends Plugin {
 
   /**
    * New viewport plugin
@@ -7,6 +9,7 @@ export default class Viewport {
    * @param {Object} opts.animations list of JS animations
    */
   constructor({ config, animations }) {
+    super()
 
     this.observers = []
     this.animations = animations
@@ -22,17 +25,19 @@ export default class Viewport {
    * Bind plugin necessities
    */
   onInit() {
+
     this._observeAnimAttrs()
     this._observeLazySrcAttrs()
-  }
 
+    this.$on('route.destroy', root => {
+      this.observers.map(o => o.disconnect())
+      this.observers = []
+    })
 
-  /**
-   * Deconnect and destroy running observers
-   */
-  onDestroy() {
-    this.observers.map(o => o.disconnect())
-    this.observers = []
+    this.$on('route.loaded', root => {
+      this._observeAnimAttrs(root)
+      this._observeLazySrcAttrs(root)
+    })
   }
 
 
@@ -98,10 +103,10 @@ export default class Viewport {
    * 
    * For JS transition, prefix the name with `@`: `<div data-anim="@fade">`, will call `fade.enter()` and `fade.leave()`
    */
-  _observeAnimAttrs() {
+  _observeAnimAttrs(root = document.body) {
 
     // get transitionable elements
-    const els = document.querySelectorAll(`[${this.config.animAttribute}]`)
+    const els = root.querySelectorAll(`[${this.config.animAttribute}]`)
     for(let i = 0; i < els.length; i++) {
 
       // get transition name

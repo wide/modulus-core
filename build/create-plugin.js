@@ -9,29 +9,23 @@ import { toCamel } from '../src/assets/js/utils/string'
  */
 
 const pluginTemplate = (name) =>
-`export default class ${toCamel(name, true)} {
+`import Plugin from 'modulus/plugin'
+
+export default class ${toCamel(name, true)} extends Plugin {
 
   
   /**
    * New ${name} plugin
    */
   constructor() {
-
+    super()
   }
 
 
   /**
    * Initialize plugin
    */
-  onInstall() {
-
-  }
-
-
-  /**
-   * Destroy plugin
-   */
-  onDestroy() {
+  onInit() {
 
   }
 

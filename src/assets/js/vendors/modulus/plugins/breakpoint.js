@@ -1,4 +1,6 @@
-export default class Breakpoint {
+import Plugin from 'modulus/plugin'
+
+export default class Breakpoint extends Plugin {
 
 
   /**
@@ -7,8 +9,11 @@ export default class Breakpoint {
    * @param {Object} opts.sizes of breakpoint sizes
    */
   constructor({ sizes }) {
-    this.current = this.compute()
+    super()
+    
     this.sizes = sizes
+    this.current = this.compute()
+    this.callbacks = []
   }
 
 
@@ -16,7 +21,8 @@ export default class Breakpoint {
    * Build plugin necessities
    */
   onInit() {
-    this.listen(breakpoint => this.$modulus.emit('breakpoint', breakpoint))
+    window.addEventListener('resize', e => this.onResize())
+    this.listen(breakpoint => this.$emit('breakpoint', breakpoint))
   }
 
 
@@ -24,14 +30,32 @@ export default class Breakpoint {
    * Listen viewport resize and compute breakpoint
    * @param {Function} callback 
    */
-  listen(callback) {
-    window.addEventListener('resize', e => {
-      const computed = this.compute()
-      if(computed.name !== this.current.name) {
-        this.current = computed
-        callback(computed)
+  onResize() {
+    const computed = this.compute()
+    if(computed.name !== this.current.name) {
+      this.current = computed
+      for(let i = 0; i < this.callbacks.length; i++) {
+        this.callbacks[i](computed)
       }
-    })
+    }
+  }
+
+
+  /**
+   * Add listener on resize event
+   */
+  listen(callback) {
+    this.callbacks.push(callback)
+  }
+
+
+  /**
+   * Remove listener
+   * @param {Function} callback 
+   */
+  clear(callback) {
+    const i = this.callbacks.indexOf(callback)
+    this.callbacks.splice(i, 1)
   }
 
 
@@ -48,7 +72,7 @@ export default class Breakpoint {
 
 
   /**
-   * Check if current windiwo with is from specific breakpoint
+   * Check if current screen width is from specific breakpoint
    * @param {String} name 
    */
   up(name) {

@@ -20,19 +20,13 @@ export default class Component extends EventEmitter {
 
 
   /**
-   * Hook triggered on component instanciation
+   * Initialize component 
    */
   onInit() {}
 
 
   /**
-   * Hook triggered when all components are instanciated
-   */
-  onReady() {}
-
-
-  /**
-   * Hook triggered when element is removed from DOM
+   * Destroy component
    */
   onDestroy() {}
 
@@ -43,10 +37,7 @@ export default class Component extends EventEmitter {
    * @param {Function} callback 
    */
   $on(event, callback) {
-    this.$modulus.on(event, (...args) => {
-      this.log(`receive event [${event}]`)
-      callback(...args)
-    })
+    this.$modulus.on(event, (...args) => callback(...args))
   }
 
 
@@ -56,7 +47,6 @@ export default class Component extends EventEmitter {
    * @param  {...any} args 
    */
   $emit(event, ...args) {
-    this.log(`emit event [${event}]`)
     this.emit(event, ...args) // local
     this.$modulus.emit(event, ...args) // global
   }

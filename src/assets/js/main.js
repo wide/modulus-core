@@ -3,7 +3,7 @@ import Modulus from 'modulus'
 import ScrollPlugin from 'modulus/plugins/scroll'
 import ViewportPlugin from 'modulus/plugins/viewport'
 import BreakpointPlugin from 'modulus/plugins/breakpoint'
-import PagerPlugin from 'modulus/plugins/pager'
+import RouterPlugin from 'modulus/plugins/router'
 
 import Page from '~/masters/page'
 import importComponents from '[ROOT]/build/import-components'
@@ -21,9 +21,9 @@ export default new Modulus({
     scroll: new ScrollPlugin(),
     viewport: new ViewportPlugin({ animations }),
     breakpoint: new BreakpointPlugin({ sizes: BREAKPOINTS }),
-    pager: new PagerPlugin({
-      container: 'main',
+    router: new RouterPlugin({
       transitions,
+      container: 'main',
       fallback: 'fade'
     })
   },

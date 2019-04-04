@@ -19,16 +19,6 @@ export default class ${toCamel(name, true)} extends Component {
    */
   onInit() {
 
-    this.log('hello, this is ${name} !')
-
-  }
-
-
-  /**
-   *  Destroy master component
-   */
-  onDestroy() {
-
   }
 
 }`

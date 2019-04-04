@@ -3,10 +3,13 @@ import Component from './component'
 import Logger from './logger'
 
 
-function deepCall(collection, method, deeper = false) {
+function randomId() {
+  return Math.random().toString(36).substring(7)
+}
+
+function each(collection, callback) {
   for(let name in collection) {
-    if(deeper) deepCall(collection[name], method)
-    else if(collection[name][method]) collection[name][method]()
+    callback(collection[name])
   }
 }
 
@@ -57,9 +60,7 @@ export default class Modulus extends EventEmitter {
    */
   build() {
     this.registerPlugins()
-    this.initPlugins()
     this.registerMasters()
-    this.initMasters()
     this.registerComponents()
     this.initComponents()
     this.registerCustomElements()
@@ -67,30 +68,17 @@ export default class Modulus extends EventEmitter {
 
 
   /**
-   * Destroy plugins, masters and components
+   * Rebuild components
+   * @param {HTMLElement} root
    */
-  destroy() {
-    this.destroyPlugins()
-    this.destroyMasters()
-    this.destroyComponents()
-    this.components = {}
-  }
-
-
-  /**
-   * Rebuild plugins, masters and components
-   */
-  rebuild() {
-    this.initPlugins()
-    this.initMasters()
-    this.registerComponents()
+  rebuild(root) {
+    this.registerComponents(root)
     this.initComponents()
   }
 
 
   /**
    * Add plugins
-   * @param {Object} plugins 
    */
   registerPlugins() {
     for(let name in this._plugins) {
@@ -98,28 +86,18 @@ export default class Modulus extends EventEmitter {
       // attach plugin to modulus and vice-versa
       this.plugins[name] = this._plugins[name]
       this.plugins[name].$modulus = this
+      this.plugins[name].log = new Logger({
+        active: this.config.debug,
+        prefix: `<${name}>`
+      })
 
       // attach plugin to Component class
       Component.prototype[`$${name}`] = this.plugins[name]
 
-      this.log(`- plugin [${name}] registered`)
+      // init plugin
+      this.log(`- plugin <${name}> registered`)
+      if(this.plugins[name].onInit) this.plugins[name].onInit()
     }
-  }
-
-
-  /**
-   * Run onInit on all plugins
-   */
-  initPlugins() {
-    deepCall(this.plugins, 'onInit')
-  }
-
-
-  /**
-   * Run onDestroy on all plugins
-   */
-  destroyPlugins() {
-    deepCall(this.plugins, 'onDestroy')
   }
 
 
@@ -128,33 +106,23 @@ export default class Modulus extends EventEmitter {
    */
   registerMasters() {
     for(let name in this._masters) {
+
+      // instanciate master component
       this.masters[name] = this.instanciateComponent(name, this._masters[name], document.body, true)
+
+      // init master
       this.log(`- master [${name}] registered`)
+      if(this.masters[name].onInit) this.masters[name].onInit()
     }
   }
 
 
   /**
-   * Run onInit on all masters
-   */
-  initMasters() {
-    deepCall(this.masters, 'onInit')
-  }
-
-
-  /**
-   * Run onDestroy on all masters
-   */
-  destroyMasters() {
-    deepCall(this.masters, 'onDestroy')
-  }
-
-
-  /**
    * Parse document and instanciate all components in [data-mod] attributes
+   * @param {HTMLElement} root
    */
-  registerComponents() {
-    const els = document.querySelectorAll(`[${this.config.seekAttribute}]`)
+  registerComponents(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.seekAttribute}]`)
     for(let i = 0; i < els.length; i++) {
 
       // seek related module class
@@ -166,6 +134,7 @@ export default class Modulus extends EventEmitter {
 
         // new regular component
         const instance = this.instanciateComponent(name, ComponentClass, els[i])
+        this.components[instance.$uid] = instance
         this.log(`- component [${instance.$uid}] registered`)
 
         // detached from DOM
@@ -183,8 +152,9 @@ export default class Modulus extends EventEmitter {
   observeDestruction(el) {
     const parent = el.parentElement
     const mut = new MutationObserver(e => {
-      if(!parent.contains(el) && el.$component.onDestroy) {
-        el.$component.onDestroy()
+      if(!parent.contains(el)) {
+        if(el.$component.onDestroy) el.$component.onDestroy()
+        delete this.components[el.$component.$uid]
       }
     })
     mut.observe(parent, { childList: true })
@@ -195,15 +165,12 @@ export default class Modulus extends EventEmitter {
    * Run onInit on regular components
    */
   initComponents() {
-    deepCall(this.components, 'onInit', true)
-  }
-
-
-  /**
-   * Run onDestroy on all components
-   */
-  destroyComponents() {
-    deepCall(this.components, 'onDestroy', true)
+    for(let uid in this.components) {
+      if(this.components[uid].onInit && !this.components[uid].__initialized) {
+        this.components[uid].onInit()
+        this.components[uid].__initialized = true
+      }
+    }
   }
 
 
@@ -231,7 +198,8 @@ export default class Modulus extends EventEmitter {
           // new web component
           constructor() {
             super()
-            self.instanciateComponent(name, ComponentClass, this)
+            const instance = self.instanciateComponent(name, ComponentClass, this)
+            self.components[instance.$uid] = instance
           }
 
           // attached to DOM
@@ -261,15 +229,10 @@ export default class Modulus extends EventEmitter {
    * @param {String} name 
    * @param {Component} ModuleClass 
    * @param {HTMLElement} el 
+   * @param {Boolean} unique 
    * @return {Component}
    */
-  instanciateComponent(name, ComponentClass, el, isMaster) {
-
-    // resolve registry
-    const registry = isMaster ? 'masters' : 'components'
-
-    // create new entry for component name
-    this[registry][name] = this[registry][name] || []
+  instanciateComponent(name, ComponentClass, el, unique = false) {
 
     // parse attributes and data-attributes
     const attrs = {}
@@ -290,7 +253,7 @@ export default class Modulus extends EventEmitter {
     const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
-    instance.$uid = (isMaster) ? name : `${name}#${el.id || this[registry][name].length}`
+    instance.$uid = (unique) ? name : `${name}#${el.id || randomId()}`
 
     // bind logger to instance
     instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })
@@ -300,9 +263,6 @@ export default class Modulus extends EventEmitter {
 
     // bind instance to element
     el.$component = instance
-
-    // add instance to registry
-    this[registry][name].push(instance)
 
     return instance
   }

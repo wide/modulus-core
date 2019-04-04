@@ -1,13 +1,17 @@
+import Plugin from 'modulus/plugin'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock' 
 import updateOnScroll from 'uos'
 import sticky from 'stickybits'
+import { PARALLAX_COEF } from '~/consts'
 
-const PARALLAX_COEF = 0.4
-
-export default class Scroll {
+export default class Scroll extends Plugin {
 
   constructor({ config } = {}) {
-    this.parallaxed = []
+    super()
+
+    this.progresses = []
     this.affixed = []
+    
     this.config = Object.assign({
       parallaxAttr: 'data-parallax',
       affixAttr: 'data-affix'
@@ -19,23 +23,36 @@ export default class Scroll {
    * Build plugin necessities
    */
   onInit() {
+
     this._observeParallaxAttrs()
     this._observeAffixAttrs()
+
+    this.$on('route.destroy', root => {
+      this._clearParallaxAttrs(root)
+      this._clearAffixAttrs(root)
+    })
+
+    this.$on('route.loaded', root => {
+      this._observeParallaxAttrs(root)
+      this._observeAffixAttrs(root)
+    })
   }
 
 
   /**
-   * Deconnect plugin
+   * Lock scroll
+   * @param  {...HTMLElement} targets 
    */
-  onDestroy() {
+  lock(...targets) {
+    for(let i = 0; i < targets.lenght; i++) disableBodyScroll(targets[i])
+  }
 
-    // destroy parallax instances
-    this.parallaxed.map(p => p(true))
-    this.parallaxed = []
-
-    // destroy affixed instances
-    this.affixed.map(a => a.instances = [])
-    this.affixed = []
+  
+  /**
+   * Unlock scroll
+   */
+  unlock() {
+    clearAllBodyScrollLocks()
   }
 
 
@@ -45,10 +62,21 @@ export default class Scroll {
    * @param {Number|String} to position (can be percent: 0.5, or px: 100)
    * @param {Function} callback 
    */
-  progress(from, to, callback) {
-    this.parallaxed.push(
-      updateOnScroll(from, to, callback)
-    )
+  progress(from, to, callback, el) {
+    this.progresses.push({
+      el, callback,
+      remove: updateOnScroll(from, to, callback)
+    })
+  }
+
+
+  /**
+   * Delete progress listeners
+   * @param {Function} callback 
+   */
+  clearProgress(callback) {
+    const i = this.progresses.findIndex(p => p.callback == callback)
+    if(i >= 0) this.progresses[i].remove()
   }
 
 
@@ -68,16 +96,27 @@ export default class Scroll {
 
     this.progress(offsetTop - window.innerHeight, offsetTop + rect.height, progress => {
       el.style.transform = `translate${axis}(${sign}${progress * 100 * coef}%)`
-    })
+    }, el)
+  }
+
+
+  /**
+   * Clear parallax listeners
+   * @param {HTMLElement} el 
+   */
+  clearParallax(el) {
+    const i = this.progresses.findIndex(p => p.el == el)
+    if(i >= 0) this.progresses[i].remove()
   }
 
 
   /**
    * Apply parallax observer to `[data-parallax]` attributes
+   * @param {HTMLElement} root
    */
-  _observeParallaxAttrs() {
+  _observeParallaxAttrs(root = document.body) {
 
-    const els = document.querySelectorAll(`[${this.config.parallaxAttr}]`)
+    const els = root.querySelectorAll(`[${this.config.parallaxAttr}]`)
     for(let i = 0; i < els.length; i++) {
       this.parallax(els[i], {
         coef: parseFloat(els[i].getAttribute(this.config.parallaxAttr)) || undefined,
@@ -92,12 +131,24 @@ export default class Scroll {
 
 
   /**
+   * Clear parallax attributes observers
+   * @param {HTMLElement} root 
+   */
+  _clearParallaxAttrs(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.parallaxAttr}]`)
+    for(let i = 0; i < els.length; i++) {
+      this.clearParallax(els[i])
+    }
+  }
+
+
+  /**
    * Set element sticky when entering parent viewport
    * @param {HTMLElement} el 
    */
   affix(el) {
-    this.affixed.push(
-      sticky(el, {
+    this.affixed.push({
+      el, instance: sticky(el, {
         stickyBitStickyOffset: parseInt(el.getAttribute(`${this.config.affixAttr}.offset`)) || 0,
         useStickyClasses: true,
         parentClass: '-affix-parent',
@@ -105,17 +156,40 @@ export default class Scroll {
         stuckClass: '-affix-stuck',
         stickyChangeClass: '-affix'
       })
-    )
+    })
+  }
+
+
+  /**
+   * Clear affix handler for an element
+   * @param {HTMLElement} el 
+   */
+  clearAffix(el) {
+    const i = this.affixed.findIndex(a => a.el == el)
+    if(i >= 0) this.affixed[i].instance.cleanup()
   }
 
 
   /**
    * Apply affix observer to `[data-affix]` attributes
+   * @param {HTMLElement} root
    */
-  _observeAffixAttrs() {
-    const els = document.querySelectorAll(`[${this.config.affixAttr}]`)
+  _observeAffixAttrs(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.affixAttr}]`)
     for(let i = 0; i < els.length; i++) {
       this.affix(els[i])
+    }
+  }
+
+
+  /**
+   * Clear affix attributes observers
+   * @param {HTMLElement} root 
+   */
+  _clearAffixAttrs(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.affixAttr}]`)
+    for(let i = 0; i < els.length; i++) {
+      this.clearAffix(els[i])
     }
   }
 
