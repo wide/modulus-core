@@ -4,6 +4,19 @@ import updateOnScroll from 'uos'
 import sticky from 'stickybits'
 import { PARALLAX_COEF } from '~/consts'
 
+
+function customEvent(name) {
+
+  if(typeof Event === 'function') {
+    return new Event('scroll')
+  }
+
+  // ie11
+  const event = document.createEvent('Event')
+  event.initEvent('scroll', true, true)
+  return event
+}
+
 export default class Scroll extends Plugin {
 
   constructor({ config } = {}) {
@@ -126,7 +139,7 @@ export default class Scroll extends Plugin {
     }
 
     // trigger scroll event once for detection
-    window.dispatchEvent(new CustomEvent('scroll'))
+    window.dispatchEvent(customEvent('scroll'))
   }
 
 

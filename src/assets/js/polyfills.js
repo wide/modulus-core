@@ -8,6 +8,12 @@ const browser = Bowser.getParser(window.navigator.userAgent)
  */
 const polyfillsConfig = [
   {
+    file: 'intersection-observer',
+    satisfies: browser.satisfies({
+      'Internet Explorer': '<=11'
+    })
+  },
+  {
     file: 'object-fit',
     satisfies: browser.satisfies({
       'Chrome': '<=30',
@@ -37,6 +43,7 @@ for (let i = 0; i < polyfillsConfig.length; i += 1) {
     const script = document.createElement('script')
     script.src = `${window.$config.root}assets/js/${polyfillsConfig[i].file}.js`
     document.body.appendChild(script)
+    console.log('load polyfill:', polyfillsConfig[i].file)
   }
 }
 

@@ -19,11 +19,9 @@
 
     <!-- IE polyfill -->
     <script type="text/javascript">
-      if (navigator.appName == 'Microsoft Internet Explorer' ||
-        !!(navigator.userAgent.match(/Trident/) ||
-          navigator.userAgent.match(/rv:11/))) {
-        document.write('<script src="{{root}}assets/js/babel.js?{{hash}}"><\/script>');
-      }
+    if (navigator.appName == 'Microsoft Internet Explorer' || !!navigator.userAgent.match(/(Trident|rv:11)/)) {
+      document.write('<script src="{{root}}assets/js/babel.js?{{hash}}"><\/script>');
+    }
     </script>
     <!-- /IE polyfill -->
 
@@ -33,6 +31,7 @@
         root: '{{root}}'
       };
     </script>
+    <script src="{{root}}assets/js/polyfills.js?{{hash}}"></script>
     <script src="{{root}}assets/js/main.js?{{hash}}"></script>
 
   </body>

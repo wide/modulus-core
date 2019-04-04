@@ -25,11 +25,11 @@ export default {
         watch: [
           'src/assets/js/**/*.js',
           'src/views/components/**/*.js',
-          '!src/assets/js/polyfill.js',
+          '!src/assets/js/polyfills.js',
           '!src/assets/js/polyfills/*'
         ]
       }, {
-        file: 'src/assets/js/polyfill.js',
+        file: 'src/assets/js/polyfills.js',
         watch: []
       }, {
         file: 'src/assets/js/polyfills/*',
