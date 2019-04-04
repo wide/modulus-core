@@ -2,6 +2,18 @@ import EventEmitter from 'tiny-emitter'
 import Component from './component'
 import Logger from './logger'
 
+
+function randomId() {
+  return Math.random().toString(36).substring(7)
+}
+
+function each(collection, callback) {
+  for(let name in collection) {
+    callback(collection[name])
+  }
+}
+
+
 export default class Modulus extends EventEmitter {
 
 
@@ -14,15 +26,21 @@ export default class Modulus extends EventEmitter {
    * @param {Object}  opts.components - list of regular components to register
    * @param {Object}  opts.webComponents - list of web components to register
    */
-  constructor({ config, plugins, masters, components, webComponents }) {
+  constructor({ config = {}, plugins = {}, masters = {}, components = {}, webComponents = {} }) {
 
     super()
 
+    // catalog of available classes
+    this._plugins = plugins
+    this._masters = masters
+    this._components = components
+    this._webComponents = webComponents
+
+    // catalog of instances
     this.plugins = {}
-    this.instances = {}
-    this.masters = masters || {}
-    this.components = components || {}
-    this.webComponents = webComponents || {}
+    this.masters = {}
+    this.components = {}
+    this.webComponents = {}
     this.ready = false
 
     this.config = Object.assign({
@@ -31,28 +49,54 @@ export default class Modulus extends EventEmitter {
     }, config)
 
     this.log = new Logger({ active: this.config.debug, prefix: '' })
-
     this.log(`Modulus start (${process.env.PRODUCTION ? 'PROD' : 'DEV'} mode)`)
-    this.registerPlugins(plugins || {})
 
-    document.addEventListener('DOMContentLoaded', e => {
-      this.registerMasters()
-      this.registerComponents()
-      this.registerCustomElements()
-      this.dispatchReadyState()
-    })
+    document.addEventListener('DOMContentLoaded', e => this.build())
   }
 
 
   /**
-   * Add plugins and allow them to modify Component prototype
-   * @param {Object} plugins 
+   * Build plugins, master and components
    */
-  registerPlugins(plugins) {
-    for(let name in plugins) {
-      this.plugins[name] = plugins[name]
-      this.plugins[name].onInstall(this, Component)
-      this.log(`- plugin [${name}] registered`)
+  build() {
+    this.registerPlugins()
+    this.registerMasters()
+    this.registerComponents()
+    this.initComponents()
+    this.registerCustomElements()
+  }
+
+
+  /**
+   * Rebuild components
+   * @param {HTMLElement} root
+   */
+  rebuild(root) {
+    this.registerComponents(root)
+    this.initComponents()
+  }
+
+
+  /**
+   * Add plugins
+   */
+  registerPlugins() {
+    for(let name in this._plugins) {
+
+      // attach plugin to modulus and vice-versa
+      this.plugins[name] = this._plugins[name]
+      this.plugins[name].$modulus = this
+      this.plugins[name].log = new Logger({
+        active: this.config.debug,
+        prefix: `<${name}>`
+      })
+
+      // attach plugin to Component class
+      Component.prototype[`$${name}`] = this.plugins[name]
+
+      // init plugin
+      this.log(`- plugin <${name}> registered`)
+      if(this.plugins[name].onInit) this.plugins[name].onInit()
     }
   }
 
@@ -61,39 +105,42 @@ export default class Modulus extends EventEmitter {
    * Register master components
    */
   registerMasters() {
-    for(let name in this.masters) {
-      const instance = this.instanciateComponent(name, this.masters[name], document.body, true)
+    for(let name in this._masters) {
+
+      // instanciate master component
+      this.masters[name] = this.instanciateComponent(name, this._masters[name], document.body, true)
+
+      // init master
       this.log(`- master [${name}] registered`)
-      instance.onInit()
+      if(this.masters[name].onInit) this.masters[name].onInit()
     }
   }
 
 
   /**
    * Parse document and instanciate all components in [data-mod] attributes
+   * @param {HTMLElement} root
    */
-  registerComponents() {
-    const els = document.querySelectorAll(`[${this.config.seekAttribute}]`)
+  registerComponents(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.seekAttribute}]`)
     for(let i = 0; i < els.length; i++) {
 
       // seek related module class
       const name = els[i].getAttribute(this.config.seekAttribute)
-      const ComponentClass = this.components[name]
+      const ComponentClass = this._components[name]
 
       // register component instance
       if(ComponentClass) {
 
         // new regular component
         const instance = this.instanciateComponent(name, ComponentClass, els[i])
+        this.components[instance.$uid] = instance
         this.log(`- component [${instance.$uid}] registered`)
-
-        // attached to DOM (immediate)
-        instance.onInit()
 
         // detached from DOM
         this.observeDestruction(els[i])
       }
-      else this.log.error(`Modulus: unknown component [${name}]`)
+      else this.log.error(`Unknown component [${name}]`)
     }
   }
 
@@ -105,9 +152,25 @@ export default class Modulus extends EventEmitter {
   observeDestruction(el) {
     const parent = el.parentElement
     const mut = new MutationObserver(e => {
-      if(!parent.contains(el)) el.$component.onDestroy()
+      if(!parent.contains(el)) {
+        if(el.$component.onDestroy) el.$component.onDestroy()
+        delete this.components[el.$component.$uid]
+      }
     })
     mut.observe(parent, { childList: true })
+  }
+
+
+  /**
+   * Run onInit on regular components
+   */
+  initComponents() {
+    for(let uid in this.components) {
+      if(this.components[uid].onInit && !this.components[uid].__initialized) {
+        this.components[uid].onInit()
+        this.components[uid].__initialized = true
+      }
+    }
   }
 
 
@@ -115,7 +178,7 @@ export default class Modulus extends EventEmitter {
    * Register components as native custom elements
    */
   registerCustomElements() {
-    for(let name in this.webComponents) {
+    for(let name in this._webComponents) {
 
       try {
 
@@ -124,7 +187,7 @@ export default class Modulus extends EventEmitter {
         if(tagname[0] === '-') tagname = tagname.substr(1)
 
         // attach modulus instance to component
-        const ComponentClass = this.webComponents[name]
+        const ComponentClass = this._webComponents[name]
         ComponentClass.prototype.$modulus = this
 
         // register to custom elements registry
@@ -135,24 +198,25 @@ export default class Modulus extends EventEmitter {
           // new web component
           constructor() {
             super()
-            self.instanciateComponent(name, ComponentClass, this)
+            const instance = self.instanciateComponent(name, ComponentClass, this)
+            self.components[instance.$uid] = instance
           }
 
           // attached to DOM
           connectedCallback() {
-            this.$component.onInit()
-            if(self.ready) this.$component.onReady()
+            if(this.$component.onInit) this.$component.onInit()
+            if(self.ready && this.$component.onReady) this.$component.onReady()
           }
 
           // detached from DOM
           disconnectedCallback() {
-            this.$component.onDestroy()
+            if(this.$component.onDestroy) this.$component.onDestroy()
           }
 
         })
       }
       catch(err) {
-        console.error('Modulus:', err)
+        this.log.error(err)
         continue
       }
 
@@ -165,12 +229,10 @@ export default class Modulus extends EventEmitter {
    * @param {String} name 
    * @param {Component} ModuleClass 
    * @param {HTMLElement} el 
+   * @param {Boolean} unique 
    * @return {Component}
    */
-  instanciateComponent(name, ComponentClass, el, isMaster) {
-
-    // create new entry for component name
-    this.instances[name] = this.instances[name] || []
+  instanciateComponent(name, ComponentClass, el, unique = false) {
 
     // parse attributes and data-attributes
     const attrs = {}
@@ -180,17 +242,18 @@ export default class Modulus extends EventEmitter {
 
     // lookup [ref] children
     const refs = {}
-    const els = el.querySelectorAll(`:scope > [ref], *:not([${this.config.seekAttribute}]) [ref]`)
+    const els = Array.from(el.querySelectorAll(`*:not([${this.config.seekAttribute}]) [ref]`))
+    els.concat(...Array.from(el.children).filter(child => child.hasAttribute('ref'))) // ie11 fix for direct child ref
     for(let i = 0; i < els.length; i++) {
       const ref = els[i].getAttribute('ref')
-      refs[ref] = els[i].$component || els[i]
+      refs[ref] = els[i]
     }
 
     // instanciate component object with attributes
     const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
-    instance.$uid = (isMaster) ? name : `${name}#${el.id || this.instances[name].length}`
+    instance.$uid = (unique) ? name : `${name}#${el.id || randomId()}`
 
     // bind logger to instance
     instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })
@@ -201,24 +264,7 @@ export default class Modulus extends EventEmitter {
     // bind instance to element
     el.$component = instance
 
-    // add instance to registry
-    this.instances[name].push(instance)
-
     return instance
-  }
-
-
-  /**
-   * Tell all instance that modulus is ready to operate
-   */
-  dispatchReadyState() {
-    this.ready = true
-    this.log(`Modulus ready!`)
-    for(let name in this.instances) {
-      for(let i = 0; i < this.instances[name].length; i++) {
-        this.instances[name][i].onReady()
-      }
-    }
   }
 
 }

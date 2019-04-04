@@ -22,9 +22,19 @@ const jsTemplate = (name) =>
 
 export default class extends Component {
 
+
+  /**
+   * Initialize component 
+   */
   onInit() {
 
-    this.log('hello, this is ${name} !')
+  }
+
+
+  /**
+   * Destroy component
+   */
+  onDestroy() {
 
   }
 

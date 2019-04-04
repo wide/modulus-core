@@ -17,28 +17,30 @@ export default new Modulus({
 
 ## Enter / Leave animation
 
-The viewport plugin will automatically attach an observer to the `data-viewport-anim` attribute with the following value: `{name}:{modifiers}`.
+The viewport plugin will automatically attach an observer to the `data-anim` using the value as the transition name.
 
 ### CSS Animation
 
-For the following:
+For the following, `fade` is the animation name used to apply css classes depending on the modifiers 
 ```html
-<div class="to-animate" data-viewport-anim="fade:enter,once">
+<div data-anim="fade">
   ...
 </div>
 ```
 
-- `fade` is the animation name used to apply css classes depending on the modifiers
-- `modifiers` can have up to three values (if none -> `enter` by default):
-  - `enter`: add `fade-enter` css class (and remove `fade-leave`) when the element enters the viewport
-  - `leave`: add `fade-leave` css class (and remove `fade-enter`) when the element leaves the viewport
-  - `once`: destroy the observer once the first animation has been played
+You can specific some options:
+- `data-anim.enter="true|false"` add `.fade-enter` (and remove `fade-leave`) when entering the viewport
+- `data-anim.leave="true|false"` add `.fade-leave` (and remove `fade-enter`) when leaving the viewport
+- `data-anim.once="true|false"` destroy the observer once the first animation has been played
+- `data-anim.offset="-100px"` wait until the element is `100px` away from the border to trigger the transition
+
+When no modifiers are set, defaults are `enter: true, leave: false, once: true, offset: '-120px'`
 
 ### JS Animation
 
 For the following:
 ```html
-<div class="to-animate" data-viewport-anim="@fade:enter,once">
+<div data-anim="@fade">
   ...
 </div>
 ```
@@ -53,16 +55,12 @@ export default {
 }
 ```
 
-- `name` must be prefixed with `@`, see example below
-- `modifiers` has the same values:
-  - `enter`: call the `fade.enter()` animation function when the element enters the viewport
-  - `leave`: call the `fade.leave()` animation function when the element leaves the viewport
-  - `once`: destroy the observer once the first animation has been triggered
+The same modifiers as CSS animation apply.
 
 
 ## Lazy load
 
-The viewport plugin will automatically attach an observer to the `data-lazysrc` attribute and load the value value as `src` when the element appears
+The viewport plugin will automatically attach an observer to the `data-src` attribute and load the value as `src` when the element appears
 .
 
 ## API in Component
@@ -78,10 +76,8 @@ export default class extends Component {
   onInit() {
 
     this.$viewport.observe({
-      target: document.querySelector('img[data-lazysrc]'),
-      callback(el) {
-        el.src = el.dataset.lazysrc
-      }
+      target: document.querySelector('.foo'),
+      callback: el => this.log('.foo is in the place!')
     })
 
   }
@@ -96,6 +92,7 @@ You can also specify more options :
   enter, // trigger when entering the scope
   leave, // trigger when leaving the scope
   once, // trigger only once
+  offset, // margin to defer the trigger (ex: '-100px')
   callback // function to call
 }
 ```
