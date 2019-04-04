@@ -37,6 +37,9 @@ export default class Router extends Plugin {
 
     // listen globally for start event
     document.addEventListener('pjax:send', e => this.onLoading(e))
+
+    // add initial class on body
+    document.body.classList.add('-loaded')
   }
 
 
