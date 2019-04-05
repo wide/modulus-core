@@ -29,12 +29,10 @@ For the following, `fade` is the animation name used to apply css classes depend
 ```
 
 You can specific some options:
-- `data-anim.enter="true|false"` add `.fade-enter` (and remove `fade-leave`) when entering the viewport
-- `data-anim.leave="true|false"` add `.fade-leave` (and remove `fade-enter`) when leaving the viewport
-- `data-anim.once="true|false"` destroy the observer once the first animation has been played
+- `data-anim.when="enter|leave"` add `.fade-enter` (and remove `fade-leave`) when entering the viewport and/or add `.fade-leave` (and remove `fade-enter`) when leaving the viewport
 - `data-anim.offset="-100px"` wait until the element is `100px` away from the border to trigger the transition
 
-When no modifiers are set, defaults are `enter: true, leave: false, once: true, offset: '-120px'`
+When no modifiers are set, defaults are `enter: true, leave: false, offset: '-120px'`
 
 ### JS Animation
 
@@ -91,16 +89,8 @@ You can also specify more options :
   target, // element to observe
   enter, // trigger when entering the scope
   leave, // trigger when leaving the scope
-  once, // trigger only once
+  once, // trigger only once and destroy the listener
   offset, // margin to defer the trigger (ex: '-100px')
   callback // function to call
 }
 ```
-
-### `Viewport.affix()`
-
-@todo
-
-### `Viewport.scroll()`
-
-@todo

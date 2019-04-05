@@ -70,7 +70,7 @@ export default new Modulus({
 Plugins are utilities shared across all components, in order to enhance their capabilities.
 
 For exemple `Viewport` when instanciated:
-- will watch for `data-viewport-anim` attributes and trigger animation when the element appears in viewport
+- will watch for `data-anim` attributes and trigger animation when the element appears in viewport
 - add `$viewport` property to all Component so they can access its methods like `this.$viewport.observe()`
 
 ### Create a plugin
@@ -82,18 +82,16 @@ npm run create:plugin my-plugin
 
 The file `plugins/my-plugin.js` will be created with the following content:
 ```js
-export default class MyPlugin {
+import Plugin from 'modulus/plugin'
+
+export default class MyPlugin extends Plugin {
 
   constructor() {
 
   }
 
-  onInstall(modulus, Component) {
-    modulus.$myPlugin = Component.prototype.$myPlugin = this
-  }
-
-  onDestroy() {
-
+  onInit() {
+    
   }
 
 }
@@ -115,7 +113,6 @@ export default new Modulus({
 
 Masters are top-level logic (often called "controller") loaded when the body is ready. They use the same `Component` class as regular components.
 
-For exemple `Page` when instanciated, listen for `body.lock` and `body.unlock` events and apply the right method.
 
 ###  Create a master
 
@@ -159,9 +156,7 @@ export default new Modulus({
 4. `Modulus` found a matching `Component` for the `[data-mod]` attribute:
     - the `Component` is instanciated
     - the `onInit()` method is called
-5. once all `Component`s are loaded:
-    - the `onReady()` method is called
-6. when a `Component`'s DOM element is removed
+5. when a `Component`'s DOM element is removed
     - the `onDestroy()` method is called
 
 
@@ -186,11 +181,6 @@ todo
 Called when the Component is instanciated and binded to the DOM element, with the prupose of:
 - setting properties
 - listening events
-
-#### `Component.onReady()`
-
-Called when all Components are instanciated and ready to communicate, with the prupose of:
-- triggering events
 
 #### `Component.onDestroy()`
 

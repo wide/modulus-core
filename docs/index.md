@@ -29,6 +29,7 @@ src/              # whre magic happens
         page.js           # default master handling body scroll lock
       utils/            # utilities for simple operation
         animations.js     # collection of enter/leave animations used by the viewport plugin
+        transitions.js    # collection of loading/loaded transition when the page changes
         string.js         # string transformation function
         dom.js            # dom manipulation such as slideUp/slideDown
       vendors/          # local libraries that cannot be loaded using NPM (for ex: Modulus)
@@ -106,7 +107,7 @@ import Component from 'modulus/component'
 export default class extends Component {
 
   onInit() {
-    this.log('hello, this is [my-component] !')
+    
   }
 
 }
