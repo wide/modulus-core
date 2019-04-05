@@ -1,4 +1,7 @@
-const Bowser = require('bowser')
+import 'jspolyfill-array.prototype.find' // needed for bowser support
+import Bowser from 'bowser'
+
+// resolve browser identity
 const browser = Bowser.getParser(window.navigator.userAgent)
 
 /**
@@ -8,13 +11,13 @@ const browser = Bowser.getParser(window.navigator.userAgent)
  */
 const polyfillsConfig = [
   {
-    file: 'intersection-observer',
+    files: ['babel', 'intersection-observer'],
     satisfies: browser.satisfies({
       'Internet Explorer': '<=11'
     })
   },
   {
-    file: 'object-fit',
+    files: ['object-fit'],
     satisfies: browser.satisfies({
       'Chrome': '<=30',
       'Firefox': '<=35',
@@ -25,7 +28,7 @@ const polyfillsConfig = [
     })
   },
   {
-    file: 'picturefill',
+    files: ['picturefill'],
     satisfies: browser.satisfies({
       'Chrome': '<=37',
       'Firefox': '<=37',
@@ -40,10 +43,12 @@ const polyfillsConfig = [
 // add polyfills script in document
 for (let i = 0; i < polyfillsConfig.length; i += 1) {
   if (polyfillsConfig[i].satisfies) {
-    const script = document.createElement('script')
-    script.src = `${window.$config.root}assets/js/${polyfillsConfig[i].file}.js`
-    document.body.appendChild(script)
-    console.log('load polyfill:', polyfillsConfig[i].file)
+    for(let j = 0; j < polyfillsConfig[i].files.length; j++) {
+      const script = document.createElement('script')
+      script.src = `${window.$config.root}assets/js/${polyfillsConfig[i].files[j]}.js`
+      document.body.appendChild(script)
+      console.log('load polyfill:', polyfillsConfig[i].files[j])
+    }
   }
 }
 
