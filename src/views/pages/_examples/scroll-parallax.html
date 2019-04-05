@@ -15,24 +15,34 @@
   background-position: center center;
 }
 
-.bg[data-parallax]:not([data-parallax\.horizontal]) {
+/* Y */
+.bg[data-parallax]:not([data-parallax\.axis]),
+.bg[data-parallax\.axis="Y"] {
   height: 160%;
   bottom: 0;
   left: 0;
 }
-.bg[data-parallax][data-parallax\.reverse]:not([data-parallax\.horizontal]) {
-  bottom: auto;
+
+/* -Y */
+.bg[data-parallax\.axis="-Y"] {
+  height: 160%;
   top: 0;
+  left: 0;
 }
 
-.bg[data-parallax\.horizontal] {
+/* X */
+.bg[data-parallax\.axis="X"] {
   height: 100%;
   width: 170%;
+  top: 0;
   right: 0;
 }
-.bg[data-parallax\.horizontal][data-parallax\.reverse] {
+
+/* -X */
+.bg[data-parallax\.axis="-X"] {
   height: 100%;
-  right: auto;
+  width: 170%;
+  top: 0;
   left: 0;
 }
 </style>
@@ -42,7 +52,7 @@
   <a href="scroll-affix.html">Go to scroll affix</a>
 
   <div class="box">
-    <h1 data-parallax>data-parallax</h1>
+    <h1 data-parallax>data-parallax: Y</h1>
   </div>
 
   <div class="box">
@@ -51,34 +61,32 @@
 
   <div class="box">
     <h1 data-parallax
-        data-parallax.reverse="true">data-parallax.reverse</h1>
+        data-parallax.axis="-Y">data-parallax: -Y</h1>
   </div>
 
   <div class="box">
     <div data-parallax
-         data-parallax.reverse="true" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=2)"></div>
+         data-parallax.axis="-Y" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=2)"></div>
   </div>
 
   <div class="box">
     <h1 data-parallax
-        data-parallax.horizontal="true">data-parallax.horizontal</h1>
+        data-parallax.axis="X">data-parallax: X</h1>
   </div>
 
   <div class="box">
     <div data-parallax
-         data-parallax.horizontal="true" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=3)"></div>
+         data-parallax.axis="X" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=3)"></div>
   </div>
 
   <div class="box">
     <h1 data-parallax
-        data-parallax.horizontal="true"
-        data-parallax.reverse="true">data-parallax.horizontal.reverse</h1>
+        data-parallax.axis="-X">data-parallax: -X</h1>
   </div>
 
   <div class="box">
     <div data-parallax
-         data-parallax.horizontal="true"
-         data-parallax.reverse="true" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=4)"></div>
+         data-parallax.axis="-X" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=4)"></div>
   </div>
 
 </div>

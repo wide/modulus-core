@@ -16,7 +16,8 @@ export default class Viewport extends Plugin {
 
     this.config = Object.assign({
       animAttribute: 'data-anim',
-      srcAttribute: 'data-src'
+      srcAttribute: 'data-src',
+      defaultAnimOffset: '-120px'
     }, config)
   }
 
@@ -94,10 +95,8 @@ export default class Viewport extends Plugin {
    * Observe `data-anim` attribute
    * @param {Viewport} viewport
    * 
-   * <div data-anim="fade"            will add `.fade-enter` and `.fade-leave` on transition
-   *      data-anim.enter="true"
-   *      data-anim.leave="true"
-   *      data-anim.once="true"
+   * <div data-anim="fade"                    will add `.fade-enter` and `.fade-leave` on transition
+   *      data-anim.when="enter|leave"
    *      data-anim.offset="-100px"
    * >...</div>
    * 
@@ -114,31 +113,19 @@ export default class Viewport extends Plugin {
       const isJS = name[0] === '@'
       name = isJS ? name.substr(1) : name
 
-      // get transition data
-      let enter = els[i].getAttribute(`${this.config.animAttribute}.enter`)
-      let leave = els[i].getAttribute(`${this.config.animAttribute}.leave`)
-      let once = els[i].getAttribute(`${this.config.animAttribute}.once`)
-      let offset = els[i].getAttribute(`${this.config.animAttribute}.offset`)
+      // get transition options
+      const when = els[i].getAttribute(`${this.config.animAttribute}.when`) || ''
+      const offset = els[i].getAttribute(`${this.config.animAttribute}.offset`) || this.config.defaultAnimOffset
 
-      // default values
-      if(enter === null && leave === null) {
-        enter = true
-        leave = false
-        once = true
-      }
-      // parse values
-      else {
-        enter = (enter === 'true')
-        leave = (leave === 'true')
-        once = (once === 'true')
-      }
-
-      if(!offset) offset = '-120px' // default offset
+      // parse when options
+      const opts = {}
+      when.split('|').forEach(o => opts[o] = true)
 
       // create observer
       this.observe({
         target: els[i],
-        enter, leave, once, offset,
+        ...opts,
+        offset,
         callback(el, entry) {
 
           // JS transition
