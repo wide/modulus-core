@@ -4,7 +4,7 @@ import ViewportPlugin from 'modulus/plugins/viewport'
 import BreakpointPlugin from 'modulus/plugins/breakpoint'
 import RouterPlugin from 'modulus/plugins/router'
 
-import Page from '~/masters/page'
+import Page from '~/controllers/page'
 import importComponents from '[ROOT]/build/import-components'
 
 import animations from '~/utils/animations'
@@ -21,7 +21,7 @@ export default new Modulus({
     breakpoint: new BreakpointPlugin({ sizes: BREAKPOINTS }),
     router: new RouterPlugin({ transitions, fallback: 'fade' })
   },
-  masters: {
+  controllers: {
     Page
   },
   components: {
