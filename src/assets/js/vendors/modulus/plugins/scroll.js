@@ -5,17 +5,22 @@ import sticky from 'stickybits'
 import { PARALLAX_COEF } from '~/consts'
 
 
-function customEvent(name) {
+/**
+ * CustomEvent polyfill
+ * @param {String} name 
+ */
+function _CustomEvent(name) {
 
   if(typeof Event === 'function') {
-    return new Event('scroll')
+    return new Event(name)
   }
 
   // ie11
   const event = document.createEvent('Event')
-  event.initEvent('scroll', true, true)
+  event.initEvent(name, true, true)
   return event
 }
+
 
 export default class Scroll extends Plugin {
 
@@ -98,17 +103,28 @@ export default class Scroll extends Plugin {
    * @param {HTMLElement} el 
    * @param {Float} coef 
    */
-  parallax(el, { coef = PARALLAX_COEF, reverse = false, horizontal = false } = {}) {
+  parallax(el, { coef = PARALLAX_COEF, axis = 'Y' } = {}) {
 
     const bodyRect = document.body.getBoundingClientRect()
     const rect = el.getBoundingClientRect()
 
+    // compute boudings
     const offsetTop = rect.top - bodyRect.top
-    const axis = horizontal ? 'X' : 'Y'
-    const sign = reverse ? '-' : ''
+    const boundStart = offsetTop - window.innerHeight
+    const boundEnd = offsetTop + rect.height
 
-    this.progress(offsetTop - window.innerHeight, offsetTop + rect.height, progress => {
-      el.style.transform = `translate${axis}(${sign}${progress * 100 * coef}%)`
+    // resolve axis
+    let _axis = axis.toUpperCase()
+    let _sign = ''
+
+    // reverse direction
+    if(_axis[0] === '-') {
+      _sign = '-'
+      _axis = _axis.substr(1)
+    }
+
+    this.progress(boundStart, boundEnd, progress => {
+      el.style.transform = `translateZ(0) translate${_axis}(${_sign}${progress * 100 * coef}%)`
     }, el)
   }
 
@@ -133,13 +149,12 @@ export default class Scroll extends Plugin {
     for(let i = 0; i < els.length; i++) {
       this.parallax(els[i], {
         coef: parseFloat(els[i].getAttribute(this.config.parallaxAttr)) || undefined,
-        reverse: els[i].getAttribute(`${this.config.parallaxAttr}.reverse`) === 'true',
-        horizontal: els[i].getAttribute(`${this.config.parallaxAttr}.horizontal`) === 'true'
+        axis: els[i].getAttribute(`${this.config.parallaxAttr}.axis`) || undefined
       })
     }
 
     // trigger scroll event once for detection
-    window.dispatchEvent(customEvent('scroll'))
+    window.dispatchEvent(new _CustomEvent('scroll'))
   }
 
 
