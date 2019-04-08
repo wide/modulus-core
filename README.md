@@ -1,4 +1,4 @@
-# 🛠 Wide Boilerplate Integration
+# ☕ The Boiler™
 
 Ready-to-use framework of `HTML`, `CSS` and `JS` files packed with build processes in order to speed up integration.
 
