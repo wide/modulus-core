@@ -59,9 +59,7 @@ Le nom de la transition par défaut à appliquer lorsque rien n'est spécifié, 
 Le sélecteur CSS du conteneur à remplacer, par défaut `<main>`.
 
 
-## Utilisation
-
-### Dans le template
+## Fonctionnement passif
 
 Pour spécifier une transition lors du click sur un lien, ou du submit d'un formulaire, ajouter l'attribut `data-transition`:
 
@@ -72,7 +70,7 @@ Pour spécifier une transition lors du click sur un lien, ou du submit d'un form
 Les transitions `fade.loading` et `fade.loaded` seront alors appliquées.
 
 
-### Dans la logique
+## Fonctionnement actif
 
 Il est possible de déclencher une navigation dans un composant avec la méthode `go()`:
 

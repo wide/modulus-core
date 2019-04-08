@@ -1,98 +1,101 @@
 # Viewport Plugin
 
-@todo : à retravailler en français
+Ce plugin permet d'observer un élement et d'executer des callbacks lorsqu'il entre ou sort du viewport.
 
 
 ## Installation
 
-In `main.js`
+Pour activer le plugin, l'instancier dans le `main.js`:
+
 ```js
+import Modulus from 'modulus'
+
 import Viewport from 'modulus/plugins/viewport'
 import animations from '~/utils/animations'
 
 export default new Modulus({
   plugins: {
-    viewport: new Viewport({ animations })
+    viewport: new Viewport({ animations }),
   }
 })
 ```
 
-## Enter / Leave animation
+### viewport.config
 
-The viewport plugin will automatically attach an observer to the `data-anim` using the value as the transition name.
+Permet de configurer les variables de fonctionnement suivantes :
 
-### CSS Animation
+| variable | par défaut | description |
+| --- | --- | --- |
+| `animAttribute` | `data-anim` | L'attribut pour l'animation automatique des élements |
+| `animOffset` | `-120px` | La marge appliquée pour déclencher les animations |
+| `srcAttribute` | `data-src` | L'attribut pour le lazy loading automatique des images |
 
-For the following, `fade` is the animation name used to apply css classes depending on the modifiers 
-```html
-<div data-anim="fade">
-  ...
-</div>
-```
 
-You can specific some options:
-- `data-anim.when="enter|leave"` add `.fade-enter` (and remove `fade-leave`) when entering the viewport and/or add `.fade-leave` (and remove `fade-enter`) when leaving the viewport
-- `data-anim.offset="-100px"` wait until the element is `100px` away from the border to trigger the transition
+### viewport.animations
 
-When no modifiers are set, defaults are `enter: true, leave: false, offset: '-120px'`
+La liste des animations JS possibles, sous la forme suivante :
 
-### JS Animation
-
-For the following:
-```html
-<div data-anim="@fade">
-  ...
-</div>
-```
-
-and in `~/utils/animations`:
 ```js
-export default {
-  fade: {
-    enter: el => fadeIn(el),
-    leave: el => fadeOut(el)
+{
+  name: {
+    enter: el => doSomething(),
+    leave: el => doSomethingElse()
   }
 }
 ```
 
-The same modifiers as CSS animation apply.
+L'animation d'entrée `enter` est appliquée lorsque l'élement apparait dans le viewport, à l'inverse `leave` est appliquée lorsqu'il sort.
 
 
-## Lazy load
+## Fonctionnement passif
 
-The viewport plugin will automatically attach an observer to the `data-src` attribute and load the value as `src` when the element appears
-.
+### Animation enter/leave
 
-## API in Component
+Pour animer un élement depuis le template, ajouter l'attribut `data-anim` :
 
-### `Viewport.observe()`
+```html
+<div data-anim="name">
 
-Observe an element in a specific scope and trigger the callback when it appears.
+</div>
+```
+
+La valeur de l'attribut peut prendre 2 formes:
+- `name` appliquera les classes CSS `name-enter` et `name-leave`
+- `@name` appliquera les fonctions JS `name.enter()` et `name.leave()`
+
+Les attributs optionnels suivants sont disponibles:
+- `[data-anim.when]` avec les valeurs possibles `enter`, `leave` ou `enter|leave` permet de spécifier quand l'animation se déclenche (par défaut `enter` seulement)
+- `[data-anim.offset]` spécifie le décalage pour le déclenchement du callback sous la forme `{valuer}px` (par défaut `-120px`)
+
+### Lazy loading
+
+Pour retarder le chargement d'une image à son entrée dans le viewport, ajouter l'attribute `data-src` à l'image :
+
+```html
+<img data-src="image.jpg" />
+```
+
+
+## Fonctionnement actif
+
+
+Depuis un composant, la méthode `$viewport.observe()` permet d'observer un élement plus finement et d'appliquer un callback custom:
 
 ```js
 import Component from 'modulus/component'
 
 export default class extends Component {
+
   onInit() {
-
     this.$viewport.observe({
-      target: document.querySelector('.foo'),
-      callback: el => this.log('.foo is in the place!')
+      target: document.querySelectorAll('.target') // le ou les élements à observer
+      enter: true, // déclencher le callback à l'entrée du viewport
+      leave: false, // déclencher le callback à la sortie du viewport
+      once: true, // détruit l'écouteur après une éxecution du callback
+      offset: '-120px', // la marge de déclenchement
+      callback() {} // la fonction à executer
     })
-
   }
-}
-```
 
-You can also specify more options :
-```js
-{
-  scope, // parent to limit observation, default: viewport
-  target, // element to observe
-  enter, // trigger when entering the scope
-  leave, // trigger when leaving the scope
-  once, // trigger only once and destroy the listener
-  offset, // margin to defer the trigger (ex: '-100px')
-  callback // function to call
 }
 ```

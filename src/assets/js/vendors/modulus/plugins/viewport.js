@@ -16,8 +16,8 @@ export default class Viewport extends Plugin {
 
     this.config = Object.assign({
       animAttribute: 'data-anim',
-      srcAttribute: 'data-src',
-      defaultAnimOffset: '-120px'
+      animOffset: '-120px',
+      srcAttribute: 'data-src'
     }, config)
   }
 
@@ -115,7 +115,7 @@ export default class Viewport extends Plugin {
 
       // get transition options
       const when = els[i].getAttribute(`${this.config.animAttribute}.when`) || ''
-      const offset = els[i].getAttribute(`${this.config.animAttribute}.offset`) || this.config.defaultAnimOffset
+      const offset = els[i].getAttribute(`${this.config.animAttribute}.offset`) || this.config.animOffset
 
       // parse when options
       const opts = {}
