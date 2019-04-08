@@ -1,4 +1,6 @@
-# Modulus - Viewport plugin
+# Viewport Plugin
+
+@todo : à retravailler en français
 
 
 ## Installation

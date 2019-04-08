@@ -12,7 +12,7 @@ src/              # source de développement
     fonts/            # polices (woff, ttf, svg)
     icons/            # icône SVG
     img/              # photos, images, logo...
-    scss/             # style SCSS utilisant le paradigme ITCSS (https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/)
+    scss/             # style SCSSs
       settings/         # variables
       tools/            # mixins et functions
       generic/          # style de base (reset, normalize, grid, layout...)
@@ -38,7 +38,7 @@ src/              # source de développement
 
 Les librairies utilisées pour compiler les différents assets sont :
 - [Panini](https://foundation.zurb.com/sites/docs/panini.html) pour les pages `HTML`
-- [SCSS](https://github.com/sass/node-sass) pour les styles `CSS`
+- [SCSS](https://github.com/sass/node-sass) pour les styles `CSS` (avec le paradigme [ITCSS](https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/))
 - [Webpack](https://webpack.js.org) et [Babel](https://babeljs.io) pour la logique `JS` 
 
 Afin de garantir la cohérence entre les projets utilisant le boilerplate, nous encourageont l'utilisation de :
@@ -64,7 +64,7 @@ Cela va créer trois fichiers dans `src/views/my-component/`:
   </div>
   ```
 
-  *Note: l'attribute `[data-mod]` permet de connecter automatiquement le template au composant JS*
+  *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
 
 - `src/views/my-component/my-component.scss`
   ```css

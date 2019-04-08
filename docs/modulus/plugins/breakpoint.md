@@ -1,4 +1,6 @@
-# Modulus - Breakpoint plugin
+# Breakpoint Plugin
+
+@todo : à retravailler en français
 
 
 ## Installation

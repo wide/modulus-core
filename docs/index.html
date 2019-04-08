@@ -7,14 +7,32 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <style>
+  .sidebar > h1 {
+    padding-bottom: 40px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0,0,0,.07);
+  }
+  .app-sub-sidebar li:before {
+    content: '#';
+    color: rgba(0, 0, 0, .2);
+    padding-right: 5px;
+  }
+  .app-sub-sidebar .app-sub-sidebar {
+    margin-left: 3px;
+    padding-left: 12px;
+    border-left: 1px solid rgba(0, 0, 0, .07);
+  }
+  </style>
 </head>
 <body>
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: 'WIDE HTML Boilerplate',
+      name: 'The Boiler ™',
       loadSidebar: true,
-      subMaxLevel: 3
+      subMaxLevel: 3,
+      auto2top: true
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
