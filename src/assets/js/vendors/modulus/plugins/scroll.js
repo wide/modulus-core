@@ -29,6 +29,12 @@ export default class Scroll extends Plugin {
 
     this.progresses = []
     this.affixed = []
+    this.state = {
+      up: false,
+      down: false,
+      value: 0,
+      progress: 0
+    }
     
     this.config = Object.assign({
       parallaxAttr: 'data-parallax',
@@ -42,6 +48,7 @@ export default class Scroll extends Plugin {
    */
   onInit() {
 
+    this._observeScroll()
     this._observeParallaxAttrs()
     this._observeAffixAttrs()
 
@@ -136,6 +143,32 @@ export default class Scroll extends Plugin {
   clearParallax(el) {
     const i = this.progresses.findIndex(p => p.el == el)
     if(i >= 0) this.progresses[i].remove()
+  }
+
+
+  /**
+   * Listen scroll and compute values
+   */
+  _observeScroll() {
+
+    // set first state
+    this._computeScroll(0)
+
+    // on scroll, recompute
+    this.progress(0.0, 1.0, progress => {
+      this._computeScroll(progress)
+      this.$emit('scroll', this.state)
+    })
+  }
+
+
+  _computeScroll(progress) {
+    this.state = {
+      up: (window.scrollY < this.state.value),
+      down: (window.scrollY > this.state.value),
+      value: window.scrollY,
+      progress
+    }
   }
 
 
