@@ -6,6 +6,7 @@ Ce plugin permet de gérer les transitions entre les pages au moyen de la librai
 3. un remplacement du DOM
 4. une transition d'apparition
 
+
 ## Installation
 
 Pour activer le plugin, l'instancier dans le `main.js`:
@@ -56,12 +57,14 @@ Le nom de la transition par défaut à appliquer lorsque rien n'est spécifié, 
 
 ### router.container
 
-Le sélecteur CSS du conteneur à remplacer, par défaut `<main>`.
+Le sélecteur CSS du conteneur à remplacer, par défaut `main`.
 
 
 ## Fonctionnement passif
 
-Pour spécifier une transition lors du click sur un lien, ou du submit d'un formulaire, ajouter l'attribut `data-transition`:
+### [data-transition]
+
+Spécifie une transition lors du click sur un lien, ou du submit d'un formulaire :
 
 ```js
 <a href="foo.html" data-transition="fade">go to foo</a>
@@ -72,18 +75,20 @@ Les transitions `fade.loading` et `fade.loaded` seront alors appliquées.
 
 ## Fonctionnement actif
 
-Il est possible de déclencher une navigation dans un composant avec la méthode `go()`:
+### $router.go()
+
+Permet de déclencher une navigation dans un composant :
 
 ```js
-  import Component from 'modulus/component'
+import Component from 'modulus/component'
 
-  export default class extends Component {
+export default class extends Component {
 
-    onInit() {
-      this.$router.go('foo.html', { transition: 'fade' })
-    }
-
+  onInit() {
+    this.$router.go('foo.html', { transition: 'fade' })
   }
+
+}
 ```
 
 

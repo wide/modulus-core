@@ -49,9 +49,9 @@ L'animation d'entrée `enter` est appliquée lorsque l'élement apparait dans le
 
 ## Fonctionnement passif
 
-### Animation enter/leave
+### [data-anim]
 
-Pour animer un élement depuis le template, ajouter l'attribut `data-anim` :
+Permet de spécifier une animation sur un élement :
 
 ```html
 <div data-anim="name">
@@ -67,9 +67,9 @@ Les attributs optionnels suivants sont disponibles:
 - `[data-anim.when]` avec les valeurs possibles `enter`, `leave` ou `enter|leave` permet de spécifier quand l'animation se déclenche (par défaut `enter` seulement)
 - `[data-anim.offset]` spécifie le décalage pour le déclenchement du callback sous la forme `{valuer}px` (par défaut `-120px`)
 
-### Lazy loading
+### [data-src]
 
-Pour retarder le chargement d'une image à son entrée dans le viewport, ajouter l'attribute `data-src` à l'image :
+Permet de retarder le chargement d'une image à son entrée dans le viewport :
 
 ```html
 <img data-src="image.jpg" />
@@ -78,8 +78,9 @@ Pour retarder le chargement d'une image à son entrée dans le viewport, ajouter
 
 ## Fonctionnement actif
 
+### $viewport.observe()
 
-Depuis un composant, la méthode `$viewport.observe()` permet d'observer un élement plus finement et d'appliquer un callback custom:
+Permet d'observer un élement plus finement et d'appliquer un callback custom:
 
 ```js
 import Component from 'modulus/component'
