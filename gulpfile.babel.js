@@ -13,7 +13,7 @@ import named          from 'vinyl-named'
 import sassAliases          from './build/sass-alias'
 import makeImportComponents from './build/make-import-components'
 import createPlugin         from './build/create-plugin'
-import createMaster         from './build/create-master'
+import createController     from './build/create-controller'
 import createComponent      from './build/create-component'
 import cfg                  from './config'
 
@@ -144,7 +144,7 @@ gulp.task('build:js', () => buildJS(...cfg.src.js.entries.map(entry => entry.fil
 gulp.task('serve', serve)
 
 gulp.task('create:plugin', (done) => createPlugin(__dirname, yargs.argv.name, done))
-gulp.task('create:master', (done) => createMaster(__dirname, yargs.argv.name, done))
+gulp.task('create:controller', (done) => createController(__dirname, yargs.argv.name, done))
 gulp.task('create:component', (done) => createComponent(__dirname, yargs.argv.name, done))
 
 // npm global tasks

@@ -4,7 +4,7 @@ export default class Page extends Component {
 
 
   /**
-   * Initialize component 
+   * Initialize controller 
    */
   onInit() {
     

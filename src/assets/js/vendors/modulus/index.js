@@ -22,23 +22,23 @@ export default class Modulus extends EventEmitter {
    * @param {Object} opts 
    * @param {Object}  opts.config
    * @param {Object}  opts.plugins - list of plugins to register
-   * @param {Object}  opts.masters - list of global components to register
+   * @param {Object}  opts.controllers - list of controller to register
    * @param {Object}  opts.components - list of regular components to register
    * @param {Object}  opts.webComponents - list of web components to register
    */
-  constructor({ config = {}, plugins = {}, masters = {}, components = {}, webComponents = {} }) {
+  constructor({ config = {}, plugins = {}, controllers = {}, components = {}, webComponents = {} }) {
 
     super()
 
     // catalog of available classes
     this._plugins = plugins
-    this._masters = masters
+    this._controllers = controllers
     this._components = components
     this._webComponents = webComponents
 
     // catalog of instances
     this.plugins = {}
-    this.masters = {}
+    this.controllers = {}
     this.components = {}
     this.webComponents = {}
     this.ready = false
@@ -56,11 +56,11 @@ export default class Modulus extends EventEmitter {
 
 
   /**
-   * Build plugins, master and components
+   * Build plugins, controller and components
    */
   build() {
     this.registerPlugins()
-    this.registerMasters()
+    this.registerControllers()
     this.registerComponents()
     this.initComponents()
     this.registerCustomElements()
@@ -102,17 +102,17 @@ export default class Modulus extends EventEmitter {
 
 
   /**
-   * Register master components
+   * Register controller components
    */
-  registerMasters() {
-    for(let name in this._masters) {
+  registerControllers() {
+    for(let name in this._controllers) {
 
-      // instanciate master component
-      this.masters[name] = this.instanciateComponent(name, this._masters[name], document.body, true)
+      // instanciate controller component
+      this.controllers[name] = this.instanciateComponent(name, this._controllers[name], document.body, true)
 
-      // init master
-      this.log(`- master [${name}] registered`)
-      if(this.masters[name].onInit) this.masters[name].onInit()
+      // init controller
+      this.log(`- controller [${name}] registered`)
+      if(this.controllers[name].onInit) this.controllers[name].onInit()
     }
   }
 
