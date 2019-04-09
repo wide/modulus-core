@@ -1,4 +1,4 @@
-# Modulus - Scoped Component Approach
+# Modulus
 
 Le système Modulus permet d'automatiquement lier un élement `HTML` avec une classe `JS`.
 
@@ -76,6 +76,8 @@ Il est accessible avec `this.$viewport` dans un `Component`.
 
 Voir la partie [Plugin](#plugin) pour la liste et l'utilisation des plugins.
 
+!> **Note importante :** il est préférable d'enlever les plugins qui ne vous servent pas pour diminuer le payload de sortie.
+
 
 ### modulus.controllers
 
@@ -101,10 +103,22 @@ components: {
 
 Les `Components` sont le coeur de Modulus, il s'agit des classes qui seront liées aux élements `HTML` directement à leur création.
  
-**Note importante** : les lignes `import components from '[ROOT]/build/import-components'` et `...components` injectent directement les composants sans action de votre part, ne les changez surtout pas !
+!> **Note importante** : les lignes `import components from '[ROOT]/build/import-components'` et `...components` injectent directement les composants sans action de votre part, ne les changez surtout pas !
 
 Voir la partie [Component](modulus/component.md) pour leur utilisation.
 
+
+## Alias
+
+Trois alias sont disponibles pour accéder plus rapidement à des fichiers lors des `import` :
+- `~` -> `./src/assets/js/`
+- `@` -> `./src/views/components/`
+- `[ROOT]` -> `./`
+
+Ex:
+```js
+import Page from '~/controllers/page'
+```
 
 
 ## Cycle de vie

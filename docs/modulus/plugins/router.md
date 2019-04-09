@@ -49,7 +49,7 @@ La transition de chargement `loading` est appliquée lorsque le l'url change, `l
 
 Le paramètre `el` est le conteneur de la page (par défaut `<main>`).
 
-**Note importante :** les méthodes `loading` et `loaded` doivent retourner une `Promise` !
+!> **Note importante :** les méthodes `loading` et `loaded` doivent retourner une `Promise` !
 
 ### router.fallback
 

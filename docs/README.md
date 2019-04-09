@@ -66,7 +66,7 @@ Cela va créer trois fichiers dans `src/views/my-component/`:
   </div>
   ```
 
-  *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
+  > *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
 
 - `src/views/my-component/my-component.scss`
   ```css

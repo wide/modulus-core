@@ -33,7 +33,7 @@ npm run build
 ```
 Le livrable sera alors disponibles dans le dossier `/dist`
 
-![High Five!](https://media.giphy.com/media/mHEes6Quf8XK0/giphy.gif)
+![Didi it!](https://media.giphy.com/media/TEDFUBxqnLHk4/giphy.gif)
 
 
 ## Commandes

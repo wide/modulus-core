@@ -21,7 +21,7 @@ export default new Modulus({
 
 ### [data-parallax]
 
-Permet d'ajouter un calcul de parallax sur l'élement :
+Permet d'ajouter un calcul de parallax sur l'élement (la valeur optionnelle est le coefficent de déplacement, par défaut `0.4` = `40%`) :
 
 ```html
 <section>
@@ -29,9 +29,7 @@ Permet d'ajouter un calcul de parallax sur l'élement :
 </section>
 ```
 
-**Notes importantes :**
-- cet attribut peut prendre en valeur le coefficent de déplacement (par défaut `0.4` = `40%`)
-- le déplacement est géré en CSS avec la propriété `translateX` ou `translateY`
+!> **Notes importantes :** le déplacement est géré en CSS avec la propriété `translateX` ou `translateY`
 
 L'attribut optionnel `[data-parallax.axis]` est disponible, avec en valeur:
 - `y` déplacement vertical, vers le bas (par défaut)

@@ -19,7 +19,7 @@ Cela va créer trois fichiers dans `src/views/my-component/`:
   </div>
   ```
 
-  *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
+  > *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
 
 - `src/views/my-component/my-component.scss`
   ```css
@@ -101,7 +101,7 @@ Les hooks sont des méthodes automatiquement appelées par Modulus au cours du c
 - `onInit()` est appelé dès que le composant est instancié et configuré
 - `onDestroy()` est appelé dès que l'élement est supprimé du DOM (changement de page ou action manuelle)
 
-**Note importante :** `onInit()` agit comme le constructeur, ne pas surcharger `constructor()` à la place !
+!> **Note importante :** `onInit()` agit comme le constructeur, ne pas surcharger `constructor()` à la place !
 
 
 ## Méthodes
