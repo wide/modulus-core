@@ -8,6 +8,23 @@ Ici tu vas apprendre à dompter et maitriser cet outil qui accélére et simplif
 ![Oh Yeah!](https://media.giphy.com/media/dWEk3w1Uo97qw/giphy.gif)
 
 
+## Feedback
+
+> "On va conquérir le monde !" - Aymeric
+
+> "Franchement, ça dépote pas mal." - Julien
+
+> "Mouai..." - Antho
+
+> "Moi tu sais, tant qu'il n'y a pas JQuery..." - Kevin
+
+> "On peut taper les chefs de projet avec ?" - Anna
+
+> "C'est quoi querySelectorAll ?" - Séb
+
+> "On va au billard ?" - Adrien
+
+
 ## Structure des dossiers
 
 ```bash
