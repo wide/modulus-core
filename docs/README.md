@@ -1,6 +1,9 @@
 # Introduction
 
-Le boilerplate est un ensemble d'outils, de templates et des processus de compilation pour accélérer et simplifier l'intégration.
+Hey toi ! Bienvenue dans la docs de **The Boiler** !
+
+Ici tu vas apprendre à dompter et maitriser cet outil qui accélére et simplifie grandement l'intégration.
+Il embarque des librairies pré-configurées, des templates `HTML`, `SCSS` et `JS`, des tâches de compilations et des plugins prêts à l'emploi, le tout optimisé et performant. Ne te reste qu'à te faire un bon café.
 
 ![Oh Yeah!](https://media.giphy.com/media/dWEk3w1Uo97qw/giphy.gif)
 
@@ -59,36 +62,36 @@ npm run create:component my-component
 
 Cela va créer trois fichiers dans `src/views/my-component/`:
 
-- `src/views/my-component/my-component.html`
-  ```html
-  <div class="my-component" data-mod="my-component">
+**Le template:** `src/views/my-component/my-component.html`
+```html
+<div class="my-component" data-mod="my-component">
 
-  </div>
-  ```
+</div>
+```
 
-  > *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
+> *Note: l'attribut `[data-mod]` permet de connecter automatiquement le template au composant JS*
 
-- `src/views/my-component/my-component.scss`
-  ```css
-  .my-component {
+**Les styles:** `src/views/my-component/my-component.scss`
+```css
+.my-component {
 
+}
+```
+
+**La logique:** `src/views/my-component/my-component.js`
+```js
+import Component from 'modulus/component'
+
+export default class extends Component {
+
+  onInit() {
+    
   }
-  ```
 
-- `src/views/my-component/my-component.js`
-  ```js
-  import Component from 'modulus/component'
+}
+```
 
-  export default class extends Component {
-
-    onInit() {
-      
-    }
-
-  }
-  ```
-
-  Voir la section [Component](modulus/component.md) pour l'utilisation de la class `Component`.
+Voir la section [Component](modulus/component.md) pour l'utilisation de la class `Component`.
 
 
 ### Utilisation du composant
