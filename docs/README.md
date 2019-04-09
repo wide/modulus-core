@@ -1,6 +1,8 @@
 # Introduction
 
-Le boilerplate est un ensemble d'outils, de templates `HTML`, `SCSS`, `JS` et des processus de compilation pour accélérer et simplifier l'intégration.
+Le boilerplate est un ensemble d'outils, de templates et des processus de compilation pour accélérer et simplifier l'intégration.
+
+![Oh Yeah!](https://media.giphy.com/media/dWEk3w1Uo97qw/giphy.gif)
 
 
 ## Structure des dossiers

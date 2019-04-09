@@ -14,19 +14,26 @@ Pour récupérer les dépendances nécessaire à l'execution et à la compilatio
 npm install
 ```
 
+![be ready...](https://media.giphy.com/media/ZTjQgJGDiuJZS/giphy.gif)
 
-## Mode développement et production
+
+## Mode développement
 
 Pour observer, compiler et rafraichir automatiquement pendant le développement, lancer la commande (ouvre une page dans le navigateur) :
 ```
 npm start
 ```
 
-Pour compiler pour la production, avec minification des assets et sans les logs, lancer la commande :
+## Mode production
+
+Prêt à envoyer en production ?
+Pour compiler avec minification des assets et sans les logs, lancer la commande :
 ```
 npm run build
 ```
 Le livrable sera alors disponibles dans le dossier `/dist`
+
+![High Five!](https://media.giphy.com/media/mHEes6Quf8XK0/giphy.gif)
 
 
 ## Commandes
