@@ -88,7 +88,7 @@ controllers: {
 Les controllers sont des `Components` qui sont instanciés qu'une seule fois et ne sont pas associé à un élément DOM en particulier.
 Ils fonctionnent globalement sur la page et permettent de centraliser des tâches génériques.
 
-Voir la partie [Components(#component) pour leur utilisation.
+Voir la partie [Component](modulus/component.md) pour leur utilisation.
 
 
 ### modulus.components
@@ -103,7 +103,7 @@ Les `Components` sont le coeur de Modulus, il s'agit des classes qui seront lié
  
 **Note importante** : les lignes `import components from '[ROOT]/build/import-components'` et `...components` injectent directement les composants sans action de votre part, ne les changez surtout pas !
 
-Voir la partie [Component](#component) pour leur utilisation.
+Voir la partie [Component](modulus/component.md) pour leur utilisation.
 
 
 

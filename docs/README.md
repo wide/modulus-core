@@ -86,7 +86,7 @@ Cela va créer trois fichiers dans `src/views/my-component/`:
   }
   ```
 
-  Voir la section [Modulus](modulus.md) pour l'utilisation de la class `Component`.
+  Voir la section [Component](modulus/component.md) pour l'utilisation de la class `Component`.
 
 
 ### Utilisation du composant
