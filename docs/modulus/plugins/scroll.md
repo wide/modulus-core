@@ -95,7 +95,7 @@ export default class extends Component {
 
     // progress between 500px and 1500px in the page
     this.$scroll.progress(500, 1500, val => {
-      console.log(val) // 0.6
+      this.log(val) // 0.6
     })
   }
 
@@ -114,6 +114,35 @@ export default class extends Component {
   onInit() {
     const that = this.el.querySelector('.that')
     this.$scroll.affix(that)
+  }
+
+}
+```
+
+## Evenements
+
+Un évenement global `scroll` est déclenché à chaque tick avec les valeurs suivantes:
+- `up` si le scroll remonte
+- `down` si le scroll descend
+- `value` la valeur du scroll en pixel
+- `progress` la valeur du scroll en pourcentage
+
+Ex:
+```js
+import Component from 'modulus/component'
+
+export default class extends Component {
+  
+  onInit() {
+
+    this.$on('scroll', e => {
+      this.log(
+        e.up,
+        e.down,
+        e.value,
+        e.progress
+      )
+    })
   }
 
 }
