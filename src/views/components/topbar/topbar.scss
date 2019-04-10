@@ -1,0 +1,45 @@
+.topbar {
+  z-index: 500;
+  padding: 10px 0;
+  background: white;
+  transition: transform 200ms;
+
+  &.-hide {
+    transform: translateY(-100%);
+  }
+  &.-affix {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+  }
+
+  > .container {
+    display: flex;
+    align-items: center;
+  }
+
+  &_logo {
+
+  }
+
+  &_nav {
+    margin-left: auto;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+
+      li {
+        a {
+          display: block;
+          height: 100%;
+          padding: 18px 30px;
+        }
+      }
+    }
+  }
+
+  &_search {
+    margin-left: 40px;
+  }
+}

@@ -131,7 +131,7 @@ export default class Scroll extends Plugin {
     }
 
     this.progress(boundStart, boundEnd, progress => {
-      el.style.transform = `translateZ(0) translate${_axis}(${_sign}${progress * 100 * coef}%)`
+      el.style.transform = `translateZ(0) translate${_axis}(${_sign}${progress * (100 * coef)}%)`
     }, el)
   }
 

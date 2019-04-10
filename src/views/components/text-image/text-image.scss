@@ -1,0 +1,11 @@
+.text-image {
+  padding: 40px 0;
+
+  img {
+    width: 100%;
+    @include media-breakpoint-down(lg) {
+      margin-top: 40px;
+    }
+  }
+
+}

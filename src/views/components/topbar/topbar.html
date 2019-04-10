@@ -1,0 +1,27 @@
+<div class="topbar" data-mod="topbar" data-affix>
+  <div class="container">
+
+    <div class="topbar_logo">
+      <a href="index.html" alt="{{site.title}}">
+        <img src="https://placehold.it/150x60" alt="{{site.title}}">
+      </a>
+    </div>
+
+    <nav class="topbar_nav">
+      <ul>
+        {{#each nav}}
+        <li>
+          <a href="{{this.url}}">{{this.name}}</a>
+        </li>
+        {{/each}}
+      </ul>
+    </nav>
+
+    <div class="topbar_search">
+      <form action="post">
+        <input type="search" placeholder="search">
+      </form>
+    </div>
+
+  </div>
+</div>

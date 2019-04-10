@@ -11,6 +11,6 @@ const words = lorem.split(' ')
 
 module.exports = function({ hash }) {
   let output = '', n = hash.w || hash.p || 1, i = n
-  while(i--) output += (hash.w) ? `${words[n-i]} ` : `<p>${lorem}</p>`
+  while(i--) output += (hash.w) ? `${words[n-i-1].replace(/[.,]/g, '')} ` : lorem
   return output
 }
