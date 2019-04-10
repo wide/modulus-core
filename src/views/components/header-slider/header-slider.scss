@@ -1,0 +1,30 @@
+@import 'swiper/swiper';
+
+.header-slider {
+
+  .swiper-container {
+    height: 500px;
+  }
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_bg {
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    height: 160%;
+    bottom: 0;
+    left: 0;
+  }
+
+  &_body {
+    text-align: center;
+  }
+
+}

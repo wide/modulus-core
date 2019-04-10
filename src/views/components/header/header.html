@@ -1,8 +1,8 @@
-<header data-mod="header">
-  <div class="header_bg" data-parallax style="background-image: url(https://picsum.photos/1080/900)"></div>
+<header>
+  <div class="header_bg" {{#if image}}data-parallax style="background-image: url({{image}})"{{/if}}></div>
   <div class="container">
 
-    <h1>{{ site.title }}</h1>
+    <h1>{{title}}</h1>
     
   </div>
 </header>
