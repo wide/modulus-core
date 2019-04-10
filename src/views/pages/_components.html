@@ -7,17 +7,23 @@ site:
 
 <section>
   <div class="container">
-    {{> text-image title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=1" }}
+    {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=1" }}
   </div>
 </section>
 
 <section class="-bg-gray">
   <div class="container">
-    {{> text-image title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
+    {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
   </div>
 </section>
 
 <section>
+  <div class="container">
+    {{> text title=(lorem w=5) text=(lorem) cta=(json text="CTA" url="#") }}
+  </div>
+</section>
+
+<section class="-bg-gray">
   <div class="container">
 
     <h2 class="text-center">FAQ</h2>
@@ -31,7 +37,7 @@ site:
   </div>
 </section>
 
-<section class="-bg-gray text-center">
+<section class="text-center">
   <div class="container">
 
     <h2>Modal</h2>
