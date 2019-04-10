@@ -1,6 +1,6 @@
-/dist
-/build/import-components.js
-/node_modules
+dist
+build/import-components.js
+node_modules
 .DS_Store
 *.log
 .idea

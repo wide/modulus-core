@@ -5,16 +5,6 @@ import { ANIM_DURATION } from '~/consts'
 
 /**
  * Accordion Component
- * 
- * Based on the following template:
- *   <div class="accordion" data-mod="Accordion">
- *     <button class="accordion_trigger" id="trigger-1" aria-expanded="false" aria-controls="body-1">Trigger 1</button>
- *     <div class="accordion_body" id="body-1" role="region" aria-labelledby="trigger-1" hidden>
- *       <div class="ns-accordion-content">
- *         Body 1
- *       </div>
- *     </div>
- *   </div>
  */
 export default class Accordion extends Component {
 

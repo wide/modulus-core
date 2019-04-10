@@ -1,3 +1,8 @@
+---
+site:
+  title: Component list
+---
+
 {{> header}}
 
 <section>
@@ -6,8 +11,22 @@
   </div>
 </section>
 
-<section>
+<section class="-bg-gray">
   <div class="container">
     {{> text-image title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
+  </div>
+</section>
+
+<section>
+  <div class="container">
+
+    <h2 class="text-center">FAQ</h2>
+
+    <div class="row">
+      <div class="col-6 offset-3">
+        {{> accordion items=accordion}}
+      </div>
+    </div>
+
   </div>
 </section>
