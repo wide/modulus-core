@@ -7,12 +7,6 @@ function randomId() {
   return Math.random().toString(36).substring(7)
 }
 
-function each(collection, callback) {
-  for(let name in collection) {
-    callback(collection[name])
-  }
-}
-
 
 export default class Modulus extends EventEmitter {
 
@@ -43,14 +37,23 @@ export default class Modulus extends EventEmitter {
     this.webComponents = {}
     this.ready = false
 
+    // assign config
     this.config = Object.assign({
       debug: false,
+      expose: false,
       seekAttribute: 'data-mod'
     }, config)
 
+    // assign logger
     this.log = new Logger({ active: this.config.debug, prefix: '' })
-    this.log(`Modulus start (${process.env.PRODUCTION ? 'PROD' : 'DEV'} mode)`)
 
+    // assign itself to window object if expose requested
+    if(this.config.expose) {
+      window.$modulus = this
+    }
+
+    // start parsing
+    this.log(`Modulus start (${process.env.PRODUCTION ? 'PROD' : 'DEV'} mode)`)
     document.addEventListener('DOMContentLoaded', e => this.build())
   }
 
@@ -265,6 +268,16 @@ export default class Modulus extends EventEmitter {
     el.$component = instance
 
     return instance
+  }
+
+
+  /**
+   * Get component by uid
+   * @param {String} uid 
+   * @return {Component}
+   */
+  get(uid) {
+    return this.components[uid]
   }
 
 }

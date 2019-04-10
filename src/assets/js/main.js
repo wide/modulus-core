@@ -14,7 +14,8 @@ import { BREAKPOINTS } from '~/consts'
 
 export default new Modulus({
   config: {
-    debug: !process.env.PRODUCTION
+    debug: !process.env.PRODUCTION,
+    expose: true
   },
   plugins: {
     router: new Router({ transitions, fallback: 'fade' }),
@@ -25,7 +26,5 @@ export default new Modulus({
   controllers: {
     Page
   },
-  components: {
-    ...components
-  }
+  components
 })

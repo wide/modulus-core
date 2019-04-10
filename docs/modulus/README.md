@@ -54,6 +54,7 @@ La `config` permet d'assigner des variables de fonctionnement, elle est accessib
 | variable        | par défaut | description                                                          |
 | ---             | ---        | ---                                                                  |
 | `debug`         | `false`    | active ou désactive les logs interne                                 |
+| `expose`        | `false`    | attache l'instance à `window.$modulus` pour un accès externe         |
 | `seekAttribute` | `data-mod` | le nom de l'attribut pour lier un élement `HTML` avec un `Component` |
 
 

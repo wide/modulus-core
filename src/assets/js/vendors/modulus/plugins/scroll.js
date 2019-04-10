@@ -66,10 +66,11 @@ export default class Scroll extends Plugin {
 
   /**
    * Lock scroll
-   * @param  {...HTMLElement} targets 
+   * @param {HTMLElement} target
    */
-  lock(...targets) {
-    for(let i = 0; i < targets.lenght; i++) disableBodyScroll(targets[i])
+  lock(target) {
+    document.documentElement.style.overflowY = 'hidden'
+    disableBodyScroll(target)
   }
 
   
@@ -77,6 +78,7 @@ export default class Scroll extends Plugin {
    * Unlock scroll
    */
   unlock() {
+    document.documentElement.style.overflowY = 'scroll'
     clearAllBodyScrollLocks()
   }
 
