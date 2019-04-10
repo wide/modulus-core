@@ -31,6 +31,7 @@
     "picturefill": "^3.0.3",
     "pjax": "^0.2.8",
     "stickybits": "^3.6.4",
+    "swiper": "^4.5.0",
     "tiny-emitter": "^2.1.0",
     "uos": "^1.1.1"
   },

@@ -1,0 +1,31 @@
+home:
+  - image: https://picsum.photos/1080/900?random=1
+    title: Slide 1
+    text: Text 1
+    cta:
+      text: CTA 2
+      url: '#'
+  - image: https://picsum.photos/1080/900?random=2
+    title: Slide 2
+    text: Text 2
+    cta:
+      text: CTA 3
+      url: '#'
+  - image: https://picsum.photos/1080/900?random=3
+    title: Slide 3
+    text: Text 3
+    cta:
+      text: CTA 4
+      url: '#'
+  - image: https://picsum.photos/1080/900?random=4
+    title: Slide 4
+    text: Text 4
+    cta:
+      text: CTA 5
+      url: '#'
+  - image: https://picsum.photos/1080/900?random=5
+    title: Slide 5
+    text: Text 5
+    cta:
+      text: CTA 5
+      url: '#'

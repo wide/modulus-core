@@ -1,3 +1,20 @@
 header {
-  background: red;
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 500px;
+  overflow: hidden;
+
+  .header_bg {
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    height: 160%;
+    bottom: 0;
+    left: 0;
+  }
 }

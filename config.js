@@ -15,7 +15,8 @@ export default {
       alias: {
         '~': path.resolve(`${__dirname}/src/assets/scss/`),
         '@': path.resolve(`${__dirname}/src/views/components/`),
-        bootstrap: path.resolve(`${__dirname}/node_modules/bootstrap/scss/`)
+        bootstrap: path.resolve(`${__dirname}/node_modules/bootstrap/scss/`),
+        swiper: path.resolve(`${__dirname}/node_modules/swiper/src/`),
       }
     },
     js: {

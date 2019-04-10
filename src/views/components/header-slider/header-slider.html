@@ -1,0 +1,31 @@
+<div class="header-slider" data-mod="header-slider">
+  <div class="swiper-container" ref="container">
+    <div class="swiper-wrapper">
+
+      {{#each slides}}
+      <div class="swiper-slide">
+
+        {{#if this.image}}
+        <div class="header-slider_bg" style="background-image: url({{this.image}})"></div>
+        {{/if}}
+
+        <div class="header-slider_body">
+
+          <h2>{{this.title}}</h2>
+
+          {{#if this.text}}
+          <p>{{this.text}}</p>
+          {{/if}}
+
+          {{#if this.cta}}
+          <a href="{{this.cta.url}}">{{this.cta.text}}</a>
+          {{/if}}
+
+        </div>
+
+      </div>
+      {{/each}}
+
+    </div>
+  </div>
+</div>
