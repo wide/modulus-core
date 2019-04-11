@@ -1,12 +1,7 @@
 import EventEmitter from 'tiny-emitter'
 import Component from './component'
 import Logger from './logger'
-
-
-function randomId() {
-  return Math.random().toString(36).substring(7)
-}
-
+import { randomHash } from '~/utils/string'
 
 export default class Modulus extends EventEmitter {
 
@@ -258,7 +253,7 @@ export default class Modulus extends EventEmitter {
     const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
 
     // bind identity data to instance
-    instance.$uid = (unique) ? name : `${name}#${el.id || randomId()}`
+    instance.$uid = (unique) ? name : `${name}#${el.id || randomHash()}`
 
     // bind logger to instance
     instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })

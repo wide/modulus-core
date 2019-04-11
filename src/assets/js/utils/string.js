@@ -10,3 +10,12 @@ export function toCamel(string, capitalize = false) {
     ? camelized.charAt(0).toUpperCase() + camelized.slice(1)
     : camelized
 }
+
+
+/**
+ * Generate a random hash
+ * @return {String}
+ */
+export function randomHash() {
+  return Math.random().toString(36).substring(7)
+}
