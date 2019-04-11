@@ -23,6 +23,7 @@
     "body-scroll-lock": "^2.6.1",
     "bootstrap": "4.2.1",
     "bowser": "^2.1.2",
+    "core-js": "^3.0.1",
     "intersection-observer": "^0.5.1",
     "joi": "^14.0.1",
     "jspolyfill-array.prototype.find": "^0.1.3",
