@@ -67,6 +67,7 @@ export default class Modulus extends EventEmitter {
     this.registerComponents()
     this.initComponents()
     this.registerCustomElements()
+    this.emit('ready')
   }
 
 
@@ -77,6 +78,7 @@ export default class Modulus extends EventEmitter {
   rebuild(root) {
     this.registerComponents(root)
     this.initComponents()
+    this.emit('ready')
   }
 
 
