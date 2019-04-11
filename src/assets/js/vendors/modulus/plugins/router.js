@@ -25,6 +25,12 @@ export default class Router extends Plugin {
    */
   onInit() {
 
+    // do not load pjax if browse from local files
+    if(location.protocol === 'file:') {
+      this.log.error('cannot load PJax on file:// protocol, please setup a web server')
+      return;
+    }
+
     // instanciate pjax
     this.pjax = new Pjax({
       selectors: ['title', this.container],
@@ -38,6 +44,9 @@ export default class Router extends Plugin {
     // listen globally for start event
     document.addEventListener('pjax:send', e => this.onLoading(e))
 
+    // listen globally for error
+    document.addEventListener('pjax:error', (...args) => this.log.error(...args))
+
     // add initial class on body
     document.body.classList.add('-loaded')
   }
@@ -49,7 +58,8 @@ export default class Router extends Plugin {
    * @param {Object} opts 
    */
   go(url, opts) {
-    this.pjax.loadUrl(url, opts)
+    if(this.pjax) this.pjax.loadUrl(url, opts)
+    else location.href = url
   }
 
 
