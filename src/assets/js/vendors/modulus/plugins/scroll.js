@@ -2,24 +2,8 @@ import Plugin from 'modulus/plugin'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock' 
 import updateOnScroll from 'uos'
 import sticky from 'stickybits'
+import CustomEvent from '~/utils/custom-event'
 import { PARALLAX_COEF } from '~/consts'
-
-
-/**
- * CustomEvent polyfill
- * @param {String} name 
- */
-function _CustomEvent(name) {
-
-  if(typeof Event === 'function') {
-    return new Event(name)
-  }
-
-  // ie11
-  const event = document.createEvent('Event')
-  event.initEvent(name, true, true)
-  return event
-}
 
 
 export default class Scroll extends Plugin {
@@ -189,7 +173,7 @@ export default class Scroll extends Plugin {
     }
 
     // trigger scroll event once for detection
-    window.dispatchEvent(new _CustomEvent('scroll'))
+    window.dispatchEvent(new CustomEvent('scroll'))
   }
 
 

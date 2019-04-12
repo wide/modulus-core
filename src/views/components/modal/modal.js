@@ -1,5 +1,6 @@
 import Component from 'modulus/component'
 import { ANIM_DURATION } from '~/consts'
+import hotkeys from 'hotkeys-js'
 
 export default class extends Component {
 
@@ -18,9 +19,7 @@ export default class extends Component {
     this.refs.shadow.addEventListener('click', e => this.close())
 
     // close on ESC keydown
-    document.addEventListener('keydown', e => {
-      if(e.key === 27 || e.key === 'Escape' || e.key === 'Esc') this.close()
-    })
+    hotkeys('esc', e => this.close())
   }
 
 
