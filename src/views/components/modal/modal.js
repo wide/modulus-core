@@ -11,6 +11,7 @@ export default class extends Component {
   onInit() {
 
     this.isOpen = false
+    this.src = null
 
     // close en button click
     this.refs.close.addEventListener('click', e => this.close())
@@ -25,17 +26,24 @@ export default class extends Component {
 
   /**
    * Open modal
+   * @param {HTMLElement} src
    */
-  open() {
+  open(src) {
 
     // ignore if already open
     if(this.isOpen) return;
     this.isOpen = true
+    this.src = src
 
+    // open modal
     this.el.classList.add('-open')
     setTimeout(() => this.el.classList.add('-active'), 25)
+
     this.$emit('modal.open')
     this.$scroll.lock(this.refs.close)
+
+    // set focus inside modal
+    this.el.focus()
   }
 
 
@@ -48,11 +56,19 @@ export default class extends Component {
     if(!this.isOpen) return;
     this.isOpen = false
 
+    // close modal
     this.el.classList.remove('-active')
     setTimeout(() => {
+
       this.el.classList.remove('-open')
+
       this.$emit('modal.close')
       this.$scroll.unlock()
+
+      if(this.src) {
+        this.src.focus()
+        this.src = null
+      }
     }, ANIM_DURATION)
   }
 
