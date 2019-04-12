@@ -103,7 +103,7 @@ export default class extends Component {
     this.el.classList.add('-open')
     this.refs.current.setAttribute('aria-expanded', true)
 
-    // focus current item
+    // focus first item
     this.refs.list.querySelector('.dropdown_item').focus()
   }
 
@@ -121,6 +121,9 @@ export default class extends Component {
     slideUp(this.refs.list)
     this.el.classList.remove('-open')
     this.refs.current.setAttribute('aria-expanded', false)
+
+    // focus current
+    this.refs.current.focus()
   }
 
 
