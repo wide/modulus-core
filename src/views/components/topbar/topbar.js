@@ -10,7 +10,7 @@ export default class extends Component {
 
     // hide on scroll down, show on scroll up 
     this.$on('scroll', e => {
-      this.el.classList.toggle('-hide', e.down)
+      this.el.classList.toggle('-hide', !e.up)
     })
     
   }

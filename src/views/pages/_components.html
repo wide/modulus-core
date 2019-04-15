@@ -1,31 +1,61 @@
 ---
 site:
-  title: Component list
+  title: Components list
 ---
+
+<style>
+section {
+  padding: 60px 0;
+  /*overflow: hidden;*/
+}
+section.-bg-gray {
+  background: #eee;
+}
+[data-anim=fade-right] {
+  opacity: 0;
+  transform: translateX(-300px);
+  transition: all 400ms ease-in-out;
+}
+[data-anim=fade-left] {
+  opacity: 0;
+  transform: translateX(300px);
+  transition: all 400ms ease-in-out;
+}
+.fade-right-enter,
+.fade-left-enter {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>
+
 
 {{> header title=site.title image="https://picsum.photos/1080/900"}}
 {{> header-slider slides=slider.home}}
 
+
 <section>
-  <div class="container">
+  <div class="container" data-anim="fade-right">
     {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=1" }}
   </div>
 </section>
 
+
 <section class="-bg-gray">
-  <div class="container">
+  <div class="container" data-anim="fade-left">
     {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
   </div>
 </section>
 
+
 <section>
-  <div class="container">
+  <div class="container" data-anim="fade-right">
     {{> text title=(lorem w=5) text=(lorem) cta=(json text="CTA" url="#") }}
   </div>
 </section>
 
+
 <section class="-bg-gray">
-  <div class="container">
+  <div class="container" data-anim="fade-left">
 
     <h2 class="text-center">FAQ</h2>
 
@@ -38,8 +68,9 @@ site:
   </div>
 </section>
 
+
 <section class="text-center">
-  <div class="container">
+  <div class="container" data-anim="fade-right">
 
     <h2>Modal</h2>
 
@@ -49,8 +80,9 @@ site:
   </div>
 </section>
 
+
 <section class="-bg-gray text-center">
-  <div class="container">
+  <div class="container" data-anim="fade-left">
 
     <h2>Dropdown</h2>
 
