@@ -19,7 +19,6 @@
     "docs": "docsify serve docs --port 3100 --open true"
   },
   "dependencies": {
-    "@braintree/browser-detection": "^1.7.0",
     "body-scroll-lock": "^2.6.1",
     "bootstrap": "4.2.1",
     "bowser": "^2.1.2",
