@@ -84,3 +84,28 @@ export function slideToggle(el, duration = ANIM_DURATION) {
     ? slideDown(el, duration)
     : slideUp(el, duration)
 }
+
+
+/**
+ * Animate element with multiple steps using WebAnimation API
+ * @param {HTMLElement} el 
+ * @param {Array<Object>} steps 
+ * @param {Number} duration 
+ * @return {Promise}
+ */
+export function animateSteps(el, steps = [], duration = ANIM_DURATION) {
+  return new Promise(done => el.animate(steps, { duration }).onfinish = done)
+}
+
+
+/**
+ * Animate element using WebAnimation API
+ * @param {HTMLElement} el 
+ * @param {Object} from 
+ * @param {Object} to 
+ * @param {Number} duration 
+ * @return {Promise}
+ */
+export function animate(el, from, to, duration = ANIM_DURATION) {
+  return animateSteps(el, [from, to], duration)
+}

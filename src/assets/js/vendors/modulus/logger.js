@@ -23,7 +23,7 @@ export default function({ active, prefix }) {
   }
 
   logger.error = function(...args) {
-    if(active) console.error(prefix, ...args)
+    console.error(prefix, ...args) // always show errors
   }
 
   return logger

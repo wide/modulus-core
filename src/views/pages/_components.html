@@ -1,0 +1,60 @@
+---
+site:
+  title: Component list
+---
+
+{{> header title=site.title image="https://picsum.photos/1080/900"}}
+{{> header-slider slides=slider.home}}
+
+<section>
+  <div class="container">
+    {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=1" }}
+  </div>
+</section>
+
+<section class="-bg-gray">
+  <div class="container">
+    {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    {{> text title=(lorem w=5) text=(lorem) cta=(json text="CTA" url="#") }}
+  </div>
+</section>
+
+<section class="-bg-gray">
+  <div class="container">
+
+    <h2 class="text-center">FAQ</h2>
+
+    <div class="row">
+      <div class="col-6 offset-3">
+        {{> accordion items=accordion}}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="text-center">
+  <div class="container">
+
+    <h2>Modal</h2>
+
+    <button onClick="$modulus.get('modal#modal-1').open(this)">open</button>
+    {{> modal id="modal-1"}}
+
+  </div>
+</section>
+
+<section class="-bg-gray text-center">
+  <div class="container">
+
+    <h2>Dropdown</h2>
+
+    {{> dropdown name="choice" id="choice" options=(object 1="Opt 1" 2="Opt 2" 3="Opt 3")}}
+
+  </div>
+</section>

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="{{root}}assets/css/main.css?{{hash}}">
   </head>
   <body>
-    
-    {{> header}}
+
+    {{> topbar}}
 
     <main>
       {{> body}}
@@ -17,13 +17,13 @@
 
     {{> footer}}
 
-    <!-- IE polyfill -->
-    <script type="text/javascript">
-      if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
-        document.write('<script src="{{root}}assets/js/polyfill.js?{{hash}}"><\/script>');
+    <script>
+    window.$config = {
+      env: 'dev',
+      root: '{{root}}'
+    }
     </script>
-    <!-- /IE polyfill -->
-
+    <script src="{{root}}assets/js/polyfills.js?{{hash}}"></script>
     <script src="{{root}}assets/js/main.js?{{hash}}"></script>
 
   </body>

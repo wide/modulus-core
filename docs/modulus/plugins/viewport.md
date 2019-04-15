@@ -1,109 +1,102 @@
-# Modulus - Viewport plugin
+# Viewport Plugin
+
+Ce plugin permet d'observer un élement et d'executer des callbacks lorsqu'il entre ou sort du viewport.
 
 
 ## Installation
 
-In `main.js`
+Pour activer le plugin, l'instancier dans le `main.js`:
+
 ```js
+import Modulus from 'modulus'
+
 import Viewport from 'modulus/plugins/viewport'
 import animations from '~/utils/animations'
 
 export default new Modulus({
   plugins: {
-    viewport: new Viewport({ animations })
+    viewport: new Viewport({ animations }),
   }
 })
 ```
 
-## Enter / Leave animation
+### viewport.config
 
-The viewport plugin will automatically attach an observer to the `data-viewport-anim` attribute with the following value: `{name}:{modifiers}`.
+Permet de configurer les variables de fonctionnement suivantes :
 
-### CSS Animation
+| variable | par défaut | description |
+| --- | --- | --- |
+| `animAttribute` | `data-anim` | L'attribut pour l'animation automatique des élements |
+| `animOffset` | `-120px` | La marge appliquée pour déclencher les animations |
+| `srcAttribute` | `data-src` | L'attribut pour le lazy loading automatique des images |
 
-For the following:
-```html
-<div class="to-animate" data-viewport-anim="fade:enter,once">
-  ...
-</div>
-```
 
-- `fade` is the animation name used to apply css classes depending on the modifiers
-- `modifiers` can have up to three values (if none -> `enter` by default):
-  - `enter`: add `fade-enter` css class (and remove `fade-leave`) when the element enters the viewport
-  - `leave`: add `fade-leave` css class (and remove `fade-enter`) when the element leaves the viewport
-  - `once`: destroy the observer once the first animation has been played
+### viewport.animations
 
-### JS Animation
+La liste des animations JS possibles, sous la forme suivante :
 
-For the following:
-```html
-<div class="to-animate" data-viewport-anim="@fade:enter,once">
-  ...
-</div>
-```
-
-and in `~/utils/animations`:
 ```js
-export default {
-  fade: {
-    enter: el => fadeIn(el),
-    leave: el => fadeOut(el)
+{
+  name: {
+    enter: el => doSomething(),
+    leave: el => doSomethingElse()
   }
 }
 ```
 
-- `name` must be prefixed with `@`, see example below
-- `modifiers` has the same values:
-  - `enter`: call the `fade.enter()` animation function when the element enters the viewport
-  - `leave`: call the `fade.leave()` animation function when the element leaves the viewport
-  - `once`: destroy the observer once the first animation has been triggered
+L'animation d'entrée `enter` est appliquée lorsque l'élement apparait dans le viewport, à l'inverse `leave` est appliquée lorsqu'il sort.
 
 
-## Lazy load
+## Fonctionnement passif
 
-The viewport plugin will automatically attach an observer to the `data-lazysrc` attribute and load the value value as `src` when the element appears
-.
+### [data-anim]
 
-## API in Component
+Permet de spécifier une animation sur un élement :
 
-### `Viewport.observe()`
+```html
+<div data-anim="name">
 
-Observe an element in a specific scope and trigger the callback when it appears.
+</div>
+```
+
+La valeur de l'attribut peut prendre 2 formes:
+- `name` appliquera les classes CSS `name-enter` et `name-leave`
+- `@name` appliquera les fonctions JS `name.enter()` et `name.leave()`
+
+Les attributs optionnels suivants sont disponibles:
+- `[data-anim.when]` avec les valeurs possibles `enter`, `leave` ou `enter|leave` permet de spécifier quand l'animation se déclenche (par défaut `enter` seulement)
+- `[data-anim.offset]` spécifie le décalage pour le déclenchement du callback sous la forme `{valuer}px` (par défaut `-120px`)
+
+### [data-src]
+
+Permet de retarder le chargement d'une image à son entrée dans le viewport :
+
+```html
+<img data-src="image.jpg" />
+```
+
+
+## Fonctionnement actif
+
+### $viewport.observe()
+
+Permet d'observer un élement plus finement et d'appliquer un callback custom:
 
 ```js
 import Component from 'modulus/component'
 
 export default class extends Component {
+
   onInit() {
-
     this.$viewport.observe({
-      target: document.querySelector('img[data-lazysrc]'),
-      callback(el) {
-        el.src = el.dataset.lazysrc
-      }
+      target: document.querySelectorAll('.target') // le ou les élements à observer
+      enter: true, // déclencher le callback à l'entrée du viewport
+      leave: false, // déclencher le callback à la sortie du viewport
+      once: true, // détruit l'écouteur après une éxecution du callback
+      offset: '-120px', // la marge de déclenchement
+      callback() {} // la fonction à executer
     })
-
   }
+
 }
 ```
-
-You can also specify more options :
-```js
-{
-  scope, // parent to limit observation, default: viewport
-  target, // element to observe
-  enter, // trigger when entering the scope
-  leave, // trigger when leaving the scope
-  once, // trigger only once
-  callback // function to call
-}
-```
-
-### `Viewport.affix()`
-
-@todo
-
-### `Viewport.scroll()`
-
-@todo

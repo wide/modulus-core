@@ -1,0 +1,13 @@
+<div class="dropdown" data-mod="dropdown">
+
+  <select name="{{name}}" id="{{id}}" ref="select">
+    {{#each options}}
+    <option value="{{@key}}">{{this}}</option>
+    {{/each}}
+  </select>
+
+  <button class="dropdown_current" id="{{id}}-current" aria-expanded="false" aria-controls="{{id}}-list" ref="current"></button>
+  <span class="dropdown_caret">▼</span>
+  <ul class="dropdown_list" id="{{id}}-list" role="region" aria-labelledby="{{id}}-current" ref="list"></ul>
+
+</div>

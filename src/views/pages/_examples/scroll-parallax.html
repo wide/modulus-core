@@ -1,0 +1,92 @@
+<style>
+.box {
+  height: 500px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+}
+
+/* Y */
+.bg[data-parallax]:not([data-parallax\.axis]),
+.bg[data-parallax\.axis="Y"] {
+  height: 160%;
+  bottom: 0;
+  left: 0;
+}
+
+/* -Y */
+.bg[data-parallax\.axis="-Y"] {
+  height: 160%;
+  top: 0;
+  left: 0;
+}
+
+/* X */
+.bg[data-parallax\.axis="X"] {
+  height: 100%;
+  width: 170%;
+  top: 0;
+  right: 0;
+}
+
+/* -X */
+.bg[data-parallax\.axis="-X"] {
+  height: 100%;
+  width: 170%;
+  top: 0;
+  left: 0;
+}
+</style>
+
+<div class="container">
+
+  <a href="scroll-affix.html">Go to scroll affix</a>
+
+  <div class="box">
+    <h1 data-parallax>data-parallax: Y</h1>
+  </div>
+
+  <div class="box">
+    <div data-parallax class="bg" style="background-image: url(https://picsum.photos/1200/600?random=1)"></div>
+  </div>
+
+  <div class="box">
+    <h1 data-parallax
+        data-parallax.axis="-Y">data-parallax: -Y</h1>
+  </div>
+
+  <div class="box">
+    <div data-parallax
+         data-parallax.axis="-Y" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=2)"></div>
+  </div>
+
+  <div class="box">
+    <h1 data-parallax
+        data-parallax.axis="X">data-parallax: X</h1>
+  </div>
+
+  <div class="box">
+    <div data-parallax
+         data-parallax.axis="X" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=3)"></div>
+  </div>
+
+  <div class="box">
+    <h1 data-parallax
+        data-parallax.axis="-X">data-parallax: -X</h1>
+  </div>
+
+  <div class="box">
+    <div data-parallax
+         data-parallax.axis="-X" class="bg" style="background-image: url(https://picsum.photos/1200/600?random=4)"></div>
+  </div>
+
+</div>

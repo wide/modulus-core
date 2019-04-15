@@ -1,11 +1,18 @@
+import { animate } from '~/utils/dom'
+import { ANIM_DURATION } from '~/consts'
+
+
+/**
+ * Elements animation
+ */
 export default {
 
   /**
    * Fade: enter -> in / leave -> out
    */
   fade: {
-    enter: el => setTimeout(() => el.style.opacity = 1, 1000),
-    leave: el => setTimeout(() => el.style.opacity = 0, 1000)
+    enter: el => animate(el, { opacity: 0 }, { opacity: 1 }, ANIM_DURATION),
+    leave: el => animate(el, { opacity: 1 }, { opacity: 0 }, ANIM_DURATION)
   }
 
 }

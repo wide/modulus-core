@@ -15,7 +15,8 @@ export default {
       alias: {
         '~': path.resolve(`${__dirname}/src/assets/scss/`),
         '@': path.resolve(`${__dirname}/src/views/components/`),
-        bootstrap: path.resolve(`${__dirname}/node_modules/bootstrap/scss/`)
+        bootstrap: path.resolve(`${__dirname}/node_modules/bootstrap/scss/`),
+        swiper: path.resolve(`${__dirname}/node_modules/swiper/src/`),
       }
     },
     js: {
@@ -25,10 +26,14 @@ export default {
         watch: [
           'src/assets/js/**/*.js',
           'src/views/components/**/*.js',
-          '!src/assets/js/polyfill.js'
+          '!src/assets/js/polyfills.js',
+          '!src/assets/js/polyfills/*'
         ]
       }, {
-        file: 'src/assets/js/polyfill.js',
+        file: 'src/assets/js/polyfills.js',
+        watch: []
+      }, {
+        file: 'src/assets/js/polyfills/*',
         watch: []
       }]
     },

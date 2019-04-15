@@ -1,7 +1,6 @@
-import autoObservers from './viewport/list'
+import Plugin from 'modulus/plugin'
 
-export default class Viewport {
-
+export default class Viewport extends Plugin {
 
   /**
    * New viewport plugin
@@ -9,23 +8,37 @@ export default class Viewport {
    * @param {Object} opts.config
    * @param {Object} opts.animations list of JS animations
    */
-  constructor({ animations }) {
+  constructor({ config, animations }) {
+    super()
+
     this.observers = []
     this.animations = animations
-    this.autoObservers = autoObservers
+
+    this.config = Object.assign({
+      animAttribute: 'data-anim',
+      animOffset: '-120px',
+      srcAttribute: 'data-src'
+    }, config)
   }
 
 
   /**
-   * Bind instance to modulus and start auto-observing
-   * @param {Modulus} modulus 
-   * @param {Component} Component 
+   * Bind plugin necessities
    */
-  onInstall(modulus, Component) {
-    modulus.$viewport = Component.prototype.$viewport = this
-    for(let i = 0; i < this.autoObservers.length; i++) {
-      this.autoObservers[i](this)
-    }
+  onInit() {
+
+    this._observeAnimAttrs()
+    this._observeLazySrcAttrs()
+
+    this.$on('route.destroy', root => {
+      this.observers.map(o => o.disconnect())
+      this.observers = []
+    })
+
+    this.$on('route.loaded', root => {
+      this._observeAnimAttrs(root)
+      this._observeLazySrcAttrs(root)
+    })
   }
 
 
@@ -37,9 +50,10 @@ export default class Viewport {
    * @param {Boolean}               opts.once       trigger only once and destroy the listener
    * @param {Boolean}               opts.enter      trigger only when the element appears
    * @param {Boolean}               opts.leave      trigger only when the element disappears
+   * @param {String}                opts.offset     margin around scope to defer trigger
    * @param {Function}              opts.callback   action to call
    */
-  observe({ scope, target, once = false, enter = true, leave = false, callback }) {
+  observe({ scope, target, once = false, enter = true, leave = false, offset, callback }) {
 
     // keep track of element entering at least once
     let hasEntered = false
@@ -65,7 +79,7 @@ export default class Viewport {
           if(once) observer.unobserve(entries[i].target)
         }
       }
-    }, { root: scope })
+    }, { root: scope, rootMargin: offset })
 
     // start to observe element(s)
     const els = (target instanceof NodeList) ? target : [target]
@@ -78,40 +92,78 @@ export default class Viewport {
 
 
   /**
-   * Affix an element in a parent: fixed to absolute
-   * @param {Object}                opts 
-   * @param {HTMLElement}           opts.scope 
-   * @param {HTMLElement|NodeList}  opts.target 
-   * @param {Integer}               opts.offset 
-   * @param {String}                opts.topClass 
-   * @param {String}                opts.bottomClass 
-   * @param {Function}              opts.callback 
+   * Observe `data-anim` attribute
+   * @param {Viewport} viewport
+   * 
+   * <div data-anim="fade"                    will add `.fade-enter` and `.fade-leave` on transition
+   *      data-anim.when="enter|leave"
+   *      data-anim.offset="-100px"
+   * >...</div>
+   * 
+   * For JS transition, prefix the name with `@`: `<div data-anim="@fade">`, will call `fade.enter()` and `fade.leave()`
    */
-  affix({ scope, target, offset, topClass, bottomClass, callback }) {
-    // @todo
-  }
+  _observeAnimAttrs(root = document.body) {
 
+    // get transitionable elements
+    const els = root.querySelectorAll(`[${this.config.animAttribute}]`)
+    for(let i = 0; i < els.length; i++) {
 
-  /**
-   * Listen parent's scroll and give information to element on value, ratio and direction
-   * @param {Object}                opts 
-   * @param {HTMLElement}           opts.scope 
-   * @param {HTMLElement|NodeList}  opts.target 
-   * @param {Function}              opts.callback 
-   */
-  scroll({ scope, target, callback }) {
-    // @todo
-  }
+      // get transition name
+      let name = els[i].getAttribute(this.config.animAttribute)
+      const isJS = name[0] === '@'
+      name = isJS ? name.substr(1) : name
 
+      // get transition options
+      const when = els[i].getAttribute(`${this.config.animAttribute}.when`) || ''
+      const offset = els[i].getAttribute(`${this.config.animAttribute}.offset`) || this.config.animOffset
 
-  /**
-   * Donnect and destroy running observers
-   */
-  onDestroy() {
-    for(let i = 0; i < this.observers.length; i++) {
-      this.observers[i].disconnect()
+      // parse when options
+      const opts = {}
+      when.split('|').forEach(o => opts[o] = true)
+
+      // create observer
+      this.observe({
+        target: els[i],
+        ...opts,
+        offset,
+        callback(el, entry) {
+
+          // JS transition
+          if(isJS) {
+            const verb = (entry.isIntersecting) ? 'enter' : 'leave'
+            if(this.animations[name][verb]) {
+              this.animations[name][verb](el)
+            }
+          }
+          // CSS transition
+          else {
+            if(entry.isIntersecting) {
+              el.classList.remove(`${name}-leave`)
+              el.classList.add(`${name}-enter`)
+            }
+            else {
+              el.classList.remove(`${name}-enter`)
+              el.classList.add(`${name}-leave`)
+            }
+          }
+
+        }
+      })
     }
-    this.observers = []
+
+  }
+
+
+  /**
+   * Lazy load img with `data-src` attribute when entering the viewport
+   */
+  _observeLazySrcAttrs() {
+    this.observe({
+      target: document.querySelectorAll(`img[${this.srcAttribute}]`),
+      once: true, // destroy observer after callback
+      offset: '200px', // trigger 200px before entering viewport
+      callback: el => el.src = el.getAttribute(this.srcAttribute)
+    })
   }
 
 }

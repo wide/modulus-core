@@ -2,5 +2,10 @@
 // 5# Objects / Container
 // =============================================================================
 
-// @todo
 @import 'bootstrap/bootstrap-grid';
+
+section {
+  padding: 80px 0;
+
+  &.-bg-gray { background: #eee }
+}
