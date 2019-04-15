@@ -1,61 +1,55 @@
 // 1# Settings
+// Preprocessor variables and methods (no actual CSS output)
 // ==========================================================================
+@import 'settings/animations';
 @import 'settings/breakpoints';
 @import 'settings/colors';
-@import 'settings/easings';
 @import 'settings/env';
 @import 'settings/fonts';
 @import 'settings/layout';
 @import 'settings/ratios';
-@import 'settings/zindexes';
 
 
 // 2# Tools
+// Mixins and functions (no actual CSS output)
 // ==========================================================================
-@import 'tools/fonts';
-@import 'tools/functions';
-@import 'tools/layout';
-@import 'tools/mixins';
-@import 'tools/widths';
+@import 'core/tools/index'; // core import, please do not change
 
 
-// 3# Generic
+// 3# Generic
+// CSS resets which might include Eric Meyer’s reset, Normalize.css,
+// or your own batch of code
 // ==========================================================================
-@import 'generic/document';
-@import 'generic/typography';
-@import 'generic/links';
-@import 'generic/code';
-@import 'generic/media';
-@import 'generic/tables';
-@import 'generic/forms';
+@import 'core/generic/index'; // core import, please do not change
 
 
 // 4# Elements
+// Single HTML element selectors without classes
 // ==========================================================================
 @import 'elements/forms';
 @import 'elements/headings';
 
 
 // 5# Objects
+// Classes for page structure typically following the OOCSS methodology
 // ==========================================================================
-@import 'objects/container';
-@import 'objects/cover';
-@import 'objects/crop';
-@import 'objects/pjax';
-@import 'objects/ratio';
-@import 'objects/table';
+@import 'core/objects/**/*'; // core auto import, please do not change
 
 
-// 6# Components
+// 6# Vendors
+//
 // ==========================================================================
-
-// DOT NOT CHANGE -> AUTO IMPORT
-@import '../../views/components/**/*';
+@import 'core/vendors/**/*'; // core auto import, please do not change
 
 
-// 7# Utilities
+// 7# Components
+// Aesthetic classes for styling any & all page elements
+// (often combined with the structure of object classes)
 // ==========================================================================
-@import 'utilities/alignment';
-@import 'utilities/helpers';
-@import 'utilities/print';
-@import 'utilities/states';
+@import '../../views/components/**/*'; // auto import, please do not change
+
+
+// 8# Utilities
+// The most specific styles for overriding anything else in the triangle
+// ==========================================================================
+@import 'core/utilities/index'; // core import, please do not change
