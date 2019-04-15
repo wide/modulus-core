@@ -37,7 +37,7 @@ Permet d'ajouter un calcul de parallax sur l'élement (la valeur optionnelle est
 </section>
 ```
 
-!> **Notes importantes :** le déplacement est géré en CSS avec la propriété `translateX` ou `translateY`
+!> **Note importante :** le déplacement est géré en CSS avec la propriété `translateX` ou `translateY`
 
 L'attribut optionnel `[data-parallax.axis]` est disponible, avec en valeur:
 - `y` déplacement vertical, vers le bas (par défaut)
@@ -52,6 +52,8 @@ Permet de fixer un élement en `position: sticky`:
 ```html
 <header data-sticky>...</header>
 ```
+
+!> **Note importante :** sur IE, la lib applique un `position: fixed`, attention à bien gérer le cas dans le CSS.
 
 ## Fonctionnement actif
 
