@@ -41,13 +41,13 @@
     padding: 0;
     background: none;
     font-size: 3em;
-    color: white;
+    color: $white-100;
     cursor: pointer;
   }
 
   &_content {
     padding: 40px;
-    background: white;
+    background: $white-100;
     min-width: 700px;
   }
 }
