@@ -45,7 +45,7 @@ export default class Router extends Plugin {
     document.addEventListener('pjax:send', e => this.onLoading(e))
 
     // listen globally for error
-    document.addEventListener('pjax:error', (...args) => this.log.error(...args))
+    document.addEventListener('pjax:error', err => this.onError(err))
 
     // add initial class on body
     document.body.classList.add('-loaded')
@@ -140,6 +140,18 @@ export default class Router extends Plugin {
       this.transition = null
       this.loading = null
     })
+  }
+
+
+  /**
+   * Handle request error
+   * @param {Object} err 
+   */
+  onError(err) {
+
+    // force redirection in any errors
+    this.log.error(err)
+    location.href = err.request.responseURL
   }
 
 }
