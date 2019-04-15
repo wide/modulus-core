@@ -19,6 +19,14 @@ export default new Modulus({
 
 ## Fonctionnement passif
 
+### [data-scroll-to]
+
+Permet de déclencher un smooth-scroll vers un élement en particulier :
+
+```html
+<button data-scroll-to=".top">go back to top</button>
+```
+
 ### [data-parallax]
 
 Permet d'ajouter un calcul de parallax sur l'élement (la valeur optionnelle est le coefficent de déplacement, par défaut `0.4` = `40%`) :
@@ -37,19 +45,40 @@ L'attribut optionnel `[data-parallax.axis]` est disponible, avec en valeur:
 - `x` déplacement horizontal, vers la droite
 - `-x` déplacement horizontal, vers la gauche
 
-### [data-affix]
+### [data-sticky]
 
 Permet de fixer un élement en `position: sticky`:
 
 ```html
-<header data-affix>...</header>
+<header data-sticky>...</header>
 ```
 
 ## Fonctionnement actif
 
+### $scroll.to()
+
+Permet de smooth-scroller vers un élement en paramètre (basé sur la lib [jump.js](http://callmecavs.com/jump.js/)) :
+
+```js
+import Component from 'modulus/component'
+
+export default class extends Component {
+  
+  onInit() {
+    this.$scroll.to('.top', { duration: 400 })
+  }
+
+}
+```
+
+Le 1e paramètre est l'élement vers lequel on scroll, peut être un `HTMLElement` ou un sélécteur CSS.
+
+Le 2e paramètre sont les options possibles, voir le détails [dans la lib officielle](https://github.com/callmecavs/jump.js#options).
+
+
 ### $scroll.lock()
 
-Permet de bloquer le scroll de la page (basé sur la lib [body-scroll-lock](https://github.com/willmcpo/body-scroll-lock)):
+Permet de bloquer le scroll de la page (basé sur la lib [body-scroll-lock](https://github.com/willmcpo/body-scroll-lock)) :
 
 ```js
 import Component from 'modulus/component'
@@ -102,7 +131,7 @@ export default class extends Component {
 }
 ```
 
-### $scroll.affix()
+### $scroll.sticky()
 
 Permet de fixer un élement en position sticky (basé sur la lib [stickybits](https://github.com/dollarshaveclub/stickybits))
 
@@ -113,7 +142,7 @@ export default class extends Component {
   
   onInit() {
     const that = this.el.querySelector('.that')
-    this.$scroll.affix(that)
+    this.$scroll.sticky(that)
   }
 
 }
