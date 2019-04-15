@@ -38,7 +38,7 @@ La liste des tailles d'écran à observer, basé sur le modèle suivant:
 
 ### $breakpoint.current
 
-Permet de connaitre le breakpoint actuel sous la form `{ name, value }` où la valeur est la largeur de l'écran:
+Permet de connaitre le breakpoint actuel sous la forme `{ name, min, max, value }` où la valeur est la largeur de l'écran:
 
 ```js
 import Component from 'modulus/component'
@@ -54,7 +54,7 @@ export default class extends Component {
 
 ### $breakpoint.up()
 
-Permet de conditionner une partie du code en fonction du breakpoint :
+Permet de vérifier si la taille actuelle est dans et au dessus d'un breakpoint :
 
 ```js
 import Component from 'modulus/component'
@@ -63,7 +63,61 @@ export default class extends Component {
   
   onInit() {
     if(this.$breakpoint.up('lg')) {
-      // only for desktop and up
+      // for lg and up
+    }
+  }
+
+}
+```
+
+### $breakpoint.down()
+
+Permet de vérifier si la taille actuelle est dans et au dessous d'un breakpoint :
+
+```js
+import Component from 'modulus/component'
+
+export default class extends Component {
+  
+  onInit() {
+    if(this.$breakpoint.down('lg')) {
+      // for lg and down
+    }
+  }
+
+}
+```
+
+### $breakpoint.only()
+
+Permet de vérifier si la taille actuelle est strictement dans un breakpoint :
+
+```js
+import Component from 'modulus/component'
+
+export default class extends Component {
+  
+  onInit() {
+    if(this.$breakpoint.only('lg')) {
+      // for lg only
+    }
+  }
+
+}
+```
+
+### $breakpoint.range()
+
+Permet de vérifier si la taille actuelle est strictement entre deux breakpoints inclus :
+
+```js
+import Component from 'modulus/component'
+
+export default class extends Component {
+  
+  onInit() {
+    if(this.$breakpoint.range('sm', 'lg')) {
+      // for sm, md and lg
     }
   }
 
