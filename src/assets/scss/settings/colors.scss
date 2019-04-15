@@ -6,6 +6,9 @@
 // =============================================================================
 
 $white-100: #FFFFFF;
+$white-90: #EEEEEE;
+$white-80: #DDDDDD;
+$white-70: #CCCCCC;
 $black-100: #000000;
 
 
@@ -20,6 +23,9 @@ $link-hover-color: darken(#1A0DAB, 10%);
 // Selection
 $selection-text-color: $white-100;
 $selection-background-color: $black-100;
+
+// Borders
+$border-color: $white-70;
 
 
 // Social Colors

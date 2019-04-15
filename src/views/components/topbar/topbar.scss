@@ -1,8 +1,8 @@
 .topbar {
   z-index: 500;
   padding: 10px 0;
-  background: white;
-  border-bottom: 1px solid #ddd;
+  background: $white-100;
+  border-bottom: 1px solid $border-color;
   transition: transform 200ms;
 
   &.-hide {
@@ -22,7 +22,11 @@
   }
 
   &_nav {
+    display: none;
     margin-left: auto;
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
 
     ul {
       list-style: none;
@@ -41,6 +45,10 @@
   }
 
   &_search {
+    display: none;
     margin-left: 40px;
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
   }
 }

@@ -2,8 +2,10 @@
   
   &.-only {
     text-align: center;
-    max-width: 60%;
-    margin: auto;
+    @include media-breakpoint-up(lg) {
+      max-width: 60%;
+      margin: auto;
+    }
   }
 
   img {
