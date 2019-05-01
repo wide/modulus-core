@@ -5,6 +5,7 @@ Liste des plugins natifs :
 - [Scroll](modulus/plugins/scroll.md)
 - [Viewport](modulus/plugins/viewport.md)
 - [Breakpoint](modulus/plugins/breakpoint.md)
+- [Storage](modulus/plugins/storage.md)
 
 ### Créer un plugin
 
