@@ -7,7 +7,7 @@ export default class extends Component {
 
 
   /**
-   * Initialize component 
+   * Initialize component
    */
   onInit() {
     this.isOpen = false
@@ -41,10 +41,10 @@ export default class extends Component {
 
       // create <li> containing the button
       const item = document.createElement('li')
-      item.append(btn)
+      item.appendChild(btn)
 
       // add item to list
-      this.refs.list.append(item)
+      this.refs.list.appendChild(item)
     }
 
     // set current
@@ -129,8 +129,8 @@ export default class extends Component {
 
   /**
    * Update <select> value and trigger `change` event
-   * @param {String} value 
-   * @param {Boolean} notify 
+   * @param {String} value
+   * @param {Boolean} notify
    */
   change(value, notify = false) {
 
@@ -153,8 +153,8 @@ export default class extends Component {
 
   /**
    * Move focus between options
-   * @param {Boolean} up 
-   * @param {Event} e 
+   * @param {Boolean} up
+   * @param {Event} e
    */
   moveFocus(up, e) {
 

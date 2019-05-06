@@ -28,7 +28,7 @@ export default class Router extends Plugin {
     // do not load pjax if browse from local files
     if(location.protocol === 'file:') {
       this.log.error('cannot load PJax on file:// protocol, please setup a web server')
-      return;
+      return
     }
 
     // instanciate pjax
@@ -54,8 +54,8 @@ export default class Router extends Plugin {
 
   /**
    * Change url
-   * @param {String} url 
-   * @param {Object} opts 
+   * @param {String} url
+   * @param {Object} opts
    */
   go(url, opts) {
     if(this.pjax) this.pjax.loadUrl(url, opts)
@@ -65,7 +65,7 @@ export default class Router extends Plugin {
 
   /**
    * Transition is starting
-   * @param {Object} e 
+   * @param {Object} e
    */
   onLoading(e) {
 
@@ -94,7 +94,7 @@ export default class Router extends Plugin {
     this.transition = this.transitions[name]
 
     // start transition
-    this.log('route change', name) 
+    this.log('route change', name)
     this.$emit('route.change', name)
     this.loading = this.transition.loading(this.el) // assume promise
   }
@@ -102,9 +102,9 @@ export default class Router extends Plugin {
 
   /**
    * Next page is loaded, replace content
-   * @param {HTMLElement} before 
-   * @param {HTMLElement} after 
-   * @param {Object} opts 
+   * @param {HTMLElement} before
+   * @param {HTMLElement} after
+   * @param {Object} opts
    */
   onSwap(before, after) {
     this.loading.then(() => {
