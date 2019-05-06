@@ -44,8 +44,6 @@ export function getNodeData(node) {
 
     // attributes name (ex: data-module)
     let name = attributes[i].name
-
-    // this happens.
     if (!name) {
       continue
     }
@@ -56,7 +54,7 @@ export function getNodeData(node) {
     }
 
     // if this throws an error, you have some
-    // serious problems in your HTML.
+    // serious problems in your HTML
     data[match[1]] = getData(node.getAttribute(name))
   }
 
