@@ -3,9 +3,9 @@ import fs from 'fs'
 
 /**
  * List recusively JS files in a folder
- * @param {String} base 
- * @param {String} dir 
- * @param {Array} files 
+ * @param {String} base
+ * @param {String} dir
+ * @param {Array} files
  */
 function walk(base, dir = '', files = []) {
   fs.readdirSync(base + dir).forEach(file => {
@@ -24,14 +24,14 @@ function walk(base, dir = '', files = []) {
 
 /**
  * Generate a file import with seeken JS files
- * @param {String} root 
+ * @param {String} root
  */
 function generateImports(root) {
 
   let i = 0, j = 0
   const files = walk(root)
 
-  const content = 
+  const content =
     `/* AUTO GENERATED */
     ${files.map(file => `import m${i++} from '@/${file.path}'`).join("\n")}
     export default {
@@ -41,7 +41,6 @@ function generateImports(root) {
 
   return fs.writeFileSync('./build/import-components.js', content)
 }
-
 
 export default (root) => {
   try {
