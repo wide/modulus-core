@@ -4,7 +4,7 @@ import { setExpires } from '~/utils/cookie'
 export default class Cookie extends Manager {
   constructor(params = {}) {
     super()
-    this.init(params);
+    this.init(params)
   }
 
   /**
@@ -14,7 +14,7 @@ export default class Cookie extends Manager {
   init(params = {}) {
     this.params = Object.assign({
       path: '/',    // path of cookie
-      expires: 365  // in 365 days
+      expires: 525600  // 365 days = 525600 minutes
     }, params)
   }
 
@@ -70,7 +70,7 @@ export default class Cookie extends Manager {
    */
   set(key, object) {
     const date = new Date()
-    date.setTime(+ date + (this.params.expires * 24 * 60 * 60 * 1000))
+    date.setTime(+ date + (this.params.expires * 60 * 1000))
 
     object = (typeof object === 'string')
       ? object

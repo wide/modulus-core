@@ -42,7 +42,7 @@ Par défaut, les valeurs suivantes sont appliquées:
 ```js
 {
   path: "/",
-  expires: 365 // 365 days
+  expires: 525600 // 365 days = 525600 minutes
 }
 ```
 
@@ -55,10 +55,10 @@ Exemples:
 this.$cookie.init({ path: '/foo' })
 
 // définir une nouvelle date d'expiration et conserver le chemin par défaut
-this.$cookie.init({ expires: 30 })
+this.$cookie.init({ expires: 43200 }) // 30 days = 43200 minutes
 
 // définir un nouveau chemin et une nouvelle date d'expiration
-this.$cookie.init({ path: '/bar', expires: 60 })
+this.$cookie.init({ path: '/bar', expires: 86400 }) // 60 days = 86400 minutes
 ```
 
 
