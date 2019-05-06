@@ -4,6 +4,8 @@ import Router from 'modulus/plugins/router'
 import Scroll from 'modulus/plugins/scroll'
 import Viewport from 'modulus/plugins/viewport'
 import Breakpoint from 'modulus/plugins/breakpoint'
+import Cookie from 'modulus/plugins/storage/cookie'
+import WebStorage from 'modulus/plugins/storage/web-storage'
 
 import Page from '~/controllers/page'
 import components from '[ROOT]/build/import-components'
@@ -21,7 +23,10 @@ export default new Modulus({
     router: new Router({ transitions, fallback: 'fade' }),
     scroll: new Scroll(),
     viewport: new Viewport({ animations }),
-    breakpoint: new Breakpoint({ sizes: BREAKPOINTS })
+    breakpoint: new Breakpoint({ sizes: BREAKPOINTS }),
+    cookie: new Cookie(),
+    local: new WebStorage('local'),
+    session: new WebStorage('session')
   },
   controllers: {
     Page
