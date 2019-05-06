@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 ### Added
 - CHANGELOG.md file
+- Cookie, LocalStorage and SessionStorage manager
 ### Changed
 - Enhance docs files for better explanation on how to use the boilerplate
 
