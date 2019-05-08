@@ -1,11 +1,11 @@
 import Component from 'modulus/component'
-import Swiper from 'swiper/dist/js/swiper.js'
+import Swiper from 'swiper'
 
 export default class extends Component {
 
 
   /**
-   * Initialize component 
+   * Initialize component
    */
   onInit() {
     this.swiper = new Swiper(this.refs.container, {
