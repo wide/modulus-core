@@ -28,9 +28,9 @@ export function buildJs(...entries) {
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpack, webpack))
     .on('error', notifyError)
-    /*.pipe($.if(PRODUCTION, $.uglify()
+    .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e) })
-    ))*/
+    ))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.js))
 }
