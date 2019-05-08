@@ -44,7 +44,7 @@ export default class Viewport extends Plugin {
 
   /**
    * Observe an element when it intersects in the viewport
-   * @param {Object}                opts 
+   * @param {Object}                opts
    * @param {HTMLElement}           opts.scope      parent element to set the scope
    * @param {HTMLElement|NodeList}  opts.target     element(s) to observe in the scope
    * @param {Boolean}               opts.once       trigger only once and destroy the listener
@@ -68,7 +68,7 @@ export default class Viewport extends Plugin {
         // - `enter` is specified and element is entering the viewport
         // - `leave` is specified and element is leaving after entering at least once
         if((enter && entries[i].isIntersecting) || (hasEntered && leave && !entries[i].isIntersecting)) {
-          
+
           // set element has entered once
           if(enter && !hasEntered) hasEntered = true
 
@@ -94,12 +94,12 @@ export default class Viewport extends Plugin {
   /**
    * Observe `data-anim` attribute
    * @param {Viewport} viewport
-   * 
+   *
    * <div data-anim="fade"                    will add `.fade-enter` and `.fade-leave` on transition
    *      data-anim.when="enter|leave"
    *      data-anim.offset="-100px"
    * >...</div>
-   * 
+   *
    * For JS transition, prefix the name with `@`: `<div data-anim="@fade">`, will call `fade.enter()` and `fade.leave()`
    */
   _observeAnimAttrs(root = document.body) {

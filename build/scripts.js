@@ -14,12 +14,17 @@ const $ = plugins()
 
 // set ENV mode
 const PRODUCTION = !!(yargs.argv.production)
-cfg.webpack.mode = PRODUCTION ? 'production' : 'development'
-cfg.webpack.plugins = [
-  new webpack.DefinePlugin({ 'process.env.PRODUCTION': PRODUCTION })
-]
+
+function setWebpackConfig(configId) {
+  cfg[configId].mode = PRODUCTION ? 'production' : 'development'
+  cfg[configId].plugins = [
+    new webpack.DefinePlugin({ 'process.env.PRODUCTION': PRODUCTION })
+  ]
+}
 
 export function buildJs(...entries) {
+  setWebpackConfig('webpack')
+
   // import components before js compilation
   makeImportComponents(`${__dirname}/../${cfg.src.html.partials}`)
 
@@ -28,9 +33,18 @@ export function buildJs(...entries) {
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpack, webpack))
     .on('error', notifyError)
-    .pipe($.if(PRODUCTION, $.uglify()
-      .on('error', e => { console.log(e) })
-    ))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.js))
+}
+
+export function buildPolyfills(...entries) {
+  setWebpackConfig('webpackPolyfills')
+
+  return gulp.src(entries)
+    .pipe(named())
+    .pipe($.sourcemaps.init())
+    .pipe(webpackStream(cfg.webpackPolyfills, webpack))
+    .on('error', notifyError)
+    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
+    .pipe(gulp.dest(cfg.dist.polyfills))
 }

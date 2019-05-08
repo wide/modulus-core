@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import cfg from '../config'
+import cfg from '../../config'
 
 
 /**
@@ -24,7 +24,7 @@ export default class extends Component {
 
 
   /**
-   * Initialize component 
+   * Initialize component
    */
   onInit() {
 
@@ -43,8 +43,8 @@ export default class extends Component {
 
 /**
  * Create component folder
- * @param {String} folder 
- * @param {String} name 
+ * @param {String} folder
+ * @param {String} name
  */
 const createFolder = (folder, name) => {
 
@@ -59,10 +59,10 @@ const createFolder = (folder, name) => {
 
 /**
  * Create file
- * @param {String} folder 
- * @param {String} name 
- * @param {String} type 
- * @param {String} content 
+ * @param {String} folder
+ * @param {String} name
+ * @param {String} type
+ * @param {String} content
  */
 const createFile = (folder, name, type, content) => {
   fs.writeFileSync(`${folder}/${name}.${type}`, content)
