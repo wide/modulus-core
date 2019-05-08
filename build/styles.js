@@ -22,6 +22,7 @@ export function buildCss(...entries) {
     }))
     .on('error', $.sass.logError)
     .on('error', notifyError)
+    .pipe($.if(PRODUCTION, $.cleanCss()))
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.css))
     .pipe(browser.reload({ stream: true }))
