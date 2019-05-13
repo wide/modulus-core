@@ -4,6 +4,16 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 export default {
   src: {
     assets: 'src/assets/{fonts,icons,img}/',
+    icons: {
+      files: 'src/assets/icons/*.svg',
+      config: {
+        mode: 'symbols',
+        preview: false,
+        svg: {
+          symbols: 'sprite-icons.svg'
+        }
+      }
+    },
     scss: {
       root: 'src/assets/scss/',
       cleancss: {
@@ -64,6 +74,7 @@ export default {
   },
   dist: {
     assets: 'dist/assets/',
+    icons: 'dist/assets/icons',
     css: 'dist/assets/css',
     js: 'dist/assets/js',
     polyfills: 'dist/assets/js',

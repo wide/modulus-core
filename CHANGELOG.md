@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cookie, LocalStorage and SessionStorage manager
 - Add `html.js`: escapeHtml(), unscapeHtml() and getNodeData()
 - New Gulp builder
+- Gulp task for generate SVG sprite icons
 
 ### Changed
 - Enhance docs files for better explanation on how to use the boilerplate
