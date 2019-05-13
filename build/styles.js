@@ -25,3 +25,10 @@ export function buildCss(...entries) {
     .pipe(gulp.dest(cfg.dist.css))
     .pipe(browser.reload({ stream: true }))
 }
+
+export function autoprefixer() {
+  return gulp.src(`${cfg.dist.css}/*.css`)
+    .pipe($.plumber())
+    .pipe($.autoprefixer(cfg.src.scss.autoprefixer))
+    .pipe(gulp.dest(cfg.dist.css))
+}

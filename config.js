@@ -16,6 +16,7 @@ export default {
     },
     scss: {
       root: 'src/assets/scss/',
+      autoprefixer: {},
       cleancss: {
         level: {
           0: {},
