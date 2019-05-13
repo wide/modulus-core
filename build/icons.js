@@ -16,6 +16,7 @@ export function buildSvgSprite() {
   }
 
   return gulp.src(cfg.src.icons.files)
+    .pipe($.plumber())
     .pipe($.svgSprites(cfg.src.icons.config))
     .pipe(gulp.dest(cfg.dist.icons))
 }

@@ -6,7 +6,6 @@ import webpackStream from 'webpack-stream'
 import yargs from 'yargs'
 
 import makeImportComponents from './make-import-components'
-import notifyError from './notify-error'
 import cfg from './../config'
 
 // load gulp plugins
@@ -29,10 +28,10 @@ export function buildJs(...entries) {
   makeImportComponents(`${__dirname}/../${cfg.src.html.partials}`)
 
   return gulp.src(entries)
+    .pipe($.plumber())
     .pipe(named())
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpack, webpack))
-    .on('error', notifyError)
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.js))
 }
@@ -41,10 +40,10 @@ export function buildPolyfills(...entries) {
   setWebpackConfig('webpackPolyfills')
 
   return gulp.src(entries)
+    .pipe($.plumber())
     .pipe(named())
     .pipe($.sourcemaps.init())
     .pipe(webpackStream(cfg.webpackPolyfills, webpack))
-    .on('error', notifyError)
     .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(cfg.dist.polyfills))
 }
