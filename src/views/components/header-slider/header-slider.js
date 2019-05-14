@@ -9,7 +9,10 @@ export default class extends Component {
    */
   onInit() {
     this.swiper = new Swiper(this.refs.container, {
-      loop: true
+      loop: true,
+      autoplay: true,
+      delay: 5000,
+      speed: 500,
     })
   }
 

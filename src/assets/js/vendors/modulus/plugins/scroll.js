@@ -2,6 +2,7 @@ import Plugin from 'modulus/plugin'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock' 
 import updateOnScroll from 'uos'
 import sticky from 'stickybits'
+import jump from 'jump.js'
 import CustomEvent from '~/utils/custom-event'
 import { PARALLAX_COEF } from '~/consts'
 
@@ -12,7 +13,7 @@ export default class Scroll extends Plugin {
     super()
 
     this.progresses = []
-    this.affixed = []
+    this.stickied = []
     this.state = {
       up: false,
       down: false,
@@ -22,7 +23,8 @@ export default class Scroll extends Plugin {
     
     this.config = Object.assign({
       parallaxAttr: 'data-parallax',
-      affixAttr: 'data-affix'
+      stickyAttr: 'data-sticky',
+      scrollToAttr: 'data-scroll-to'
     }, config)
   }
   
@@ -33,18 +35,29 @@ export default class Scroll extends Plugin {
   onInit() {
 
     this._observeScroll()
+    this._observeScrollTo()
     this._observeParallaxAttrs()
-    this._observeAffixAttrs()
+    this._observeStickyAttrs()
 
     this.$on('route.destroy', root => {
       this._clearParallaxAttrs(root)
-      this._clearAffixAttrs(root)
+      this._clearStickyAttrs(root)
     })
 
     this.$on('route.loaded', root => {
       this._observeParallaxAttrs(root)
-      this._observeAffixAttrs(root)
+      this._observeStickyAttrs(root)
     })
+  }
+
+
+  /**
+   * Scroll to specific element in page
+   * @param {HTMLElement|String} target 
+   * @para {Object} tops
+   */
+  to(target, opts) {
+    jump(target, opts)
   }
 
 
@@ -53,6 +66,7 @@ export default class Scroll extends Plugin {
    * @param {HTMLElement} target
    */
   lock(target) {
+    document.body.classList.add('-locked')
     document.documentElement.style.overflowY = 'hidden'
     disableBodyScroll(target)
   }
@@ -62,6 +76,7 @@ export default class Scroll extends Plugin {
    * Unlock scroll
    */
   unlock() {
+    document.body.classList.remove('-locked')
     document.documentElement.style.overflowY = 'scroll'
     clearAllBodyScrollLocks()
   }
@@ -159,6 +174,22 @@ export default class Scroll extends Plugin {
 
 
   /**
+   * Listen scroolto attributes
+   */
+  _observeScrollTo() {
+    const els = document.querySelectorAll(`[${this.config.scrollToAttr}]`)
+    for(let i = 0; i < els.length; i++) {
+      els[i].addEventListener('click', e => {
+        e.stopPropagation()
+        const target = e.target.getAttribute(this.config.scrollToAttr) || e.target.href
+        this.to(target)
+        return false
+      })
+    }
+  }
+
+
+  /**
    * Apply parallax observer to `[data-parallax]` attributes
    * @param {HTMLElement} root
    */
@@ -193,50 +224,50 @@ export default class Scroll extends Plugin {
    * Set element sticky when entering parent viewport
    * @param {HTMLElement} el 
    */
-  affix(el) {
-    this.affixed.push({
+  sticky(el) {
+    this.stickied.push({
       el, instance: sticky(el, {
-        stickyBitStickyOffset: parseInt(el.getAttribute(`${this.config.affixAttr}.offset`)) || 0,
+        stickyBitStickyOffset: parseInt(el.getAttribute(`${this.config.stickyAttr}.offset`)) || 0,
         useStickyClasses: true,
-        parentClass: '-affix-parent',
-        stickyClass: '-affix',
-        stuckClass: '-affix-stuck',
-        stickyChangeClass: '-affix'
+        parentClass: '-sticky-parent',
+        stickyClass: '-sticky',
+        stuckClass: '-sticky-stuck',
+        stickyChangeClass: '-sticky'
       })
     })
   }
 
 
   /**
-   * Clear affix handler for an element
+   * Clear sticky handler for an element
    * @param {HTMLElement} el 
    */
-  clearAffix(el) {
-    const i = this.affixed.findIndex(a => a.el == el)
-    if(i >= 0) this.affixed[i].instance.cleanup()
+  clearSticky(el) {
+    const i = this.stickied.findIndex(a => a.el == el)
+    if(i >= 0) this.stickied[i].instance.cleanup()
   }
 
 
   /**
-   * Apply affix observer to `[data-affix]` attributes
+   * Apply sticky observer to `[data-sticky]` attributes
    * @param {HTMLElement} root
    */
-  _observeAffixAttrs(root = document.body) {
-    const els = root.querySelectorAll(`[${this.config.affixAttr}]`)
+  _observeStickyAttrs(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.stickyAttr}]`)
     for(let i = 0; i < els.length; i++) {
-      this.affix(els[i])
+      this.sticky(els[i])
     }
   }
 
 
   /**
-   * Clear affix attributes observers
+   * Clear sticky attributes observers
    * @param {HTMLElement} root 
    */
-  _clearAffixAttrs(root = document.body) {
-    const els = root.querySelectorAll(`[${this.config.affixAttr}]`)
+  _clearStickyAttrs(root = document.body) {
+    const els = root.querySelectorAll(`[${this.config.stickyAttr}]`)
     for(let i = 0; i < els.length; i++) {
-      this.clearAffix(els[i])
+      this.clearSticky(els[i])
     }
   }
 

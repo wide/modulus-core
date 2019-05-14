@@ -333,3 +333,14 @@
   bottom: map-get($map, bottom) or nth-or-null($arglist, 3) or nth-or-null($arglist, 1) or 0;
   left: map-get($map, left) or nth-or-null($arglist, 4) or nth-or-null($arglist, 2) or nth-or-null($arglist, 1) or 0;
 }
+
+
+
+///
+/// Reset button state to normal element
+///
+@mixin btn-reset() {
+  border: none;
+  background: transparent;
+  padding: 0;
+}

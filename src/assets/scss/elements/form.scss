@@ -1,0 +1,11 @@
+input,
+textarea {
+  border: 1px solid $white-70;
+  border-radius: 1px;
+  outline: none;
+  padding: 4px 8px;
+
+  &:active, &:focus {
+    border-color: $white-40;
+  }
+}

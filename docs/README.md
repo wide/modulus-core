@@ -8,7 +8,7 @@ Ici tu vas apprendre à dompter et maitriser cet outil qui accélére et simplif
 ![Oh Yeah!](https://media.giphy.com/media/dWEk3w1Uo97qw/giphy.gif)
 
 
-## Feedback
+## Citations célèbres
 
 > "On va conquérir le monde !" - Aymeric
 
