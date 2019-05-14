@@ -40,7 +40,7 @@ export default class extends Component {
     setTimeout(() => this.el.classList.add('-active'), 25)
 
     this.$emit('modal.open')
-    this.$scroll.lock(this.refs.close)
+    this.$scroll.lock(this.el)
 
     // set focus inside modal
     this.el.focus()

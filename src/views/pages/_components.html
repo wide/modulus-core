@@ -5,23 +5,17 @@ site:
 
 <style>
 section {
-  padding: 60px 0;
+  padding: 100px 0;
 }
 section.-bg-gray {
   background: #eee;
 }
-[data-anim=fade-right] {
+[data-anim=fade-up] {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateY(30px);
   transition: all 400ms ease-in-out;
 }
-[data-anim=fade-left] {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: all 400ms ease-in-out;
-}
-.fade-right-enter,
-.fade-left-enter {
+.fade-up-enter {
   opacity: 1;
   transform: translateX(0);
 }
@@ -33,28 +27,28 @@ section.-bg-gray {
 
 
 <section>
-  <div class="container" data-anim="fade-right">
+  <div class="container" data-anim="fade-up">
     {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=1" }}
   </div>
 </section>
 
 
 <section class="-bg-gray">
-  <div class="container" data-anim="fade-left">
+  <div class="container" data-anim="fade-up">
     {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
   </div>
 </section>
 
 
 <section>
-  <div class="container" data-anim="fade-right">
+  <div class="container" data-anim="fade-up">
     {{> text title=(lorem w=5) text=(lorem) cta=(json text="CTA" url="#") }}
   </div>
 </section>
 
 
 <section class="-bg-gray">
-  <div class="container" data-anim="fade-left">
+  <div class="container" data-anim="fade-up">
 
     <h2 class="text-center">FAQ</h2>
 
@@ -69,7 +63,7 @@ section.-bg-gray {
 
 
 <section class="text-center">
-  <div class="container" data-anim="fade-right">
+  <div class="container" data-anim="fade-up">
 
     <h2>Modal</h2>
 
@@ -82,7 +76,7 @@ section.-bg-gray {
 
 
 <section class="-bg-gray text-center">
-  <div class="container" data-anim="fade-left">
+  <div class="container" data-anim="fade-up">
 
     <h2>Dropdown</h2>
 

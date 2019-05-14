@@ -66,6 +66,7 @@ export default class Scroll extends Plugin {
    * @param {HTMLElement} target
    */
   lock(target) {
+    document.body.classList.add('-locked')
     document.documentElement.style.overflowY = 'hidden'
     disableBodyScroll(target)
   }
@@ -75,6 +76,7 @@ export default class Scroll extends Plugin {
    * Unlock scroll
    */
   unlock() {
+    document.body.classList.remove('-locked')
     document.documentElement.style.overflowY = 'scroll'
     clearAllBodyScrollLocks()
   }
