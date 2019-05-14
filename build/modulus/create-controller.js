@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import cfg from '../config'
-import { toCamel } from '../src/assets/js/utils/string'
+import cfg from '../../config'
+import { toCamel } from '../../src/assets/js/utils/string'
 
 
 /**
@@ -13,7 +13,7 @@ const controllerTemplate = (name) =>
 
 export default class ${toCamel(name, true)} extends Component {
 
-  
+
   /**
    * Initialize controller
    */

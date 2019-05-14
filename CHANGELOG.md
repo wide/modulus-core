@@ -9,8 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 ### Added
 - CHANGELOG.md file
+- Cookie, LocalStorage and SessionStorage manager
+- Add `html.js`: escapeHtml(), unscapeHtml() and getNodeData()
+- New Gulp builder
+- Gulp task for generate SVG sprite icons
+
 ### Changed
 - Enhance docs files for better explanation on how to use the boilerplate
+- Fix `Swiper` import
 
 ## [0.3.0](https://git.cross-systems.ch/wide-front/boilerplate-integration/tags/v0.3.0) - 2019/03/15
 ### Added

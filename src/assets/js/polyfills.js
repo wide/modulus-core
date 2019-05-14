@@ -71,7 +71,7 @@ document.body.classList.add(`-${name}`)
 document.body.classList.add(`-${name}${browser.getBrowserVersion().split('.')[0]}`)
 
 // webp support
-const webp = new Image();
+const webp = new Image()
 webp.onload = webp.onerror = () => {
   if (webp.height === 2) {
     document.body.classList.add(`-webp`)

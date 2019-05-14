@@ -1,10 +1,28 @@
 import path from 'path'
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
 export default {
   src: {
     assets: 'src/assets/{fonts,icons,img}/',
+    icons: {
+      files: 'src/assets/icons/*.svg',
+      config: {
+        mode: 'symbols',
+        preview: false,
+        svg: {
+          symbols: 'sprite-icons.svg'
+        }
+      }
+    },
     scss: {
       root: 'src/assets/scss/',
+      cleancss: {
+        level: {
+          0: {},
+          1: { specialComments: 0 },
+          2: {}
+        },
+      },
       entries: [{
         file: 'src/assets/scss/main.scss',
         watch: [
@@ -29,7 +47,11 @@ export default {
           '!src/assets/js/polyfills.js',
           '!src/assets/js/polyfills/*'
         ]
-      }, {
+      }]
+    },
+    polyfills: {
+      root: 'src/assets/js/',
+      entries: [{
         file: 'src/assets/js/polyfills.js',
         watch: []
       }, {
@@ -52,8 +74,10 @@ export default {
   },
   dist: {
     assets: 'dist/assets/',
+    icons: 'dist/assets/icons',
     css: 'dist/assets/css',
     js: 'dist/assets/js',
+    polyfills: 'dist/assets/js',
     html: 'dist/'
   },
   webpack: {
@@ -63,7 +87,8 @@ export default {
         '[ROOT]': __dirname,
         '~': path.resolve(`${__dirname}/src/assets/js/`),
         '@': path.resolve(`${__dirname}/src/views/components/`),
-        modulus: path.resolve(`${__dirname}/src/assets/js/vendors/modulus/`)
+        modulus: path.resolve(`${__dirname}/src/assets/js/vendors/modulus/`),
+        swiper: path.resolve(`${__dirname}/node_modules/swiper/dist/js/swiper.js`)
       }
     },
     module: {
@@ -71,6 +96,52 @@ export default {
         test: /.js$/,
         use: [{ loader: 'babel-loader' }]
       }]
+    },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'initial',
+          }
+        }
+      },
+      minimizer: [
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            output: {
+              comments: false,
+            }
+          }
+        })
+      ]
+    }
+  },
+  webpackPolyfills: {
+    mode: 'development',
+    resolve: {
+      alias: {
+        '[ROOT]': __dirname,
+        '~': path.resolve(`${__dirname}/src/assets/js/`),
+      }
+    },
+    module: {
+      rules: [{
+        test: /.js$/,
+        use: [{ loader: 'babel-loader' }]
+      }]
+    },
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            output: {
+              comments: false,
+            }
+          }
+        })
+      ]
     }
   }
 }
