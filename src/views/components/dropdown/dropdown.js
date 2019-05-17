@@ -31,6 +31,7 @@ export default class extends Component {
 
       // create item button (show option text and update value)
       const btn = document.createElement('button')
+      btn.type = 'button'
       btn.classList.add('dropdown_item')
       btn.value = this.refs.select.options[i].value
       btn.innerHTML = this.refs.select.options[i].text

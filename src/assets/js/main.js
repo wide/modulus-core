@@ -6,6 +6,7 @@ import Viewport from 'modulus/plugins/viewport'
 import Breakpoint from 'modulus/plugins/breakpoint'
 import Cookie from 'modulus/plugins/storage/cookie'
 import WebStorage from 'modulus/plugins/storage/web-storage'
+import Form from 'modulus/plugins/form'
 
 import Page from '~/controllers/page'
 import components from '[ROOT]/build/import-components'
@@ -26,7 +27,8 @@ export default new Modulus({
     breakpoint: new Breakpoint({ sizes: BREAKPOINTS }),
     cookie: new Cookie(),
     local: new WebStorage('local'),
-    session: new WebStorage('session')
+    session: new WebStorage('session'),
+    form: new Form()
   },
   controllers: {
     Page

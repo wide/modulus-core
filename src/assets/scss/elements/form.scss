@@ -1,11 +1,39 @@
-input,
-textarea {
-  border: 1px solid $white-70;
+input, select, textarea {
+  border: 1px solid $border-color;
   border-radius: 1px;
+  padding: 8px 18px;
   outline: none;
-  padding: 4px 8px;
-
+  transition: all $anim-speed-fast;
   &:active, &:focus {
-    border-color: $white-40;
+    border-color: $border-active-color;
   }
+  &.-touched:invalid {
+    border-color: red;
+  }
+}
+
+textarea {
+  height: 200px;
+}
+
+.form-control {
+  padding: 5px 0;
+
+  label {
+    vertical-align: top;
+    padding: 8px;
+    width: 100px;
+    &.-required::after {
+      content: '*';
+    }
+  }
+
+  input, select, textarea {
+    min-width: 300px;
+  }
+}
+
+.form-submit {
+  padding: 5px 0;
+  margin-left: 104px;
 }

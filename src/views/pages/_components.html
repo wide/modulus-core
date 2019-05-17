@@ -3,51 +3,111 @@ site:
   title: Components list
 ---
 
-<style>
-section {
-  padding: 100px 0;
-}
-section.-bg-gray {
-  background: #eee;
-}
-[data-anim=fade-up] {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 400ms ease-in-out;
-}
-.fade-up-enter {
-  opacity: 1;
-  transform: translateX(0);
-}
-</style>
-
 
 {{> header title=site.title image="https://picsum.photos/1080/900"}}
+
+
+<section class="section">
+  <div class="container" data-anim="fade-up">
+    
+    <h1>H1 Title</h1>
+    <h2>H2 Title</h2>
+    <h3>H3 Title</h3>
+
+    <p>{{lorem}}</p>
+
+  </div>
+</section>
+
+
+<section class="section -gray">
+  <div class="container" data-anim="fade-up">
+
+    <h2>Buttons</h2>
+
+    <p>
+      <button class="btn">btn</button>
+      <button class="btn -primary">btn -primary</button>
+      <button class="btn -secondary">btn -secondary</button>
+    </p>
+
+    <p>
+      <button class="btn -stroke">btn -stroke</button>
+      <button class="btn -stroke -primary">btn -stroke -primary</button>
+      <button class="btn -stroke -secondary">btn -stroke -secondary</button>
+    </p>
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container" data-anim="fade-up">
+
+    <h2>Form</h2>
+
+    <form>
+
+      <div class="form-control">
+        <label for="input1" class="-required">Input</label>
+        <input type="text" id="input1" placeholder="Hello this is input" required>
+      </div>
+  
+      <div class="form-control">
+        <label for="select1">Select</label>
+        <select id="select1">
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+        </select>
+      </div>
+  
+      <div class="form-control">
+        <label for="dropdown1">Dropdown</label>
+        {{> dropdown id="dropdown1" options=(object 1="Opt 1" 2="Opt 2" 3="Opt 3")}}
+      </div>
+  
+      <div class="form-control">
+        <label for="textarea1">Textarea</label>
+        <textarea id="textarea1" placeholder="Hello this is textarea"></textarea>
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn -primary">Submit</button>
+        <button type="reset" class="btn">Reset</button>
+      </div>
+
+    </form>
+
+  </div>
+</section>
+
+
 {{> header-slider slides=slider.home}}
 
 
-<section>
+<section class="section">
   <div class="container" data-anim="fade-up">
     {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=1" }}
   </div>
 </section>
 
 
-<section class="-bg-gray">
+<section class="section -gray">
   <div class="container" data-anim="fade-up">
     {{> text title=(lorem w=5) text=(lorem) image="https://picsum.photos/540/350?random=2" reverse=true }}
   </div>
 </section>
 
 
-<section>
+<section class="section">
   <div class="container" data-anim="fade-up">
     {{> text title=(lorem w=5) text=(lorem) cta=(json text="CTA" url="#") }}
   </div>
 </section>
 
 
-<section class="-bg-gray">
+<section class="section -gray">
   <div class="container" data-anim="fade-up">
 
     <h2 class="text-center">FAQ</h2>
@@ -62,25 +122,14 @@ section.-bg-gray {
 </section>
 
 
-<section class="text-center">
+<section class="section text-center">
   <div class="container" data-anim="fade-up">
 
     <h2>Modal</h2>
 
-    <button onClick="$modulus.get('modal#modal-1').open(this)">open</button>
+    <button class="btn" onClick="$mod.get('modal#modal1').open(this)">open</button>
 
   </div>
 </section>
 
-{{> modal id="modal-1"}}
-
-
-<section class="-bg-gray text-center">
-  <div class="container" data-anim="fade-up">
-
-    <h2>Dropdown</h2>
-
-    {{> dropdown name="choice" id="choice" options=(object 1="Opt 1" 2="Opt 2" 3="Opt 3")}}
-
-  </div>
-</section>
+{{> modal id="modal1"}}

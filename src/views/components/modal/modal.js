@@ -13,10 +13,12 @@ export default class extends Component {
     this.isOpen = false
     this.src = null
 
-    // close en button click
-    this.refs.close.addEventListener('click', e => this.close())
+    // toggle on local event
+    this.on('open', src => this.open(src))
+    this.on('close', src => this.close())
 
-    // close on shadow click
+    // close en button click or shadow click
+    this.refs.close.addEventListener('click', e => this.close())
     this.refs.shadow.addEventListener('click', e => this.close())
 
     // close on ESC keydown
