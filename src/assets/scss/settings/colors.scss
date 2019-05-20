@@ -5,6 +5,19 @@
 // Palette
 // =============================================================================
 
+// https://coolors.co/e63946-f1faee-a8dadc-457b9d-1d3557
+$primary-color: #E63946;
+$primary-color-light: lighten($primary-color, 10%);
+$primary-color-dark: darken($primary-color, 10%);
+
+$secondary-color: #1D3557;
+$secondary-color-light: lighten($secondary-color, 10%);
+$secondary-color-dark: darken($secondary-color, 10%);
+
+$default-color: #457B9D;
+$default-color-light: lighten($default-color, 10%);
+$default-color-dark: darken($default-color, 10%);
+
 $white-100: #FFF;
 $white-90: #EEE;
 $white-80: #DDD;
@@ -28,9 +41,8 @@ $black-100: #000;
 // =============================================================================
 
 // Link
-$link-color: #1A0DAB;
-$link-focus-color: #1A0DAB;
-$link-hover-color: darken(#1A0DAB, 10%);
+$link-color: $secondary-color;
+$link-active-color: $secondary-color-dark;
 
 // Selection
 $selection-text-color: $white-100;
@@ -38,6 +50,7 @@ $selection-background-color: $black-100;
 
 // Borders
 $border-color: $white-70;
+$border-active-color: $white-30;
 
 
 // Social Colors

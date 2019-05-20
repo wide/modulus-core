@@ -26,8 +26,7 @@
 // 4# Elements
 // Single HTML element selectors without classes
 // ==========================================================================
-@import 'elements/table';
-@import 'elements/form';
+@import 'elements/**/*';
 
 
 // 5# Objects
@@ -53,3 +52,4 @@
 // The most specific styles for overriding anything else in the triangle
 // ==========================================================================
 @import 'core/utilities/index'; // core import, please do not change
+@import 'utilities/**/*';

@@ -2,6 +2,7 @@
   position: relative;
   display: inline-block;
   background: $white-100;
+  width: 100%;
 
   select {
     display: none;
@@ -15,16 +16,17 @@
       width: calc(100% - 2px);
     }
   }
+  button {
+    outline: none;
+  }
 
   &_current {
+    @extend input;
     z-index: 1;
     position: relative;
-    border: none;
     background: $white-100;
-    padding: 8px 35px 8px 25px;
-    border-radius: 2px;
-    border: 1px solid $border-color;
-    transition: all 300ms;
+    padding-left: 30px;
+    padding-right: 30px;
     @at-root .-touch-based & {
       pointer-events: none;
     }

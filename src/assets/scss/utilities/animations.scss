@@ -1,0 +1,41 @@
+// Base animations to use with the Viewport plugin
+// ==========================================================================
+
+[data-anim] {
+  transition: all $anim-speed ease-in-out;
+}
+
+[data-anim^=fade] { opacity: 0 }
+.fade-enter { opacity: 1 }
+
+[data-anim=fade-up] {
+  transform: translateY(30px);
+}
+.fade-up-enter {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+[data-anim=fade-down] {
+  transform: translateY(-30px);
+}
+.fade-down-enter {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+[data-anim=fade-left] {
+  transform: translateX(30px);
+}
+.fade-left-enter {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+[data-anim=fade-right] {
+  transform: translateX(-30px);
+}
+.fade-right-enter {
+  opacity: 1;
+  transform: translateX(0);
+}

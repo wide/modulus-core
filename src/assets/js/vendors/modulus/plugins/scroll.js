@@ -3,9 +3,17 @@ import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import updateOnScroll from 'uos'
 import sticky from 'stickybits'
 import jump from 'jump.js'
-import CustomEvent from '~/utils/custom-event'
 import { PARALLAX_COEF } from '~/consts'
 
+import passiveScrollTo from './scroll/passive-scroll-to'
+import passiveParallax from './scroll/passive-parallax'
+import passiveSticky from './scroll/passive-sticky'
+
+const passiveObservers = [
+  passiveScrollTo,
+  passiveParallax,
+  passiveSticky
+]
 
 export default class Scroll extends Plugin {
 
@@ -34,20 +42,33 @@ export default class Scroll extends Plugin {
    */
   onInit() {
 
-    this._observeScroll()
-    this._observeScrollTo()
-    this._observeParallaxAttrs()
-    this._observeStickyAttrs()
+    this.observeScroll()
+    this.applyPassiveObservers()
 
     this.$on('route.destroy', root => {
-      this._clearParallaxAttrs(root)
-      this._clearStickyAttrs(root)
+      this.clearPassiveObservers(root)
     })
 
-    this.$on('route.loaded', root => {
-      this._observeParallaxAttrs(root)
-      this._observeStickyAttrs(root)
-    })
+    this.$on('route.loaded', root => this.applyPassiveObservers(root))
+    this.$on('dom.updated', root => this.applyPassiveObservers(root))
+  }
+
+
+   /**
+   * Apply auto-observers
+   * @param {HTMLElement} root 
+   */
+  applyPassiveObservers(root = document.body) {
+    passiveObservers.forEach(obs => obs.apply(this, root))
+  }
+
+
+   /**
+   * Clear auto-observers
+   * @param {HTMLElement} root 
+   */
+  clearPassiveObservers(root = document.body) {
+    passiveObservers.forEach(obs => obs.clear(this, root))
   }
 
 
@@ -150,72 +171,25 @@ export default class Scroll extends Plugin {
   /**
    * Listen scroll and compute values
    */
-  _observeScroll() {
+  observeScroll() {
 
     // set first state
-    this._computeScroll(0)
+    this.computeScroll(0)
 
     // on scroll, recompute
     this.progress(0.0, 1.0, progress => {
-      this._computeScroll(progress)
+      this.computeScroll(progress)
       this.$emit('scroll', this.state)
     })
   }
 
 
-  _computeScroll(progress) {
+  computeScroll(progress) {
     this.state = {
       up: (window.scrollY < this.state.value),
       down: (window.scrollY > this.state.value),
       value: window.scrollY,
       progress
-    }
-  }
-
-
-  /**
-   * Listen scroolto attributes
-   */
-  _observeScrollTo() {
-    const els = document.querySelectorAll(`[${this.config.scrollToAttr}]`)
-    for(let i = 0; i < els.length; i++) {
-      els[i].addEventListener('click', e => {
-        e.stopPropagation()
-        const target = e.target.getAttribute(this.config.scrollToAttr) || e.target.href
-        this.to(target)
-        return false
-      })
-    }
-  }
-
-
-  /**
-   * Apply parallax observer to `[data-parallax]` attributes
-   * @param {HTMLElement} root
-   */
-  _observeParallaxAttrs(root = document.body) {
-
-    const els = root.querySelectorAll(`[${this.config.parallaxAttr}]`)
-    for(let i = 0; i < els.length; i++) {
-      this.parallax(els[i], {
-        coef: parseFloat(els[i].getAttribute(this.config.parallaxAttr)) || undefined,
-        axis: els[i].getAttribute(`${this.config.parallaxAttr}.axis`) || undefined
-      })
-    }
-
-    // trigger scroll event once for detection
-    window.dispatchEvent(new CustomEvent('scroll'))
-  }
-
-
-  /**
-   * Clear parallax attributes observers
-   * @param {HTMLElement} root 
-   */
-  _clearParallaxAttrs(root = document.body) {
-    const els = root.querySelectorAll(`[${this.config.parallaxAttr}]`)
-    for(let i = 0; i < els.length; i++) {
-      this.clearParallax(els[i])
     }
   }
 
@@ -245,30 +219,6 @@ export default class Scroll extends Plugin {
   clearSticky(el) {
     const i = this.stickied.findIndex(a => a.el == el)
     if(i >= 0) this.stickied[i].instance.cleanup()
-  }
-
-
-  /**
-   * Apply sticky observer to `[data-sticky]` attributes
-   * @param {HTMLElement} root
-   */
-  _observeStickyAttrs(root = document.body) {
-    const els = root.querySelectorAll(`[${this.config.stickyAttr}]`)
-    for(let i = 0; i < els.length; i++) {
-      this.sticky(els[i])
-    }
-  }
-
-
-  /**
-   * Clear sticky attributes observers
-   * @param {HTMLElement} root 
-   */
-  _clearStickyAttrs(root = document.body) {
-    const els = root.querySelectorAll(`[${this.config.stickyAttr}]`)
-    for(let i = 0; i < els.length; i++) {
-      this.clearSticky(els[i])
-    }
   }
 
 }

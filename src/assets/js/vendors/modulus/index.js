@@ -44,7 +44,7 @@ export default class Modulus extends EventEmitter {
 
     // assign itself to window object if expose requested
     if(this.config.expose) {
-      window.$modulus = this
+      window.$mod = this
     }
 
     // start parsing
