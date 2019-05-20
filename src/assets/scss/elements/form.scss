@@ -19,14 +19,14 @@ input, select, textarea,
   padding: 8px 18px;
   outline: none;
   transition: all $anim-speed-fast;
-  &.-touched:invalid {
-    border-color: red;
-  }
 }
 
 input, select, textarea {
   &:active, &:focus {
     border-color: $border-active-color;
+  }
+  &.-touched.-invalid {
+    border-color: $error-color;
   }
 }
 
@@ -36,10 +36,24 @@ input, select, textarea {
   &:focus + label::before {
     border-color: $border-active-color;
   }
+  &.-touched.-invalid + label {
+    color: $error-color;
+    &::before {
+      border-color: $error-color;
+    }
+  }
 }
 
 textarea {
   height: 200px;
+}
+
+
+//
+// States
+//
+.-touched.-invalid {
+  border-color: $error-color;
 }
 
 
