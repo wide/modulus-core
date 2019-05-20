@@ -48,33 +48,95 @@ site:
 
     <form>
 
-      <div class="form-control">
-        <label for="input1" class="-required">Input</label>
-        <input type="text" id="input1" placeholder="Hello this is input" required>
-      </div>
-  
-      <div class="form-control">
-        <label for="select1">Select</label>
-        <select id="select1">
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-          <option value="3">Option 3</option>
-        </select>
-      </div>
-  
-      <div class="form-control">
-        <label for="dropdown1">Dropdown</label>
-        {{> dropdown id="dropdown1" options=(object 1="Opt 1" 2="Opt 2" 3="Opt 3")}}
-      </div>
-  
-      <div class="form-control">
-        <label for="textarea1">Textarea</label>
-        <textarea id="textarea1" placeholder="Hello this is textarea"></textarea>
+      <div class="row form-line">
+        <div class="col-lg-2">
+          <label for="input1" class="-required">Input</label>
+        </div>
+        <div class="col-lg-4">
+          <input type="text" id="input1" placeholder="Hello this is input" required>
+        </div>
       </div>
 
-      <div class="form-submit">
-        <button type="submit" class="btn -primary">Submit</button>
-        <button type="reset" class="btn">Reset</button>
+      <div class="row form-line">
+        <div class="col-lg-2">
+          <label for="select1">Select</label>
+        </div>
+        <div class="col-lg-4">
+          <select id="select1">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row form-line">
+        <div class="col-lg-2">
+          <label for="dropdown1">Dropdown</label>
+        </div>
+        <div class="col-lg-4">
+          {{> dropdown id="dropdown1" options=(object 1="Opt 1" 2="Opt 2" 3="Opt 3")}}
+        </div>
+      </div>
+
+      <div class="row form-line">
+        <div class="col-lg-2">
+          <label for="textarea1">Textarea</label>
+        </div>
+        <div class="col-lg-4">
+          <textarea id="textarea1" placeholder="Hello this is textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="row form-line">
+        <div class="col-lg-2">
+          <span class="label">Checkboxes</span>
+        </div>
+        <div class="col-lg-4">
+          <ul class="checkboxes">
+            <li class="checkbox">
+              <input type="checkbox" name="ckb[]" id="ckb1" checked />
+              <label for="ckb1">Checkbox 1</label>
+            </li>
+            <li class="checkbox">
+              <input type="checkbox" name="ckb[]" id="ckb2" />
+              <label for="ckb2">Checkbox 2</label>
+            </li>
+            <li class="checkbox">
+              <input type="checkbox" name="ckb[]" id="ckb3" />
+              <label for="ckb3">Checkbox 3</label>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row form-line">
+        <div class="col-lg-2">
+          <span class="label">Radios</span>
+        </div>
+        <div class="col-lg-4">
+          <ul class="radios">
+            <li class="radio">
+              <input type="radio" name="rd" id="rd1" checked />
+              <label for="rd1">Radio 1</label>
+            </li>
+            <li class="radio">
+              <input type="radio" name="rd" id="rd2" />
+              <label for="rd2">Radio 2</label>
+            </li>
+            <li class="radio">
+              <input type="radio" name="rd" id="rd3" />
+              <label for="rd3">Radio 3</label>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row form-line">
+        <div class="col-lg-4 offset-lg-2">
+          <button type="submit" class="btn -primary">Submit</button>
+          <button type="reset" class="btn">Reset</button>
+        </div>
       </div>
 
     </form>

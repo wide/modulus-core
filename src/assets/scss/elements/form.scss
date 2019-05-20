@@ -1,14 +1,40 @@
-input, select, textarea {
+//
+// Style for all controlls
+//
+label, .label {
+  display: inline-block;
+  cursor: pointer;
+  padding: 8px;
+  &.-required::after {
+    content: '*';
+  }
+}
+
+input, select, textarea,
+.checkbox label::before,
+.radio label::before {
+  width: 100%;
   border: 1px solid $border-color;
   border-radius: 1px;
   padding: 8px 18px;
   outline: none;
   transition: all $anim-speed-fast;
+  &.-touched:invalid {
+    border-color: red;
+  }
+}
+
+input, select, textarea {
   &:active, &:focus {
     border-color: $border-active-color;
   }
-  &.-touched:invalid {
-    border-color: red;
+}
+
+.checkbox input,
+.radio input {
+  &:active + label::before,
+  &:focus + label::before {
+    border-color: $border-active-color;
   }
 }
 
@@ -16,24 +42,57 @@ textarea {
   height: 200px;
 }
 
-.form-control {
-  padding: 5px 0;
+
+//
+// Custom checkbox and radio input
+//
+.checkbox, .radio {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 20px;
 
   label {
-    vertical-align: top;
-    padding: 8px;
-    width: 100px;
-    &.-required::after {
-      content: '*';
+    padding: 0 !important;
+    width: auto !important;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      margin-right: 8px;
+      margin-top: -2px;
+      text-align: center;
+      line-height: 100%;
     }
   }
 
-  input, select, textarea {
-    min-width: 300px;
+  input {
+    position: absolute;
+    top: -9999;
+    opacity: 0;
+    &:checked + label::before {
+      content: '✓';
+    }
   }
 }
 
-.form-submit {
+.radio label::before {
+  border-radius: 100%;
+}
+
+.checkboxes, .radios {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+}
+
+
+//
+// Line containing label and control
+//
+.form-line {
   padding: 5px 0;
-  margin-left: 104px;
 }
