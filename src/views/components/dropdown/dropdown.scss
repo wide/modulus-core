@@ -52,6 +52,7 @@
   }
 
   &_list {
+    z-index: 5;
     position: absolute;
     top: 100%;
     left: 0;
@@ -69,7 +70,7 @@
     border: none;
     background: none;
     padding: 8px 25px;
-    &:hover {
+    &:focus, &:hover {
       background: $white-90;
     }
   }

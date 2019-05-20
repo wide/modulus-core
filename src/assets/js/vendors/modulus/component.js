@@ -8,7 +8,7 @@ export default class Component extends EventEmitter {
    * @param {Object}        opts
    * @param {Object}        opts.attrs - element attributes
    * @param {DOMStringMap}  opts.dataset - element dataset attributes
-   * @param {Object}        opts.refs - HTMLElement found by ref
+   * @param {Object}        opts.refs - HTMLElement found by `[ref]`
    */
   constructor(el, { attrs, dataset, refs }) {
     super()
@@ -29,6 +29,26 @@ export default class Component extends EventEmitter {
    * Destroy component
    */
   onDestroy() {}
+
+
+  /**
+   * Alias of querySelector()
+   * @param {String} selector
+   * @return {HTMLElement}
+   */
+  child(selector) {
+    return this.el.querySelector(selector)
+  }
+
+
+  /**
+   * Alias of querySelectorAll()
+   * @param {String} selector 
+   * @return {NodeList}
+   */
+  children(selector) {
+    return this.el.querySelectorAll(selector)
+  }
 
 
   /**

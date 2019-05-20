@@ -5,18 +5,21 @@
 // Palette
 // =============================================================================
 
-// https://coolors.co/e63946-f1faee-a8dadc-457b9d-1d3557
-$primary-color: #E63946;
+// https://coolors.co/fe938c-e6b89c-ead2ac-9cafb7-4281a4
+$primary-color: #4281A4;
 $primary-color-light: lighten($primary-color, 10%);
 $primary-color-dark: darken($primary-color, 10%);
 
-$secondary-color: #1D3557;
+$secondary-color: #FE938C;
 $secondary-color-light: lighten($secondary-color, 10%);
 $secondary-color-dark: darken($secondary-color, 10%);
 
-$default-color: #457B9D;
+$default-color: #9CAFB7;
 $default-color-light: lighten($default-color, 10%);
 $default-color-dark: darken($default-color, 10%);
+
+$error-color: #EF233C;
+$success-color: #02C39A;
 
 $white-100: #FFF;
 $white-90: #EEE;
