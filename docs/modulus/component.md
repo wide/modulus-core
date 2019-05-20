@@ -115,6 +115,20 @@ Les niveaux de sévérité `debug`, `info`, `warn` ou `error` peuvent être util
 this.log.warn('oops')
 ```
 
+### this.child(selector)
+
+Alias de
+```js
+this.el.querySelector(selector)
+```
+
+### this.children(selector)
+
+Alias de
+```js
+this.el.querySelectorAll(selector)
+```
+
 ### this.$on(event, callback)
 
 Permet d'écouter un évenement global à tous les plugins et composants :
