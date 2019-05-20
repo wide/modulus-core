@@ -66,7 +66,7 @@ export default class Viewport extends Plugin {
    * @param {String}                opts.offset     margin around scope to defer trigger
    * @param {Function}              opts.callback   action to call
    */
-  observe({ scope, target, once = false, enter = true, leave = false, offset, callback }) {
+  observe({ scope, target, once = true, enter = true, leave = false, offset, callback }) {
 
     // keep track of element entering at least once
     let hasEntered = false

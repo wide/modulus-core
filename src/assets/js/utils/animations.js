@@ -1,18 +1,12 @@
-import { animate } from '~/utils/dom'
-import { ANIM_DURATION } from '~/consts'
+import { timeline } from '~/utils/dom'
 
-
-/**
- * Elements animation
- */
 export default {
 
-  /**
-   * Fade: enter -> in / leave -> out
-   */
-  fade: {
-    enter: el => animate(el, { opacity: 0 }, { opacity: 1 }, ANIM_DURATION),
-    leave: el => animate(el, { opacity: 1 }, { opacity: 0 }, ANIM_DURATION)
+  fadeUp: {
+    enter: els => timeline(els,
+      { opacity: 0, y: 60 },
+      { opacity: 1, y: 0 }
+    )
   }
 
 }

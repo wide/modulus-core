@@ -7,5 +7,6 @@ export const BREAKPOINTS = {
 }
 
 export const ANIM_DURATION = 400 //ms
+export const ANIM_DELAY = 40 //ms
 
 export const PARALLAX_COEF = 0.4

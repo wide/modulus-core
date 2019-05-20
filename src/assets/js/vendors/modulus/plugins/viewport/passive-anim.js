@@ -25,6 +25,7 @@ export default {
       // get transition options
       const when = els[i].getAttribute(`${viewport.config.animAttribute}.when`) || ''
       const offset = els[i].getAttribute(`${viewport.config.animAttribute}.offset`) || viewport.config.animOffset
+      const staggering = els[i].hasAttribute(`${viewport.config.animAttribute}.stagger`)
   
       // parse when options
       const opts = {}
@@ -41,7 +42,7 @@ export default {
           if(isJS) {
             const verb = (entry.isIntersecting) ? 'enter' : 'leave'
             if(viewport.animations[name][verb]) {
-              viewport.animations[name][verb](el)
+              viewport.animations[name][verb](staggering ? el.children : el)
             }
           }
           // CSS transition
