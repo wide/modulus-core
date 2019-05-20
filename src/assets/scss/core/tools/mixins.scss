@@ -37,7 +37,7 @@
   font-size: rem($font-size) $important;
 
   @if ($line-height == 'auto') {
-    line-height: ceil($font-size / $line-height) * ($line-height / $font-size) $important;
+    line-height: ceil($font-size / $line-height-base) * ($line-height-base / $font-size) $important;
   }
   @else {
     @if (type-of($line-height) == number or $line-height == 'inherit' or $line-height == 'normal') {
