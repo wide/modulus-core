@@ -10,7 +10,7 @@ export default class Breakpoint extends Plugin {
    */
   constructor({ sizes }) {
     super() 
-    this.sizes = this._resolveBoundaries(sizes)
+    this.sizes = this.resolveBoundaries(sizes)
     this.current = this.compute()
     this.callbacks = []
   }
@@ -21,7 +21,7 @@ export default class Breakpoint extends Plugin {
    * @param {Object} sizes
    * @return {Object}
    */
-  _resolveBoundaries(sizes) {
+  resolveBoundaries(sizes) {
     const output = {}
     const sorted = Object.keys(sizes).map(key => ({ key, value: sizes[key] })).sort((a, b) => a[1] - b[1])
     for(let i = 0; i < sorted.length; i++) {
