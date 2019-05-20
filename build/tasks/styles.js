@@ -3,8 +3,8 @@ import gulp from 'gulp'
 import plugins from 'gulp-load-plugins'
 import yargs from 'yargs'
 
-import sassAliases from './sass-alias'
-import cfg from './../config'
+import sassAliases from '../sass-alias'
+import cfg from '../../config'
 
 // load gulp plugins
 const $ = plugins()

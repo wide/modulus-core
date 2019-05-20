@@ -5,7 +5,7 @@ import plugins from 'gulp-load-plugins'
 import panini from 'panini'
 import prettify from 'prettify'
 
-import cfg from './../config'
+import cfg from '../../config'
 
 // load gulp plugins
 const $ = plugins()

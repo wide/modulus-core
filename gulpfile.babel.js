@@ -1,38 +1,68 @@
-import gulp from 'gulp'
+import { parallel, series, task } from 'gulp'
 import yargs from 'yargs'
 
 import cfg from './config'
 
 // build functions
-import { copyAssets, buildSvgSprite } from './build/assets'
-import { resetPanini, buildPanini } from './build/panini'
-import { buildJs, buildPolyfills } from './build/scripts'
-import { buildCss, autoprefixer } from './build/styles'
-import { serve } from './build/serve'
-import { watch } from './build/watch'
+import { copy, compress, favicons, symbols, webp } from './build/tasks/assets'
+import { serve, watch } from './build/tasks/browser'
+import { buildJs, polyfills } from './build/tasks/scripts'
+import { buildCss, autoprefixer } from './build/tasks/styles'
+import { buildPanini, resetPanini } from './build/tasks/views'
 
 // modulus `create:*`
 import createPlugin from './build/modulus/create-plugin'
 import createController from './build/modulus/create-controller'
 import createComponent from './build/modulus/create-component'
 
-// build tasks
-gulp.task('copy:assets', () => copyAssets())
-gulp.task('clean:html', (done) => resetPanini(done))
-gulp.task('build:autoprefixer', () => autoprefixer())
-gulp.task('build:css', () => buildCss(...cfg.src.scss.entries.map(entry => entry.file)))
-gulp.task('build:html', () => buildPanini())
-gulp.task('build:js', () => buildJs(...cfg.src.js.entries.map(entry => entry.file)))
-gulp.task('build:polyfills', () => buildPolyfills(...cfg.src.polyfills.entries.map(entry => entry.file)))
-gulp.task('build:icons', () => buildSvgSprite())
-gulp.task('serve', (done) => serve(done))
-gulp.task('watch', (done) => watch(done))
+// assets tasks
+task('assets:copy', () => copy())
+task('assets:favicons', () => favicons())
+task('assets:ico.symbols', () => symbols())
+task('assets:img.webp', () => webp())
+task('assets:img.compress', () => compress())
 
-// module `create:*` commands
-gulp.task('create:component', (done) => createComponent(__dirname, yargs.argv.name, done))
-gulp.task('create:controller', (done) => createController(__dirname, yargs.argv.name, done))
-gulp.task('create:plugin', (done) => createPlugin(__dirname, yargs.argv.name, done))
+// browser tasks
+task('browser:serve', (done) => serve(done))
+task('browser:watch', (done) => watch(done))
+
+// scripts tasks
+task('scripts:build', () => buildJs(...cfg.src.js.entries.map(entry => entry.file)))
+task('scripts:polyfills', () => polyfills(...cfg.src.polyfills.entries.map(entry => entry.file)))
+
+// styles tasks
+task('styles:build', () => buildCss(...cfg.src.scss.entries.map(entry => entry.file)))
+task('styles:autoprefixer', () => autoprefixer())
+
+// views tasks
+task('views:build', () => buildPanini())
+task('views:reset', (done) => resetPanini(done))
 
 // npm global tasks
-gulp.task('build', gulp.series('clean:html', 'build:icons', 'build:html', 'build:css', 'build:autoprefixer', 'build:js', 'build:polyfills', 'copy:assets'))
-gulp.task('default', gulp.series('build', 'serve', 'watch'))
+task('build',
+  series(
+    'views:reset',
+    parallel(
+      'scripts:build',
+      'styles:build',
+      'views:build'
+    ),
+    parallel(
+      'assets:copy',
+      'assets:favicons',
+      'scripts:polyfills',
+      'styles:autoprefixer'
+    ),
+    parallel(
+      'assets:ico.symbols',
+      'assets:img.compress',
+      'assets:img.webp'
+    )
+  )
+)
+task('default', series('build', 'browser:serve', 'browser:watch'))
+
+// modulus `create:*` commands
+task('create:component', (done) => createComponent(__dirname, yargs.argv.name, done))
+task('create:controller', (done) => createController(__dirname, yargs.argv.name, done))
+task('create:plugin', (done) => createPlugin(__dirname, yargs.argv.name, done))

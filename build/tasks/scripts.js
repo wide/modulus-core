@@ -5,8 +5,8 @@ import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
 import yargs from 'yargs'
 
-import makeImportComponents from './make-import-components'
-import cfg from './../config'
+import makeImportComponents from '../make-import-components'
+import cfg from '../../config'
 
 // load gulp plugins
 const $ = plugins()
@@ -25,7 +25,7 @@ export function buildJs(...entries) {
   setWebpackConfig('webpack')
 
   // import components before js compilation
-  makeImportComponents(`${__dirname}/../${cfg.src.html.partials}`)
+  makeImportComponents(`${__dirname}/../../${cfg.src.html.partials}`)
 
   return gulp.src(entries)
     .pipe($.plumber())
@@ -36,7 +36,7 @@ export function buildJs(...entries) {
     .pipe(gulp.dest(cfg.dist.js))
 }
 
-export function buildPolyfills(...entries) {
+export function polyfills(...entries) {
   setWebpackConfig('webpackPolyfills')
 
   return gulp.src(entries)
