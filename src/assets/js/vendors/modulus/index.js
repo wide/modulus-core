@@ -150,8 +150,7 @@ export default class Modulus extends EventEmitter {
     new MutationObserver(e => {
 
       for(let uid in this.components) {
-        const el = this.components[uid].el
-        if(!document.body.contains(el)) {
+        if(!document.body.contains(this.components[uid].el)) {
           if(this.components[uid].onDestroy) {
             this.components[uid].onDestroy()
           }
