@@ -24,46 +24,58 @@ export function copy() {
  * Images optimization with imagemin
  * @returns {Object} gulp
  */
-export function compress() {
-  return gulp.src(cfg.src.img.files)
-    .pipe($.plumber())
-    .pipe($.imagemin(cfg.src.img.compress))
-    .pipe(gulp.dest(`${cfg.dist.assets}img`))
+export function compress(done, enabled = false) {
+  if (cfg.src.img.enabled.compress || enabled) {
+    return gulp.src(cfg.src.img.files)
+      .pipe($.plumber())
+      .pipe($.imagemin(cfg.src.img.compress))
+      .pipe(gulp.dest(`${cfg.dist.assets}/img`))
+  }
+  done()
 }
 
 /**
  * Generate favicons images
  * @returns {Object} gulp
  */
-export function favicons() {
-  return gulp.src('src/assets/favicon.png')
-    .pipe($.plumber())
-    .pipe($.favicons(cfg.src.favicons))
-    .pipe(gulp.dest('dist/assets/favicons'));
+export function favicons(done) {
+  if (cfg.src.favicons.enabled) {
+    return gulp.src(cfg.src.favicons.file)
+      .pipe($.plumber())
+      .pipe($.favicons(cfg.src.favicons.settings))
+      .pipe(gulp.dest(`${cfg.dist.assets}/favicons`))
+  }
+  done()
 }
 
 /**
  * Generate SVG sprite icons
  * @returns {Object} gulp
  */
-export function symbols() {
+export function symbols(done) {
   if (!PRODUCTION) {
     cfg.src.icons.config.preview = { symbols: 'sprite-icons.html' }
   }
 
-  return typeof(gulp.src(cfg.src.icons.files)
-    .pipe($.plumber())
-    .pipe($.svgSprites(cfg.src.icons.config))
-    .pipe(gulp.dest(`${cfg.dist.assets}icons`)))
+  if (cfg.src.icons.enabled) {
+    return gulp.src(cfg.src.icons.files)
+      .pipe($.plumber())
+      .pipe($.svgSprites(cfg.src.icons.settings))
+      .pipe(gulp.dest(`${cfg.dist.assets}/icons`))
+  }
+  done()
 }
 
 /**
  * Generate webp images
  * @returns {Object} gulp
  */
-export function webp() {
-  return gulp.src(cfg.src.img.files)
-    .pipe($.plumber())
-    .pipe($.webp())
-    .pipe(gulp.dest(`${cfg.dist.assets}img`))
+export function webp(done, enabled = false) {
+  if (cfg.src.img.enabled.webp || enabled) {
+    return gulp.src(cfg.src.img.files)
+      .pipe($.plumber())
+      .pipe($.webp())
+      .pipe(gulp.dest(`${cfg.dist.assets}/img`))
+  }
+  done()
 }

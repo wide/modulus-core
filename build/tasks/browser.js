@@ -17,6 +17,7 @@ export function serve(done) {
       directory: true
     }
   })
+
   done()
 }
 

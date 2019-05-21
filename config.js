@@ -4,29 +4,29 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
 export default {
   src: {
-    assets: 'src/assets/{fonts,icons,img}/',
-
-
-
+    assets: 'src/assets/{fonts,img}/',
     favicons: {
-      icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: false,
-        coast: false,
-        favicons: true,
-        firefox: false,
-        opengraph: false,
-        twitter: false,
-        windows: true,
-        yandex: false
+      enabled: true,
+      file: 'src/assets/favicon.png',
+      settings: {
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          firefox: false,
+          opengraph: false,
+          twitter: false,
+          windows: true,
+          yandex: false
+        }
       }
     },
-
-
     icons: {
+      enabled: true,
       files: 'src/assets/icons/*.svg',
-      config: {
+      settings: {
         mode: 'symbols',
         preview: false,
         svg: {
@@ -36,6 +36,10 @@ export default {
     },
     img: {
       files: 'src/assets/img/**/*',
+      enabled: {
+        compress: false,
+        webp: false
+      },
       webp: {
         quality: 75
       },
@@ -111,7 +115,7 @@ export default {
   // ---
   // paths for dist/ folder
   dist: {
-    assets: 'dist/assets/',
+    assets: 'dist/assets',
     css: 'dist/assets/css',
     js: 'dist/assets/js',
     polyfills: 'dist/assets/js',

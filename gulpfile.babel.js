@@ -17,10 +17,12 @@ import createComponent from './build/modulus/create-component'
 
 // assets tasks
 task('assets:copy', () => copy())
-task('assets:favicons', () => favicons())
-task('assets:ico.symbols', () => symbols())
-task('assets:img.webp', () => webp())
-task('assets:img.compress', () => compress())
+task('assets:favicons', (done) => favicons(done))
+task('assets:ico.symbols', (done) => symbols(done))
+task('assets:img.webp', (done) => webp(done))
+task('assets:img.webp.enabled', (done) => webp(done, true))
+task('assets:img.compress', (done) => compress(done))
+task('assets:img.compress.enabled', (done) => compress(done, true))
 
 // browser tasks
 task('browser:serve', (done) => serve(done))

@@ -14,6 +14,10 @@ const $ = plugins()
 // set ENV mode
 const PRODUCTION = !!(yargs.argv.production)
 
+/**
+ * Set Webpack config
+ * @param {String} configId
+ */
 function setWebpackConfig(configId) {
   cfg[configId].mode = PRODUCTION ? 'production' : 'development'
   cfg[configId].plugins = [
@@ -21,6 +25,11 @@ function setWebpackConfig(configId) {
   ]
 }
 
+/**
+ * Build main.js
+ * @param  {...Array} entries
+ * @returns {Object} gulp
+ */
 export function buildJs(...entries) {
   setWebpackConfig('webpack')
 
@@ -36,6 +45,11 @@ export function buildJs(...entries) {
     .pipe(gulp.dest(cfg.dist.js))
 }
 
+/**
+ * Build polyfills
+ * @param  {...Array} entries
+ * @returns {Object} gulp
+ */
 export function polyfills(...entries) {
   setWebpackConfig('webpackPolyfills')
 

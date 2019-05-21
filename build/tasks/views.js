@@ -16,7 +16,7 @@ helpers({ handlebars })
 
 /**
  * Reset Panini's cache of layouts and partials
- * @param {*} done
+ * @param {Function} done (callback)
  */
 export function resetPanini(done) {
   panini.refresh()
@@ -25,7 +25,7 @@ export function resetPanini(done) {
 
 /**
  * Compile layouts, pages, and partials into flat HTML files
- * @returns {}
+ * @returns {Object} gulp
  */
 export function buildPanini() {
   return gulp.src(`${cfg.src.html.pages}**/*.html`)
