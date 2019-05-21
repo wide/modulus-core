@@ -12,8 +12,8 @@ export default {
   },
 
   fade: {
-    loading: el => animate(el, { opacity: 1 }, { opacity: 0 }),
-    loaded: el => animate(el, { opacity: 0 }, { opacity: 1 })
+    enter: el => animate(el, { opacity: 0 }),
+    leave: el => animate(el, { opacity: 1 })
   }
 
 }

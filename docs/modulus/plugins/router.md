@@ -96,8 +96,8 @@ export default class extends Component {
 
 Le router emet des évenement pour chaque requête avec en paramètre l'élement conteneur (`<main>`), à savoir :
 - `route.change` au début de la requête asynchrone, avant la transition de chargement
-- `route.destroy` à la fin de la requête asynchrone, avant le remplacement du contenu
-- `route.loaded` après le remplacement de contenu, avant la transition d'apparition
+- `dom.destroyed` à la fin de la requête asynchrone, avant le remplacement du contenu
+- `dom.updated` après le remplacement de contenu, avant la transition d'apparition
 
 Ces events sont utiles pour détruire les écouteurs et les recréer à partir du nouveau DOM, ex:
 
@@ -110,13 +110,8 @@ export default class extends Plugin {
 
     this.observeSomething()
 
-    this.$on('route.destroy', root => {
-      this.clearObservers(root)
-    })
-
-    this.$on('route.loaded', root => {
-      this.observeSomething(root)
-    })
+    this.$on('dom.destroyed', root => this.clearObservers(root))
+    this.$on('dom.updated', root => this.observeSomething(root))
   }
 
 }

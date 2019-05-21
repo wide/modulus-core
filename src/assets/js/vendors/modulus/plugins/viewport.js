@@ -36,13 +36,17 @@ export default class Viewport extends Plugin {
 
     this.applyPassiveObservers()
 
-    this.$on('route.destroy', root => {
-      this.observers.map(o => o.disconnect())
-      this.observers = []
-    })
-
-    this.$on('route.loaded', root => this.applyPassiveObservers(root))
+    this.$on('dom.destroyed', root => this.clearObservers())
     this.$on('dom.updated', root => this.applyPassiveObservers(root))
+  }
+
+
+  /**
+   * Disconnect and clear all observers
+   */
+  clearObservers() {
+    this.observers.map(o => o.disconnect())
+    this.observers = []
   }
 
 
@@ -66,7 +70,7 @@ export default class Viewport extends Plugin {
    * @param {String}                opts.offset     margin around scope to defer trigger
    * @param {Function}              opts.callback   action to call
    */
-  observe({ scope, target, once = false, enter = true, leave = false, offset, callback }) {
+  observe({ scope, target, once = true, enter = true, leave = false, offset, callback }) {
 
     // keep track of element entering at least once
     let hasEntered = false

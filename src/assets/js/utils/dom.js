@@ -1,4 +1,5 @@
-import { ANIM_DURATION } from '~/consts'
+import { TweenLite, TimelineLite } from 'gsap'
+import { ANIM_DURATION, ANIM_STAGGER } from '~/consts'
 
 
 /**
@@ -8,29 +9,9 @@ import { ANIM_DURATION } from '~/consts'
  * @return {Promise}
  */
 export function slideUp(el, duration = ANIM_DURATION) {
-  return new Promise(resolve => {
-    el.style.height = el.offsetHeight + 'px'
-    el.style.transitionProperty = `height, margin, padding`
-    el.style.transitionDuration = duration + 'ms'
-    el.offsetHeight // eslint-disable-line no-unused-expressions
-    el.style.overflow = 'hidden'
-    el.style.height = 0
-    el.style.paddingTop = 0
-    el.style.paddingBottom = 0
-    el.style.marginTop = 0
-    el.style.marginBottom = 0
-    setTimeout(() => {
-      el.style.display = 'none'
-      el.style.removeProperty('height')
-      el.style.removeProperty('padding-top')
-      el.style.removeProperty('padding-bottom')
-      el.style.removeProperty('margin-top')
-      el.style.removeProperty('margin-bottom')
-      el.style.removeProperty('overflow')
-      el.style.removeProperty('transition-duration')
-      el.style.removeProperty('transition-property')
-      resolve(false)
-    }, duration)
+  return new Promise(onComplete => {
+    TweenLite.set(el, { overflow: 'hidden' })
+    TweenLite.to(el, duration/1000, { height: 0, display: 'none', onComplete })
   })
 }
 
@@ -42,33 +23,9 @@ export function slideUp(el, duration = ANIM_DURATION) {
  * @return {Promise}
  */
 export function slideDown(el, duration = ANIM_DURATION) {
-  return new Promise(resolve => {
-    el.style.removeProperty('display')
-    let display = window.getComputedStyle(el).display
-    if(display === 'none') display = 'block'
-    el.style.display = display
-    const height = el.offsetHeight
-    el.style.overflow = 'hidden'
-    el.style.height = 0
-    el.style.paddingTop = 0
-    el.style.paddingBottom = 0
-    el.style.marginTop = 0
-    el.style.marginBottom = 0
-    el.offsetHeight // eslint-disable-line no-unused-expressions
-    el.style.transitionProperty = `height, margin, padding`
-    el.style.transitionDuration = duration + 'ms'
-    el.style.height = height + 'px'
-    el.style.removeProperty('padding-top')
-    el.style.removeProperty('padding-bottom')
-    el.style.removeProperty('margin-top')
-    el.style.removeProperty('margin-bottom')
-    window.setTimeout(() => {
-      el.style.removeProperty('height')
-      el.style.removeProperty('overflow')
-      el.style.removeProperty('transition-duration')
-      el.style.removeProperty('transition-property')
-      resolve(false)
-    }, duration)
+  return new Promise(onComplete => {
+    TweenLite.set(el, { overflow: 'hidden', height: 'auto', display: 'block' })
+    TweenLite.from(el, duration/1000, { height: 0, onComplete })
   })
 }
 
@@ -87,25 +44,33 @@ export function slideToggle(el, duration = ANIM_DURATION) {
 
 
 /**
- * Animate element with multiple steps using WebAnimation API
- * @param {HTMLElement} el 
- * @param {Array<Object>} steps 
+ * Animate elements
+ * @param {HTMLElement|NodeList} els 
+ * @param {Object} to 
  * @param {Number} duration 
+ * @param {Number} stagger 
  * @return {Promise}
  */
-export function animateSteps(el, steps = [], duration = ANIM_DURATION) {
-  return new Promise(done => el.animate(steps, { duration }).onfinish = done)
+export function animate(els, to, duration = ANIM_DURATION, stagger = ANIM_STAGGER) {
+  return new Promise(onComplete => {
+    const target = Number.isInteger(els.length) ? els : [els]
+    new TimelineLite({ onComplete }).staggerTo(target, duration/1000, to, stagger/1000)
+  })
 }
 
 
 /**
- * Animate element using WebAnimation API
- * @param {HTMLElement} el 
- * @param {Object} from 
+ * Animate elements from specific props
+ * @param {HTMLElement|NodeList} els 
+ * @param {Object} from
  * @param {Object} to 
  * @param {Number} duration 
+ * @param {Number} stagger 
  * @return {Promise}
  */
-export function animate(el, from, to, duration = ANIM_DURATION) {
-  return animateSteps(el, [from, to], duration)
+export function animateFrom(els, from, to, duration = ANIM_DURATION, stagger = ANIM_STAGGER) {
+  return new Promise(onComplete => {
+    const target = Number.isInteger(els.length) ? els : [els]
+    new TimelineLite({ onComplete }).staggerFromTo(target, duration/1000, from, to, stagger/1000)
+  })
 }

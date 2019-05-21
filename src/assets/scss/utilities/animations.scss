@@ -6,6 +6,8 @@
 }
 
 [data-anim^=fade] { opacity: 0 }
+[data-anim^="@fade"][data-anim\.stagger] > * { opacity: 0 }
+
 .fade-enter { opacity: 1 }
 
 [data-anim=fade-up] {
