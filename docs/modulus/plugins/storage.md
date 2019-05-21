@@ -2,7 +2,7 @@
 
 ## Installation
 
-Voici comment instancier dans le `main.js`, les plugins de type storages:
+Pour activer les plugins, les instancier dans le main.js:
 
 ```js
 import Modulus from 'modulus'
@@ -24,9 +24,9 @@ export default new Modulus({
 
 Différents plugins, pour différents storage !
 
-- `this.$cookie` pour l'utilisation des cookies
-- `this.$local` pour l'utilisation du localStorage
-- `this.$session` pour l'utilisation du sessionStorage
+- `$cookie` pour l'utilisation des cookies
+- `$local` pour l'utilisation du localStorage
+- `$session` pour l'utilisation du sessionStorage
 
 
 ## Cas d'utilisations
@@ -34,7 +34,7 @@ Différents plugins, pour différents storage !
 !> **Notes importantes :** pour les exemples ci-dessous, vous devez remplacer `this.$storage` par le plugin que vous souhaitez utiliser (`this.$cookie`, `this.$local` ou `this.$session`)
 
 
-### this.$storage.init()
+### $storage.init()
 
 Permet de configurer les paramètres d'un coookie, tel que son chemin et sa durée de vie en jour. 
 
@@ -62,7 +62,7 @@ this.$cookie.init({ path: '/bar', expires: 86400 }) // 60 days = 86400 minutes
 ```
 
 
-### this.$storage.all()
+### $storage.all()
 
 Retourne l'objet d'un storage (`cookie`, `localStorage` ou `sessionStorage`)
 
@@ -80,7 +80,7 @@ this.$session.all()
 ```
 
 
-### this.$storage.clear()
+### $storage.clear()
 
 Supprime toutes les données présentes dans un storage (`cookie`, `localStorage` ou `sessionStorage`)
 
@@ -98,7 +98,7 @@ this.$session.clear()
 ```
 
 
-### this.$storage.get(key)
+### $storage.get(key)
 
 Retourne la valeur d'un item en fonction de sa clé
 
@@ -116,7 +116,7 @@ this.$session.get('foo')
 ```
 
 
-### this.$storage.json()
+### $storage.json()
 
 Retourne l'ensemble des clés / valeurs présents dans le storage (`cookie`, `localStorage` ou `sessionStorage`) au format JSON
 
