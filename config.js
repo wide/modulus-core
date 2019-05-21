@@ -1,12 +1,32 @@
 import path from 'path'
+import pngquant from 'imagemin-pngquant'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
 export default {
   src: {
-    assets: 'src/assets/{fonts,icons,img}/',
+    assets: 'src/assets/{fonts,img}/',
+    favicons: {
+      enabled: true,
+      file: 'src/assets/favicon.png',
+      settings: {
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          firefox: false,
+          opengraph: false,
+          twitter: false,
+          windows: true,
+          yandex: false
+        }
+      }
+    },
     icons: {
+      enabled: true,
       files: 'src/assets/icons/*.svg',
-      config: {
+      settings: {
         mode: 'symbols',
         preview: false,
         svg: {
@@ -14,8 +34,27 @@ export default {
         }
       }
     },
+    img: {
+      files: 'src/assets/img/**/*',
+      enabled: {
+        compress: false,
+        webp: false
+      },
+      webp: {
+        quality: 75
+      },
+      compress: {
+        optimizationLevel: 5,
+        progressive: true,
+        interlaced: true,
+        multipass: true,
+        svgoPlugins: [{ removeViewBox: false }],
+        use: [pngquant()]
+      }
+    },
     scss: {
       root: 'src/assets/scss/',
+      autoprefixer: {},
       cleancss: {
         level: {
           0: {},
@@ -72,14 +111,19 @@ export default {
       }
     }
   },
+
+  // ---
+  // paths for dist/ folder
   dist: {
-    assets: 'dist/assets/',
-    icons: 'dist/assets/icons',
+    assets: 'dist/assets',
     css: 'dist/assets/css',
     js: 'dist/assets/js',
     polyfills: 'dist/assets/js',
     html: 'dist/'
   },
+
+  // ---
+  // webpack for build modulus
   webpack: {
     mode: 'development',
     resolve: {
@@ -118,6 +162,9 @@ export default {
       ]
     }
   },
+
+  // ---
+  // webpack for polyfills
   webpackPolyfills: {
     mode: 'development',
     resolve: {

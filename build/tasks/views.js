@@ -1,11 +1,14 @@
 import handlebars from 'handlebars'
 import helpers from 'handlebars-helpers'
 import gulp from 'gulp'
+import plugins from 'gulp-load-plugins'
 import panini from 'panini'
 import prettify from 'prettify'
 
-import notifyError from './notify-error'
-import cfg from './../config'
+import cfg from '../../config'
+
+// load gulp plugins
+const $ = plugins()
 
 // register helpers
 prettify.register(handlebars, cfg.src.html.options.prettify)
@@ -13,7 +16,7 @@ helpers({ handlebars })
 
 /**
  * Reset Panini's cache of layouts and partials
- * @param {*} done
+ * @param {Function} done (callback)
  */
 export function resetPanini(done) {
   panini.refresh()
@@ -22,10 +25,11 @@ export function resetPanini(done) {
 
 /**
  * Compile layouts, pages, and partials into flat HTML files
- * @returns {}
+ * @returns {Object} gulp
  */
 export function buildPanini() {
   return gulp.src(`${cfg.src.html.pages}**/*.html`)
+    .pipe($.plumber())
     .pipe(panini({
       root: cfg.src.html.pages,
       layouts: cfg.src.html.layouts,
@@ -33,6 +37,5 @@ export function buildPanini() {
       helpers: cfg.src.html.helpers,
       data: cfg.src.html.data
     }))
-    .on('error', notifyError)
     .pipe(gulp.dest(cfg.dist.html))
 }

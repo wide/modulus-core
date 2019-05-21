@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Enhance docs files for better explanation on how to use the boilerplate
 - Fix `Swiper` import
+- Remove gulp `notifyError` for use `gulp-plumber`
 
 ## [0.3.0](https://git.cross-systems.ch/wide-front/boilerplate-integration/tags/v0.3.0) - 2019/03/15
 ### Added
