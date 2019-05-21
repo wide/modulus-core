@@ -8,18 +8,18 @@ $font-family-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxyg
 $font-family-headings: sans-serif !default; // font for h1, h2.. h6
 $font-family-monospace: consolas, courier, monospace !default; // font for code and samples
 
-$font-formats-base: 'woff2', 'woff' !default;
-$font-family-base: $font-family-system !default;
+$font-formats-default: 'woff2', 'woff' !default;
+$font-family-default: $font-family-system !default;
 
 
 // Font sizes
 // =============================================================================
-$font-size-base: 16px !default;
+$font-size-default: 16px !default;
 
 
 // Line heights
 // =============================================================================
-$line-height-base: 1.5 !default;
+$line-height-default: 1.5 !default;
 
 
 // Weight
