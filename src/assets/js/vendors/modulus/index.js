@@ -62,6 +62,7 @@ export default class Modulus extends EventEmitter {
     this.registerComponents()
     this.initComponents()
     this.registerCustomElements()
+    this.observeDestruction()
     this.emit('ready')
   }
 
@@ -136,9 +137,6 @@ export default class Modulus extends EventEmitter {
         const instance = this.instanciateComponent(name, ComponentClass, els[i])
         this.components[instance.$uid] = instance
         this.log(`- component [${instance.$uid}] registered`)
-
-        // detached from DOM
-        this.observeDestruction(els[i])
       }
       else this.log.error(`Unknown component [${name}]`)
     }
@@ -146,18 +144,22 @@ export default class Modulus extends EventEmitter {
 
 
   /**
-   * Create mutation observe for DOM removal event
-   * @param {HTMLElement} el 
+   * Observe component removal from DOM
    */
-  observeDestruction(el) {
-    const parent = el.parentElement
-    const mut = new MutationObserver(e => {
-      if(!parent.contains(el)) {
-        if(el.$component.onDestroy) el.$component.onDestroy()
-        delete this.components[el.$component.$uid]
+  observeDestruction() {
+    new MutationObserver(e => {
+
+      for(let uid in this.components) {
+        const el = this.components[uid].el
+        if(!document.body.contains(el)) {
+          if(this.components[uid].onDestroy) {
+            this.components[uid].onDestroy()
+          }
+          delete this.components[uid]
+        }
       }
-    })
-    mut.observe(parent, { childList: true })
+
+    }).observe(document.body, { childList: true, subtree: true })
   }
 
 
