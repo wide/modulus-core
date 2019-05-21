@@ -38,7 +38,7 @@ export default class Router extends Plugin {
         [this.container]: (before, after, opts) => this.onSwap(before, after, opts)
       },
       cacheBust: false,
-      debug: this.$modulus.config.debug
+      //debug: this.$modulus.config.debug
     })
 
     // listen globally for start event
