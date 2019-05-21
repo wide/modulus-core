@@ -96,7 +96,7 @@ export default class Router extends Plugin {
     // start transition
     this.log('route change', name)
     this.$emit('route.change', name)
-    this.loading = this.transition.loading(this.el) // assume promise
+    this.loading = this.transition.enter(this.el) // assume promise
   }
 
 
@@ -110,8 +110,8 @@ export default class Router extends Plugin {
     this.loading.then(() => {
 
       // replace content
-      this.log('route destroy')
-      this.$emit('route.destroy')
+      this.log('dom destroyed')
+      this.$emit('dom.destroyed', before)
       before.innerHTML = after.innerHTML
 
       // rebuild modulus
@@ -134,9 +134,9 @@ export default class Router extends Plugin {
     document.body.classList.add('-loaded')
 
     // end transition
-    this.log('route loaded')
-    this.$emit('route.loaded')
-    this.transition.loaded(this.el).then(() => {
+    this.log('dom updated')
+    this.$emit('dom.updated', this.el)
+    this.transition.leave(this.el).then(() => {
       this.transition = null
       this.loading = null
     })

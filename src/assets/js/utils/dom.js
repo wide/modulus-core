@@ -1,5 +1,5 @@
 import { TweenLite, TimelineLite } from 'gsap'
-import { ANIM_DURATION, ANIM_DELAY } from '~/consts'
+import { ANIM_DURATION, ANIM_STAGGER } from '~/consts'
 
 
 /**
@@ -10,7 +10,7 @@ import { ANIM_DURATION, ANIM_DELAY } from '~/consts'
  */
 export function slideUp(el, duration = ANIM_DURATION) {
   return new Promise(onComplete => {
-    el.style.overflow = 'hidden'
+    TweenLite.set(el, { overflow: 'hidden' })
     TweenLite.to(el, duration/1000, { height: 0, display: 'none', onComplete })
   })
 }
@@ -24,8 +24,7 @@ export function slideUp(el, duration = ANIM_DURATION) {
  */
 export function slideDown(el, duration = ANIM_DURATION) {
   return new Promise(onComplete => {
-    el.style.overflow = 'hidden'
-    TweenLite.set(el, { height: 'auto', display: 'block' })
+    TweenLite.set(el, { overflow: 'hidden', height: 'auto', display: 'block' })
     TweenLite.from(el, duration/1000, { height: 0, onComplete })
   })
 }
@@ -45,30 +44,33 @@ export function slideToggle(el, duration = ANIM_DURATION) {
 
 
 /**
- * Animate element
- * @param {HTMLElement} el 
+ * Animate elements
+ * @param {HTMLElement|NodeList} els 
  * @param {Object} to 
  * @param {Number} duration 
+ * @param {Number} stagger 
  * @return {Promise}
  */
-export function animate(el, to, duration = ANIM_DURATION) {
+export function animate(els, to, duration = ANIM_DURATION, stagger = ANIM_STAGGER) {
   return new Promise(onComplete => {
-    TweenLite.to(el, duration/1000, { ...to, onComplete })
+    const target = Number.isInteger(els.length) ? els : [els]
+    new TimelineLite({ onComplete }).staggerTo(target, duration/1000, to, stagger/1000)
   })
 }
 
 
 /**
- * Animate multiple element in sequence
- * @param {NodeList} els 
+ * Animate elements from specific props
+ * @param {HTMLElement|NodeList} els 
+ * @param {Object} from
  * @param {Object} to 
  * @param {Number} duration 
- * @param {Number} delay 
+ * @param {Number} stagger 
  * @return {Promise}
  */
-export function timeline(els, from, to, duration = ANIM_DURATION, delay = ANIM_DELAY) {
+export function animateFrom(els, from, to, duration = ANIM_DURATION, stagger = ANIM_STAGGER) {
   return new Promise(onComplete => {
-    const tl = new TimelineLite({ onComplete })
-    tl.staggerFromTo(els, duration/1000, from, to, delay/1000)
+    const target = Number.isInteger(els.length) ? els : [els]
+    new TimelineLite({ onComplete }).staggerFromTo(target, duration/1000, from, to, stagger/1000)
   })
 }

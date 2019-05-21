@@ -45,11 +45,7 @@ export default class Scroll extends Plugin {
     this.observeScroll()
     this.applyPassiveObservers()
 
-    this.$on('route.destroy', root => {
-      this.clearPassiveObservers(root)
-    })
-
-    this.$on('route.loaded', root => this.applyPassiveObservers(root))
+    this.$on('dom.destroyed', root => this.clearPassiveObservers(root))
     this.$on('dom.updated', root => this.applyPassiveObservers(root))
   }
 

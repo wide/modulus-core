@@ -36,13 +36,17 @@ export default class Viewport extends Plugin {
 
     this.applyPassiveObservers()
 
-    this.$on('route.destroy', root => {
-      this.observers.map(o => o.disconnect())
-      this.observers = []
-    })
-
-    this.$on('route.loaded', root => this.applyPassiveObservers(root))
+    this.$on('dom.destroyed', root => this.clearObservers())
     this.$on('dom.updated', root => this.applyPassiveObservers(root))
+  }
+
+
+  /**
+   * Disconnect and clear all observers
+   */
+  clearObservers() {
+    this.observers.map(o => o.disconnect())
+    this.observers = []
   }
 
 
