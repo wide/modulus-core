@@ -5,9 +5,6 @@ label, .label {
   display: inline-block;
   cursor: pointer;
   padding: 8px;
-  &.-required::after {
-    content: '*';
-  }
 }
 
 input, select, textarea,
@@ -110,4 +107,7 @@ textarea {
 //
 .form-line {
   padding: 5px 0;
+  &.-required label::after {
+    content: '*';
+  }
 }
