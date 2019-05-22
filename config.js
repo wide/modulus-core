@@ -65,8 +65,8 @@ export default {
       entries: [{
         file: 'src/assets/scss/main.scss',
         watch: [
-          'src/assets/scss/**/*.scss',
-          'src/views/components/**/*.scss',
+          'src/assets/scss/**/*.{scss,sass}',
+          'src/views/components/**/*.{scss,sass}',
         ]
       }],
       alias: {
