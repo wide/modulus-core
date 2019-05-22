@@ -334,8 +334,6 @@
   left: map-get($map, left) or nth-or-null($arglist, 4) or nth-or-null($arglist, 2) or nth-or-null($arglist, 1) or 0;
 }
 
-
-
 ///
 /// Reset button state to normal element
 ///
