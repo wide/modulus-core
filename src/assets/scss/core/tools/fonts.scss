@@ -76,9 +76,6 @@
 ///     font-weight: 400;
 ///   }
 ///
-/// @require {function} _font-source-declaration
-/// @require {function} _retrieve-bourbon-setting
-///
 @mixin font-face($font-family, $file-path, $file-formats: $font-formats-default) {
   @font-face {
     font-family: $font-family;

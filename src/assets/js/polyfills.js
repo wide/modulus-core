@@ -63,13 +63,6 @@ const name = (browser.getBrowserName(true) === 'internet explorer')
   ? 'ie'
   : browser.getBrowserName(true)
 
-document.body.classList.add(`${(platform === 'mobile' || platform === 'tablet') ? '-touch-based' : '-not-touch-based'}`)
-document.body.classList.add(`-${platform}`)
-document.body.classList.add(`-${browser.getOSName(true)}`)
-document.body.classList.add(`-${browser.getEngineName(true)}`)
-document.body.classList.add(`-${name}`)
-document.body.classList.add(`-${name}${browser.getBrowserVersion().split('.')[0]}`)
-
 // webp support
 const webp = new Image()
 webp.onload = webp.onerror = () => {
@@ -78,3 +71,20 @@ webp.onload = webp.onerror = () => {
   }
 }
 webp.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAIAAQAcJaQAA3AA/v3AgAA='
+
+// returns capabilities (javascript)
+window.capabilities = []
+window.capabilities.push((platform === 'mobile' || platform === 'tablet') ? 'touch-based' : 'not-touch-based')
+window.capabilities.push(platform)
+window.capabilities.push(browser.getOSName(true))
+window.capabilities.push(browser.getEngineName(true))
+window.capabilities.push(name)
+window.capabilities.push(`${name}${browser.getBrowserVersion().split('.')[0]}`)
+
+// returns capabilities (css)
+document.body.classList.add(`${(platform === 'mobile' || platform === 'tablet') ? '-touch-based' : '-not-touch-based'}`)
+document.body.classList.add(`-${platform}`)
+document.body.classList.add(`-${browser.getOSName(true)}`)
+document.body.classList.add(`-${browser.getEngineName(true)}`)
+document.body.classList.add(`-${name}`)
+document.body.classList.add(`-${name}${browser.getBrowserVersion().split('.')[0]}`)

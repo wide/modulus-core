@@ -54,7 +54,7 @@ export function favicons(done) {
  */
 export function symbols(done) {
   if (!PRODUCTION) {
-    cfg.src.icons.config.preview = { symbols: 'sprite-icons.html' }
+    cfg.src.icons.settings.preview = { symbols: 'sprite-icons.html' }
   }
 
   if (cfg.src.icons.enabled) {
