@@ -63,15 +63,6 @@ const name = (browser.getBrowserName(true) === 'internet explorer')
   ? 'ie'
   : browser.getBrowserName(true)
 
-// webp support
-const webp = new Image()
-webp.onload = webp.onerror = () => {
-  if (webp.height === 2) {
-    document.body.classList.add(`-webp`)
-  }
-}
-webp.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAIAAQAcJaQAA3AA/v3AgAA='
-
 // returns capabilities (javascript)
 window.capabilities = []
 window.capabilities.push((platform === 'mobile' || platform === 'tablet') ? 'touch-based' : 'not-touch-based')
@@ -88,3 +79,13 @@ document.body.classList.add(`-${browser.getOSName(true)}`)
 document.body.classList.add(`-${browser.getEngineName(true)}`)
 document.body.classList.add(`-${name}`)
 document.body.classList.add(`-${name}${browser.getBrowserVersion().split('.')[0]}`)
+
+// webp support
+const webp = new Image()
+webp.onload = webp.onerror = () => {
+  if (webp.height === 2) {
+    window.capabilities.push('webp')
+    document.body.classList.add(`-webp`)
+  }
+}
+webp.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAIAAQAcJaQAA3AA/v3AgAA='
