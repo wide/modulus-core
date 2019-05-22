@@ -1,10 +1,12 @@
 // =============================================================================
-// 4# Elements / Section
+// 4# Elements / Document
 // =============================================================================
-.section {
-  padding: 100px 0;
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-  &.-gray {
-    background: $white-90;
-  }
+main {
+  flex-grow: 1;
 }

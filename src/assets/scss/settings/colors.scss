@@ -5,31 +5,36 @@
 // Palette
 // =============================================================================
 
-// https://coolors.co/fe938c-e6b89c-ead2ac-9cafb7-4281a4
-$primary-color: #4281A4;
-$primary-color-light: lighten($primary-color, 10%);
-$primary-color-dark: darken($primary-color, 10%);
-
-$secondary-color: #FE938C;
-$secondary-color-light: lighten($secondary-color, 10%);
-$secondary-color-dark: darken($secondary-color, 10%);
-
+// default color
 $default-color: #9CAFB7;
 $default-color-light: lighten($default-color, 10%);
 $default-color-dark: darken($default-color, 10%);
 
+// primary color
+$primary-color: #4281A4;
+$primary-color-light: lighten($primary-color, 10%);
+$primary-color-dark: darken($primary-color, 10%);
+
+// secondary color
+$secondary-color: #FE938C;
+$secondary-color-light: lighten($secondary-color, 10%);
+$secondary-color-dark: darken($secondary-color, 10%);
+
+// notifications color
 $error-color: #EF233C;
 $success-color: #02C39A;
 
-$white-100: #FFF;
-$white-90: #EEE;
-$white-80: #DDD;
-$white-70: #CCC;
-$white-60: #BBB;
-$white-50: #AAA;
-$white-40: #999;
+// white
 $white-30: #888;
+$white-40: #999;
+$white-50: #AAA;
+$white-60: #BBB;
+$white-70: #CCC;
+$white-80: #DDD;
+$white-90: #EEE;
+$white-100: #FFF;
 
+// black
 $black-30: #777;
 $black-40: #666;
 $black-50: #555;
