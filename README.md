@@ -1,4 +1,4 @@
-# ☕ The Boiler™
+# ☕ Modulus™
 
 **The Boiler** est un framework *prêt-à-coder* qui embarque des librairies pré-configurées, des templates `HTML`, `SCSS` et `JS`, des tâches de compilations et des plugins de toute sorte, le tout optimisé et performant pour accélérer et simplifier grandement l'intégration. Ne te reste qu'à te faire un bon café et à relever les manches.
 

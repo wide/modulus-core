@@ -24,14 +24,6 @@ export default new Modulus({
 })
 ```
 
-### router.config
-
-Permet de configurer les variables de fonctionnement suivantes :
-
-| variable | par défaut | description |
-| --- | --- | --- |
-| `transitionAttr` | `data-transition` | Appliqué aux balises `<a>`, défini le nom de sla transition à executer |
-
 ### router.transitions
 
 La liste des transitions possibles, sous la forme suivante :

@@ -1,5 +1,4 @@
 dist
-build/import-components.js
 node_modules
 .DS_Store
 *.log

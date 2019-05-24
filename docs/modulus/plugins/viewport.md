@@ -26,9 +26,7 @@ Permet de configurer les variables de fonctionnement suivantes :
 
 | variable | par défaut | description |
 | --- | --- | --- |
-| `animAttribute` | `data-anim` | L'attribut pour l'animation automatique des élements |
 | `animOffset` | `-120px` | La marge appliquée pour déclencher les animations |
-| `srcAttribute` | `data-src` | L'attribut pour le lazy loading automatique des images |
 
 
 ### viewport.animations

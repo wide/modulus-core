@@ -6,6 +6,7 @@ Liste des plugins natifs :
 - [Viewport](modulus/plugins/viewport.md)
 - [Breakpoint](modulus/plugins/breakpoint.md)
 - [Storage](modulus/plugins/storage.md)
+- [Form](modulus/plugins/form.md)
 
 ### Créer un plugin
 

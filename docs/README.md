@@ -28,6 +28,7 @@ Ici tu vas apprendre à dompter et maitriser cet outil qui accélére et simplif
 ## Structure des dossiers
 
 ```bash
+build/            # tâches gulp pour compiler le livrable
 dist/             # livrable de production
 src/              # source de développement
   assets/
@@ -36,17 +37,15 @@ src/              # source de développement
     img/              # photos, images, logo...
     scss/             # style SCSSs
       settings/         # variables
-      tools/            # mixins et functions
-      generic/          # style de base (reset, normalize, grid, layout...)
       elements/         # élements natifs (headings, buttons, forms...)
       utilities/        # helpers (.text-right, .sr-only...)
       main.scss         # point d'entrée des @import
     js/               # logique JS utilisant la librairie Modulus
-      plugins/          # plugin utilitaire partagé entre tous les composantns
-      controllers/      # logique principale de la page, attaché au body
+      polyfills/        # fichiers de retrocompatibilité pour les anciens navigateurs
       utils/            # fonctions utilitaires
-      vendors/          # librairies locales
-      main.js           # points d'entrées de import
+      main.js           # points d'entrées de l'import
+      consts.js         # enums et constantes
+      polyfills.js      # permet de charger les fichiers de polyfills/
   views/    
     data/             # fausses données injectées dans les templates
     helpers/          # fonctions handlebars
@@ -69,6 +68,12 @@ Afin de garantir la cohérence entre les projets utilisant le boilerplate, nous 
 
 
 ## Quickstart
+
+### Création d'une nouvelle page
+
+Ajouter votre page dans `src/views/pages` en tant que fichier `.html`.
+
+Ce référer à la doc de [Panini](https://foundation.zurb.com/sites/docs/panini.html) pour l'utilisation du template.
 
 ### Création d'un composant
 
