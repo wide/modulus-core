@@ -1,4 +1,5 @@
-import { TweenLite, TimelineLite } from 'gsap'
+import TweenLite from 'gsap/TweenLite'
+import TimelineLite from 'gsap/TimelineLite'
 
 const DEFAULT_DURATION = 400
 const DEFAULT_STAGGER = 40
