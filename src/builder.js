@@ -108,7 +108,7 @@ export default class ${toCamel(name)} extends Plugin {
  * @param {String} name 
  * @param {Function} done 
  */
-module.exports.createComponent = function(root, name, done) {
+export function createComponent(root, name, done) {
   try {
     console.log(`Creating "${name}" component:`)
     createFolder(root, name)
@@ -130,7 +130,7 @@ module.exports.createComponent = function(root, name, done) {
  * @param {String} name 
  * @param {Function} done 
  */
-module.exports.createController = function(root, name, done) {
+export function createController(root, name, done) {
   try {
     console.log(`Creating "${name}" controller:`)
     createFile(root, name, 'js', controllerJSTemplate(name))
@@ -150,7 +150,7 @@ module.exports.createController = function(root, name, done) {
  * @param {String} name 
  * @param {Function} done 
  */
-module.exports.createPlugin = function(root, name, done) {
+export function createPlugin(root, name, done) {
   try {
     console.log(`Creating "${name}" plugin:`)
     createFile(root, name, 'js', pluginJSTemplate(name))

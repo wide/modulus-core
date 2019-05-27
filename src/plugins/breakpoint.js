@@ -83,7 +83,7 @@ export default class Breakpoint extends Plugin {
     for(let key in this.sizes) {
       if(this.up(key)) name = key
     }
-    return { name, value: window.innerWidth, ...this.sizes[name] }
+    return { name, value: window.innerWidth }
   }
 
 
