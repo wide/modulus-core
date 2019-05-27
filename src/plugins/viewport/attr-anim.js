@@ -31,7 +31,10 @@ export default {
       // create observer
       $viewport.observe({
         target: els[i],
-        ...opts,
+        scope: opts.scope,
+        once: opts.once,
+        enter: opts.enter,
+        leave: opts.leave,
         offset,
         callback(el, entry) {
   
