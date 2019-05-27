@@ -1,6 +1,6 @@
 # ☕ Modulus™
 
-**The Boiler** est un framework *prêt-à-coder* qui embarque des librairies pré-configurées, des templates `HTML`, `SCSS` et `JS`, des tâches de compilations et des plugins de toute sorte, le tout optimisé et performant pour accélérer et simplifier grandement l'intégration. Ne te reste qu'à te faire un bon café et à relever les manches.
+**Modulus** est un framework *prêt-à-coder* qui embarque des librairies pré-configurées, des templates `HTML`, `SCSS` et `JS`, des tâches de compilations et des plugins de toute sorte, le tout optimisé et performant pour accélérer et simplifier grandement l'intégration. Ne te reste qu'à te faire un bon café et à relever les manches.
 
 
 ## Pré-requis
@@ -23,6 +23,15 @@ Pour une explication détaillée de l'utilisation du framework, lancez la comman
 ```
 npm run docs
 ```
+
+
+## Build
+
+Pour préparer les fichiers à une utilisation en ES5, lancez la commande :
+```
+npm run compile
+```
+
 
 ## Contribution
 

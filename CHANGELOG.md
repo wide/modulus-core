@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 ### Added
+- Split appart from main repo as NPM package
 - CHANGELOG.md file
 - Cookie, LocalStorage and SessionStorage manager
 - Add `html.js`: escapeHtml(), unscapeHtml() and getNodeData()
