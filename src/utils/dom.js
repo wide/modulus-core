@@ -1,5 +1,6 @@
 import TweenLite from 'gsap/TweenLite'
 import TimelineLite from 'gsap/TimelineLite'
+import 'gsap/CSSPlugin'
 
 const DEFAULT_DURATION = 400
 const DEFAULT_STAGGER = 40
