@@ -9,21 +9,22 @@
   },
   "scripts": {
     "docs": "docsify serve docs --port 3100 --open true",
-    "compile": "babel --source-maps -d lib/ src/"
+    "compile": "babel --source-maps -d lib/ src/",
+    "postinstall": "npm run compile"
   },
   "dependencies": {
-    "body-scroll-lock": "2.6.1",
     "bowser": "2.4.0",
     "jspolyfill-array.prototype.find": "0.1.3",
-    "jump.js": "1.0.2",
-    "pjax": "0.2.8",
-    "stickybits": "3.6.5",
     "tiny-emitter": "2.1.0",
     "uos": "1.1.1"
   },
   "peerDependencies": {
     "gsap": "2.x",
-    "hotkeys-js": "3.x"
+    "hotkeys-js": "3.x",
+    "body-scroll-lock": "2.x",
+    "jump.js": "1.x",
+    "pjax": "0.x",
+    "stickybits": "3.x"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
