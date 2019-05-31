@@ -1,4 +1,5 @@
 import 'jspolyfill-array.prototype.find' // needed for bowser support
+import 'es6-object-assign/auto' // needed for bowser support
 import Bowser from 'bowser'
 
 
