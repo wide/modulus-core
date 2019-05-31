@@ -9,7 +9,7 @@
   },
   "scripts": {
     "docs": "docsify serve docs --port 3100 --open true",
-    "compile": "babel --source-maps -d lib/ src/"
+    "compile": "babel -d lib/ src/"
   },
   "dependencies": {
     "bowser": "2.4.0",
