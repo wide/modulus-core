@@ -18,7 +18,7 @@ async function isWebpSupported() {
 /**
  * Detect browser capabilities
  */
-async function getCapabilities() {
+async function resolveCapabilities() {
 
   // resolve browser features
   const browser = Bowser.getParser(window.navigator.userAgent)
@@ -35,35 +35,28 @@ async function getCapabilities() {
     webp: await isWebpSupported()
   }
 
+  // returns capabilities (javascript)
+  window.capabilities = [
+    capabilities.platform,
+    capabilities.os,
+    capabilities.engine,
+    capabilities.name,
+    capabilities.version,
+  ]
+  if(capabilities.touch) window.capabilities.push('touch-based')
+  if(capabilities.webp) window.capabilities.push('webp')
+
+  // returns capabilities (css)
+  document.body.classList.add(`-${capabilities.platform}`)
+  document.body.classList.add(`-${capabilities.os}`)
+  document.body.classList.add(`-${capabilities.engine}`)
+  document.body.classList.add(`-${capabilities.name}`)
+  document.body.classList.add(`-${capabilities.version}`)
+  if(capabilities.touch) document.body.classList.add('-touch-based')
+  if(capabilities.webp) document.body.classList.add('-webp')
+
   return { browser, capabilities }
 }
-
-
-/**
- * Apply browser capabilities to CSS and export to JS
- */
-
-const { browser, capabilities } = await getCapabilities()
-
-// returns capabilities (javascript)
-window.capabilities = [
-  capabilities.platform,
-  capabilities.os,
-  capabilities.engine,
-  capabilities.name,
-  capabilities.version,
-]
-if(capabilities.touch) window.capabilities.push('touch-based')
-if(capabilities.webp) window.capabilities.push('webp')
-
-// returns capabilities (css)
-document.body.classList.add(`-${capabilities.platform}`)
-document.body.classList.add(`-${capabilities.os}`)
-document.body.classList.add(`-${capabilities.engine}`)
-document.body.classList.add(`-${capabilities.name}`)
-document.body.classList.add(`-${capabilities.version}`)
-if(capabilities.touch) document.body.classList.add('-touch-based')
-if(capabilities.webp) document.body.classList.add('-webp')
 
 
 /**
@@ -71,7 +64,12 @@ if(capabilities.webp) document.body.classList.add('-webp')
  * @param {String} path
  * @param {Array} polyfills
  */
-export default ({ path, polyfills }) => {
+export default async ({ path, polyfills }) => {
+
+  // get capabilities
+  const { browser } = await resolveCapabilities()
+  
+  // load polyfill depending on browser need
   for(let i = 0; i < polyfills.length; i += 1) {
     if(browser.satisfies(polyfills[i].satisfies)) {
       for(let j = 0; j < polyfills[i].files.length; j++) {
