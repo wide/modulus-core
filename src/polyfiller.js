@@ -1,14 +1,14 @@
 import 'jspolyfill-array.prototype.find' // needed for bowser support
 import Bowser from 'bowser'
 
+
 // resolve browser features
-export const browser = Bowser.getParser(window.navigator.userAgent)
-
+const browser = Bowser.getParser(window.navigator.userAgent)
 const platform = browser.getPlatformType(true)
-let name = browser.getBrowserName(true)
-if(name === 'internet explorer') name = 'ie'
+const name = browser.getBrowserName(true).replace('internet explorer', 'ie')
 
-export const capabilities = {
+// resolve browser capabilities
+const capabilities = {
   touch: (platform === 'mobile' || platform === 'tablet'),
   platform: platform,
   os: browser.getOSName(true),
@@ -19,11 +19,11 @@ export const capabilities = {
 
 
 /**
- * Adds classes based on the user's environment on
- * the <body> element. This makes it possible to be
- * able to manage some particular case in css.
+ * Load polyfill as seperate files
+ * @param {String} root path
+ * @param {Array} polyfills
  */
-function resolveCapabilities() {
+export default ({ root, polyfills = [] }) => {
 
   // returns capabilities (javascript)
   window.capabilities = [
@@ -43,7 +43,7 @@ function resolveCapabilities() {
   document.body.classList.add(`-${capabilities.name}`)
   document.body.classList.add(`-${capabilities.version}`)
 
-  // webp support
+  // resolve webp support
   const webp = new Image()
   webp.onload = webp.onerror = () => {
     if (webp.height === 2) {
@@ -52,17 +52,6 @@ function resolveCapabilities() {
     }
   }
   webp.src = 'data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoCAAIAAQAcJaQAA3AA/v3AgAA='
-}
-
-
-/**
- * Load polyfill as seperate files
- * @param {String} root path
- * @param {Array} polyfills
- */
-export default ({ root, polyfills = [] }) => {
-
-  resolveCapabilities()
 
   // add polyfills script in document
   for (let i = 0; i < polyfills.length; i += 1) {
