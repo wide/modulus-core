@@ -1,6 +1,8 @@
+import fs from 'fs'
+
 /**
  * Transform hypen-case to camelCase
- * @param {String} string 
+ * @param {String} string
  */
 function toCamel(string) {
   let camelized = string.replace(/-([a-z])/g, g => g[1].toUpperCase())
@@ -36,7 +38,7 @@ function createFile(folder, name, type, content) {
 
 /**
  * Generate component HTML template
- * @param {String} name 
+ * @param {String} name
  */
 const componentHTMLTemplate = (name) =>
 `<div class="${name}" data-mod="${name}">
@@ -46,7 +48,7 @@ const componentHTMLTemplate = (name) =>
 
 /**
  * Generate component SCSS template
- * @param {String} name 
+ * @param {String} name
  */
 const componentSCSSTemplate = (name) =>
 `.${name} {
@@ -56,7 +58,7 @@ const componentSCSSTemplate = (name) =>
 
 /**
  * Generate component JS template
- * @param {String} name 
+ * @param {String} name
  */
 const componentJSTemplate = (name) =>
 `import Component from 'modulus/component'
@@ -72,7 +74,7 @@ export default class extends Component {
 
 /**
  * Generate controller JS template
- * @param {String} name 
+ * @param {String} name
  */
 const controllerJSTemplate = (name) =>
 `import Component from 'modulus/component'
@@ -88,7 +90,7 @@ export default class ${toCamel(name)} extends Component {
 
 /**
  * Generate plugin JS template
- * @param {String} name 
+ * @param {String} name
  */
 const pluginJSTemplate = (name) =>
 `import Plugin from 'modulus/plugin'
@@ -104,9 +106,9 @@ export default class ${toCamel(name)} extends Plugin {
 
 /**
  * Create an empty component
- * @param {String} root 
- * @param {String} name 
- * @param {Function} done 
+ * @param {String} root
+ * @param {String} name
+ * @param {Function} done
  */
 export function createComponent(root, name, done) {
   try {
@@ -126,9 +128,9 @@ export function createComponent(root, name, done) {
 
 /**
  * Create an empty controller
- * @param {String} root 
- * @param {String} name 
- * @param {Function} done 
+ * @param {String} root
+ * @param {String} name
+ * @param {Function} done
  */
 export function createController(root, name, done) {
   try {
@@ -146,9 +148,9 @@ export function createController(root, name, done) {
 
 /**
  * Create an empty plugin
- * @param {String} root 
- * @param {String} name 
- * @param {Function} done 
+ * @param {String} root
+ * @param {String} name
+ * @param {Function} done
  */
 export function createPlugin(root, name, done) {
   try {
