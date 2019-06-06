@@ -5,12 +5,15 @@
 ///
 /// Converts the given pixel value to its EM quivalent.
 ///
-/// @param  {Number} $size                      - The pixel value to convert.
-/// @param  {Number} $base [$font-size-default] - The assumed base font size.
+/// @param  {Number} $size                       - The pixel value to convert.
+/// @param  {Number} $context [$browser-context] - The assumed base font size.
 /// @return {Number} Scalable pixel value in EMs.
 ///
-@function em($size, $base: $font-size-default) {
+@function em($size, $context: $browser-context) {
   @if (type-of($size) == number) {
+    @if (unitless($size)) {
+      $size: $size * 1px;
+    }
     @if (unit($size) != 'px') {
       @error '`#{$size}` needs to be a pixel value.';
     }
@@ -18,26 +21,32 @@
     @error '`#{$size}` needs to be a number.';
   }
 
-  @if (type-of($base) == number) {
-    @if (unit($base) != 'px') {
-      @error '`#{$base}` needs to be a pixel value.';
+  @if (type-of($context) == number) {
+    @if (unitless($context)) {
+      $context: $context * 1px;
+    }
+    @if (unit($context) != 'px') {
+      @error '`#{$context}` needs to be a pixel value.';
     }
   } @else {
-    @error '`#{$base}` needs to be a number.';
+    @error '`#{$context}` needs to be a number.';
   }
 
-  @return ($size / $base) * 1em;
+  @return ($size / $context) * 1em;
 }
 
 ///
 /// Converts the given pixel value to its REM quivalent.
 ///
-/// @param  {Number} $size                      - The pixel value to convert.
-/// @param  {Number} $base [$font-size-default] - The assumed base font size.
+/// @param  {Number} $size                       - The pixel value to convert.
+/// @param  {Number} $context [$browser-context] - The assumed base font size.
 /// @return {Number} Scalable pixel value in REMs.
 ///
-@function rem($size, $base: $font-size-default) {
+@function rem($size, $context: $browser-context) {
   @if (type-of($size) == number) {
+    @if (unitless($size)) {
+      $size: $size * 1px;
+    }
     @if (unit($size) != 'px') {
       @error '`#{$size}` needs to be a pixel value.';
     }
@@ -45,15 +54,18 @@
     @error '`#{$size}` needs to be a number.';
   }
 
-  @if (type-of($base) == number) {
-    @if (unit($base) != "px") {
-      @error '`#{$base}` needs to be a pixel value.';
+  @if (type-of($context) == number) {
+    @if (unitless($context)) {
+      $context: $context * 1px;
+    }
+    @if (unit($context) != 'px') {
+      @error '`#{$context}` needs to be a pixel value.';
     }
   } @else {
-    @error '`#{$base}` needs to be a number.';
+    @error '`#{$context}` needs to be a number.';
   }
 
-  @return ($size / $base) * 1rem;
+  @return ($size / $context) * 1rem;
 }
 
 ///
@@ -116,14 +128,4 @@
 ///
 @function nth-or-null($list, $index) {
   @return if(length($list) >= $index, nth($list, $index), null);
-}
-
-///
-/// Determine if the current context is for the front-end.
-///
-/// @requires {String} $context - The global context of the stylesheet.
-/// @return   {Boolean} If the $context is set to "frontend".
-///
-@function is-frontend() {
-  @return ('frontend' == $context);
 }
