@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "bowser": "2.4.0",
-    "es6-object-assign": "^1.1.0",
+    "es6-object-assign": "1.1.0",
     "intersection-observer": "0.6.0",
     "jspolyfill-array.prototype.find": "0.1.3",
     "object-fit-images": "3.2.4",
@@ -23,19 +23,19 @@
     "uos": "1.1.1"
   },
   "peerDependencies": {
-    "gsap": "2.x",
-    "hotkeys-js": "3.x",
-    "body-scroll-lock": "2.x",
-    "jump.js": "1.x",
-    "pjax": "0.x",
-    "stickybits": "3.x"
+    "gsap": "2.1.3",
+    "hotkeys-js": "3.6.6",
+    "body-scroll-lock": "2.6.1",
+    "jump.js": "1.0.2",
+    "pjax": "0.2.8",
+    "stickybits": "3.6.5"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
     "@babel/polyfill": "7.4.4",
     "core-js": "3.0.1",
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-cli": "6.26.0",
+    "babel-preset-es2015": "6.24.1",
     "docsify-cli": "4.3.0",
     "yargs": "13.2.2"
   }

@@ -33,6 +33,18 @@ npm run compile
 ```
 
 
+## Développement de la librairie Modulus
+
+Pour apporter des contributions sur la librairie de Modulus, vous devez utiliser la librairie en local (vous devez avoir au préalable le répertoire [modulus](https://git.cross-systems.ch/wide-front/modulus) et [modulus-starterkit](https://git.cross-systems.ch/wide-front/modulus-starterkit) dans un même dossier).
+
+```
+# À la racine du répertoire "modulus-starterkit"
+npm run dev:modulus
+```
+
+La commande `npm link modulus` remplacera automatiquement la  
+
+
 ## Contribution
 
 Vous avez trouvé un bug ou souhaitez proposer une amélioration ? Faites un merge-request 😉.

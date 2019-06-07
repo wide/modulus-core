@@ -1,5 +1,5 @@
 // =============================================================================
-// 8# Core / Utilities / Print mode
+// 7# Core / Helpers / Print mode
 // =============================================================================
 @media print {
   *,
@@ -30,7 +30,7 @@
   label,
   ul,
   ol {
-    color: $black-100;
+    color: $html-default-color;
     margin: auto;
   }
 
@@ -59,7 +59,7 @@
 
   pre,
   blockquote {
-    border: 1px solid $black-100;
+    border: 1px solid $html-default-color;
   }
 
   thead {
@@ -79,7 +79,7 @@
 
   a,
   a:visited {
-    color: $black-100;
+    color: $html-default-color;
     text-decoration: underline;
   }
 
