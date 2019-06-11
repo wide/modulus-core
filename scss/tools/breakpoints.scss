@@ -1,5 +1,5 @@
 // =============================================================================
-// 2# Tools / Breakpoints
+// 2# Modulus / Tools / Breakpoints
 // =============================================================================
 //
 // based on mappy-breakpoints:
@@ -19,7 +19,7 @@
   $map: breakpoint($queries, $type, $query-fallback, $breakpoints);
 
   // outputs media string
-  @media #{map-get($map, type)} and #{map-get($map, media-string)} {
+  @media #{map-get($map, type) 'and' map-get($map, media-string)} {
     @content;
   }
 
@@ -37,11 +37,11 @@
 ///   * media-string: media query string
 ///   * query-fallback: query fallback
 ///
-/// @param  {} $queries
-/// @param  {} $type
-/// @param  {} $query-fallback
-/// @param  {} $breakpoints
-/// @return {*}
+/// @param  {String|Number} $queries
+/// @param  {String} $type
+/// @param  {String} $query-fallback
+/// @param  {Map} $breakpoints
+/// @return {Map}
 ///
 /// @access private
 ///
@@ -69,9 +69,9 @@
 ///
 /// Parse breakpoint arguments and returns a map with 4 keys.
 ///
-/// @param  {} $query
-/// @param  {} $breakpoints
-/// @return {*}
+/// @param  {String|Number} $query
+/// @param  {Map} $breakpoints
+/// @return {Map}
 ///
 /// @access private
 ///
@@ -159,9 +159,9 @@
 ///   * is a number
 ///   * is a "max", "max-width" or "max-height" string
 ///
-/// @param  {} $query
-/// @param  {} $breakpoints
-/// @return {*}
+/// @param  {String|Number} $query
+/// @param  {Map} $breakpoints
+/// @return {Any}
 ///
 /// @access private
 ///
