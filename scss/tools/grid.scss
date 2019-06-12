@@ -1,5 +1,5 @@
 // =============================================================================
-// 2# Modulus / Tools / Layout
+// 2# Modulus / Tools / Grid
 // =============================================================================
 
 ///
@@ -12,7 +12,7 @@
 ///
 
 ///
-/// Generate the layout container.
+/// Generate the grid container.
 ///
 /// 1. Use the negative margin trick for multi-row grids:
 ///    http://csswizardry.com/2011/08/building-better-grid-systems/
@@ -20,7 +20,7 @@
 /// @requires {function} list-reset
 /// @output   `font-size`, `margin`, `padding`, `list-style`
 ///
-@mixin layout($gutter: 0, $fix-whitespace: true) {
+@mixin grid($gutter: 0, $fix-whitespace: true) {
   @include list-reset;
 
   @if ($fix-whitespace) {
@@ -33,7 +33,7 @@
 }
 
 ///
-/// Generate the layout item.
+/// Generate the grid item.
 ///
 /// 1. Required in order to combine fluid widths with fixed gutters.
 /// 2. Allows us to manipulate grids vertically, with text-level properties,
@@ -44,7 +44,7 @@
 /// 5. Gutters provided by left padding:
 ///    http://csswizardry.com/2011/08/building-better-grid-systems/
 ///
-@mixin layout_item($gutter: 0, $fix-whitespace: true) {
+@mixin grid_item($gutter: 0, $fix-whitespace: true) {
   box-sizing: border-box; /* [1] */
   display: inline-block; /* [2] */
   vertical-align: top; /* [3] */
