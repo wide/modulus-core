@@ -8,6 +8,7 @@
     "node": ">=10.13.0"
   },
   "scripts": {
+    "doc": "docsify serve docs --port 3100 --open true",
     "docs": "docsify serve docs --port 3100 --open true",
     "compile": "babel -d lib/ src/"
   },

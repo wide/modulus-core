@@ -5,11 +5,11 @@
 ///
 /// Converts the given pixel value to its EM quivalent.
 ///
-/// @param  {Number} $size                       - The pixel value to convert.
-/// @param  {Number} $context [$browser-context] - The assumed base font size.
+/// @param  {Number} $size                      - The pixel value to convert.
+/// @param  {Number} $context [$body-context]   - The assumed base font size.
 /// @return {Number} Scalable pixel value in EMs.
 ///
-@function em($size, $context: $browser-context) {
+@function em($size, $context: $body-context) {
   @if (type-of($size) == number) {
     @if (unitless($size)) {
       $size: $size * 1px;
@@ -33,39 +33,6 @@
   }
 
   @return ($size / $context) * 1em;
-}
-
-///
-/// Converts the given pixel value to its REM quivalent.
-///
-/// @param  {Number} $size                       - The pixel value to convert.
-/// @param  {Number} $context [$browser-context] - The assumed base font size.
-/// @return {Number} Scalable pixel value in REMs.
-///
-@function rem($size, $context: $browser-context) {
-  @if (type-of($size) == number) {
-    @if (unitless($size)) {
-      $size: $size * 1px;
-    }
-    @if (unit($size) != 'px') {
-      @error '`#{$size}` needs to be a pixel value.';
-    }
-  } @else {
-    @error '`#{$size}` needs to be a number.';
-  }
-
-  @if (type-of($context) == number) {
-    @if (unitless($context)) {
-      $context: $context * 1px;
-    }
-    @if (unit($context) != 'px') {
-      @error '`#{$context}` needs to be a pixel value.';
-    }
-  } @else {
-    @error '`#{$context}` needs to be a number.';
-  }
-
-  @return ($size / $context) * 1rem;
 }
 
 ///
