@@ -8,9 +8,7 @@
   position: absolute;
   display: inherit;
   clip: rect(0, 0, 0, 0);
-}
 
-[hidden][aria-hidden='false'] {
   &:focus {
     clip: auto;
   }
