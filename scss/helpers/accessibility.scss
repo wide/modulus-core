@@ -2,30 +2,26 @@
 // 7# Modulus / Helpers / Accessibility
 // =============================================================================
 
-//  Visibility / Display
+// ARIA roles display visual cursor hints
 // =============================================================================
-[hidden][aria-hidden='false'] {
-  position: absolute;
-  display: inherit;
-  clip: rect(0, 0, 0, 0);
+[aria-busy='true'] {
+  cursor: progress;
+}
 
-  &:focus {
-    clip: auto;
-  }
+[aria-controls] {
+  cursor: pointer;
+}
+
+[aria-disabled] {
+  cursor: default;
 }
 
 // Screen readers
 // =============================================================================
-.screen-reader-text {
+.a11y-sr-only {
   @include accessibly-hidden;
-}
 
-@media not print {
-  .screen-reader-text\@screen {
-    @include accessibly-hidden;
+  &.-focus {
+    @include accessibly-focusable;
   }
-}
-
-.screen-reader-text.-focusable {
-  @include accessibly-focusable;
 }

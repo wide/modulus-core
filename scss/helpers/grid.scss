@@ -45,11 +45,11 @@
 
   // gutter modifiers
   &.-gutter {
-    margin-left: rem(-$unit);
+    margin-left: -$unit;
   }
 
   &.-gutter-small {
-    margin-left: rem(-$unit-small);
+    margin-left: -$unit-small;
   }
 
   // horizontal aligment modifiers
@@ -99,11 +99,11 @@
 
   // gutter modifiers
   .grid.-gutter > & {
-    padding-left: rem($unit);
+    padding-left: $unit;
   }
 
   .grid.-gutter-small > & {
-    padding-left: rem($unit-small);
+    padding-left: $unit-small;
   }
 
   // vertical alignment modifiers

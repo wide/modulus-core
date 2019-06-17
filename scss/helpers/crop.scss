@@ -11,6 +11,8 @@
 ///
 /// @example html
 ///   <div class="crop crop-16:9">
+///     <div class="crop_content"></div>
+///   </div>
 ///
 .crop {
   position: relative; /* [1] */
@@ -23,7 +25,10 @@
   /// 1. Image’s default positioning is top-left in the cropping box.
   /// 2. Make sure the media doesn’t stop itself too soon.
   ///
-  &_content & {
+  &_content,
+  & > iframe,
+  & > embed,
+  & > object {
     position: absolute;
     top: 0; /* [1] */
     left: 0; /* [1] */
@@ -57,7 +62,7 @@
       }
 
       &.crop-#{$antecedent}\:#{$consequent} {
-        padding-bottom: ($consequent/$antecedent) * 100%;
+        padding-bottom: ($consequent / $antecedent) * 100%;
       }
     }
   }

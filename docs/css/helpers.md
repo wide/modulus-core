@@ -2,7 +2,7 @@
 
 Modulus propose un ensemble de helpers qui sont chargés depuis le core. 
 
-Les helpers sont importés à partir du fichier `main.scss`. Afin de réduire le poids du fichier css de sortie, il est recommandé de commenter les helpers qui ne sont pas utilisé au sein de ton projet.
+Les helpers sont importés à partir du fichier `main.scss`. Afin de réduire le poids du fichier css de sortie, il est recommandé de commenter les helpers qui ne sont pas utilisé au sein de votre projet.
 
 ```main.scss
 // modulus "Helpers"

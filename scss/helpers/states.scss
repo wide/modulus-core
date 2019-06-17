@@ -2,20 +2,6 @@
 // 7# Modulus / Helpers / States
 // =============================================================================
 
-// ARIA roles display visual cursor hints
-// =============================================================================
-[aria-busy='true'] {
-  cursor: progress;
-}
-
-[aria-controls] {
-  cursor: pointer;
-}
-
-[aria-disabled] {
-  cursor: default;
-}
-
 // Control visibility without affecting flow.
 // =============================================================================
 .is-visible {

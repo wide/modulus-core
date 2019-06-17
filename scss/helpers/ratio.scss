@@ -8,6 +8,8 @@
 ///
 /// @example html
 ///   <div class="ratio ratio-16:9">
+///     <div class="ratio_content"></div>
+///   </div>
 ///
 /// @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
 ///
@@ -42,8 +44,10 @@
         @error "`#{$consequent}` needs to be a number.";
       }
 
-      &.ratio-#{$antecedent}\:#{$consequent}::before {
-        padding-bottom: ($consequent/$antecedent) * 100%;
+      &.ratio-#{$antecedent}\:#{$consequent} {
+        &::before {
+          padding-bottom: ($consequent / $antecedent) * 100%;
+        }
       }
     }
   }

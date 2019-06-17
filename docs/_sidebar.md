@@ -23,7 +23,6 @@
     - [States](css/helpers/states.md)
     - [Widths](css/helpers/widths.md)
   - [Components](/css/components.md)
-  - [Core](/css/core.md)
   - [Elements](/css/elements.md)
   - [Settings](/css/settings.md)
   - [Vendors](/css/vendors.md)
