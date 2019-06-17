@@ -11,12 +11,12 @@
       @if ($container == 'default') {
         padding-right: map-get($value, 'padding');
         padding-left: map-get($value, 'padding');
-        max-width: map-get($value, 'width');
+        max-width: map-get($value, 'max-width');
       } @else {
         @include bp($container) {
           padding-right: map-get($value, 'padding');
           padding-left: map-get($value, 'padding');
-          max-width: map-get($value, 'width');
+          max-width: map-get($value, 'max-width');
         }
       }
     }

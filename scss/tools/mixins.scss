@@ -34,7 +34,7 @@
 ///
 @mixin font-size($font-size, $line-height: auto, $important: false) {
   $important: important($important);
-  font-size: rem($font-size) $important;
+  font-size: em($font-size) $important;
 
   @if ($line-height == 'auto') {
     line-height: ceil($font-size / $line-height-default) * ($line-height-default / $font-size) $important;
