@@ -41,7 +41,6 @@ src/              # source de développement
       utilities/        # helpers (.text-right, .sr-only...)
       main.scss         # point d'entrée des @import
     js/               # logique JS utilisant la librairie Modulus
-      polyfills/        # fichiers de retrocompatibilité pour les anciens navigateurs
       utils/            # fonctions utilitaires
       main.js           # points d'entrées de l'import
       consts.js         # enums et constantes

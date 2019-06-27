@@ -5,7 +5,7 @@ Le système Modulus permet d'automatiquement lier un élement `HTML` avec une cl
 
 ## Instance
 
-L'instance principale de Modulus est situé dans le `main.js` et accepte 4 paramètres : `config`, `plugins`, `controllers` et `components`.
+L'instance principale de Modulus est situé dans le `main.js` et accepte 3 paramètres : `config`, `plugins` et `components`.
 
 ```js
 import Modulus from 'modulus'
@@ -31,9 +31,6 @@ export default new Modulus({
     scroll: new Scroll(),
     viewport: new Viewport({ animations }),
     breakpoint: new Breakpoint({ sizes: BREAKPOINTS })
-  },
-  controllers: {
-    Page
   },
   components: {
     ...components
@@ -78,20 +75,6 @@ Il est accessible avec `this.$viewport` dans un `Component`.
 Voir la partie [Plugin](#plugin) pour la liste et l'utilisation des plugins.
 
 !> **Note importante :** il est préférable d'enlever les plugins qui ne vous servent pas pour diminuer le payload de sortie.
-
-
-### modulus.controllers
-
-```js
-controllers: {
-  Page
-}
-```
-
-Les controllers sont des `Components` qui sont instanciés qu'une seule fois et ne sont pas associé à un élément DOM en particulier.
-Ils fonctionnent globalement sur la page et permettent de centraliser des tâches génériques.
-
-Voir la partie [Component](modulus/component.md) pour leur utilisation.
 
 
 ### modulus.components
