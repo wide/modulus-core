@@ -17,6 +17,8 @@ L'utilisation de la clase CSS `.a11y-sr-only` masque l'ensemble des éléments p
 <div class="a11y-sr-only"></div>
 ```
 
+---
+
 L'utilisation de la clase CSS `.a11y-sr-only` avec le modifier `-focus` rend les éléments visibles uniquement lors d'un focus à partir du clavier. Bien évidement, l'élément reste toujours visible sur un lecteur d'écran.
 
 ```html

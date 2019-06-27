@@ -61,7 +61,7 @@ Pour inverser l'ordre d'apparition des items de la grille, vous devez utiliser l
 </div>
 ```
 
-## Définir l'alignement horizontal
+## Alignement horizontal
 
 Pour un alignement horizontal au centre, il faut ajouter le modifier `-center`:
 ```html
@@ -79,7 +79,7 @@ Pour un alignement horizontal à droite, il faut ajouter le modifier `-right`:
 </div>
 ```
 
-## Définir une gouttière
+## Ajouter une gouttière
 
 Par défaut, il y a 2 gouttières de disponibles dans le système de grille: 
 - `-gutter`: qui a pour valeur `$unit`
@@ -120,7 +120,7 @@ Exemple de surchage, pour l'ajout d'une nouvelle gouttière:
 }
 ```
 
-## Définir la grille en Flexbox 
+## Utilisation de Flexbox sur la grille 
 
 Pour utiliser Flexbox avec la grille, il faut ajouter le modifier `-flex`:
 
