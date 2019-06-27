@@ -44,6 +44,10 @@ export default class Scroll extends Plugin {
       this.computeScroll(progress)
       this.$emit('scroll', this.state)
     })
+
+    // listen for lock/unlock
+    this.$on('body.lock', target => this.lock(target))
+    this.$on('body.unlock', e => this.unlock())
   }
 
   

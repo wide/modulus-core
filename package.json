@@ -29,7 +29,8 @@
     "body-scroll-lock": "2.6.1",
     "jump.js": "1.0.2",
     "pjax": "0.2.8",
-    "stickybits": "3.6.5"
+    "stickybits": "3.6.5",
+    "swiper": "4.5.0"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
