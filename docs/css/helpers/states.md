@@ -17,6 +17,8 @@ Rendre un élément visible sans affecter le flux:
 <div class="is-visible"></div>
 ```
 
+---
+
 Rendre un élément invisible sans affecter le flux:
 ```html
 <!--
@@ -40,11 +42,15 @@ Supprimer un élément sur tous les types de supports
 <div class="is-hidden"></div>
 ```
 
+---
+
 Pour supprimer un élément uniquement sur un support de type `screen`:
 ```html
 <!-- Supression uniquement si le support est de type @media screen -->
 <div class="is-hidden@screen"></div>
 ```
+
+---
 
 Pour supprimer un élément uniquement sur un support de type `print`:
 ```html

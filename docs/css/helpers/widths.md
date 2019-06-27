@@ -24,7 +24,7 @@ $widths-fractions: 1 2 3 4 5 !default;
 ```
 
 
-## Utilisation
+## Définir une largeur
 
 Modulus gère le fait de pouvoir définir une largeur sous forme de fraction. Pour cela, il suffit d'utiliser la classe `.w-X/Y` (remplacer `X` et `Y` par les valeurs de la fraction souhaitée). 
 
@@ -46,6 +46,33 @@ Voici quelques exemples :
 ```
 
 
+## Définir un décalage
+
+La classe `.w-push-*` permet d'effectuer un décalage d'un élément sur la gauche.
+
+```html
+<!-- décalage de 1/4 d'un élément par sa gauche -->
+<div class="w-push-1/4"></div>
+```
+
+La classe `.w-pull-*` permet d'effectuer un décalage d'un élément sur la droite.
+
+```html
+<!-- décalage de 3/4 d'un élément par sa droite -->
+<div class="w-pull-3/4"></div>
+```
+
+La combinaison d'une largeur et d'un décalage est possible.
+
+```html
+<!--
+  décalage de 1/4 d'un élément par sa gauche
+  taille de l'élément de 1/2, soit 50%
+-->
+<div class="w-push-1/4 w-1/2"></div>
+```
+
+
 ## Breakpoints
 
 Il est également possible de spécifier une largeur à partir d'une certaine résolution *(mobile first)*. 
@@ -59,4 +86,22 @@ Les breakpoints disponibles, sont ceux définies dans la variable `$breakpoints`
 (à partir de "xxl") largeur de 1/4, soit: 25% 
 -->
 <div class="w-1/2 w-1/3@lg w-1/4@xxl"></div>
+```
+
+Les breakpoints fonctionnent également avec le décalage des éléments `.w-push-*` et `.w-pull-*`. 
+
+```html
+<!--
+(par défaut) élément décalé de 1/4 par la gauche, soit: 25% 
+(à partir de "xxl") élément décalé de 1/2 par la gauche, soit: 25% 
+-->
+<div class="w-push-1/4 w-push-1/2@xxl"></div>
+```
+
+```html
+<!--
+(par défaut) élément décalé de 1/4 par la droite, soit: 25% 
+(à partir de "xxl") élément décalé de 1/2 par la droite, soit: 25% 
+-->
+<div class="w-pull-1/4 w-pull-1/2@xxl"></div>
 ```

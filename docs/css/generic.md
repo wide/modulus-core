@@ -1,0 +1,2 @@
+- un « reboot » pour rendre l'affichage homogène sur tous les navigateurs
+- un « reboot d'impression » pour gérer les cas basiques d'impression
