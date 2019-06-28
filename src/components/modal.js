@@ -1,14 +1,12 @@
 import Component from '../component'
 import hotkeys from 'hotkeys-js'
 
-
 export const DEFAULT_CLASSES = {
   close: 'modal_close',
   shadow: 'modal_shadow',
   open: '-open',
   active: '-active'
 }
-
 
 export default class extends Component {
 

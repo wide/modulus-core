@@ -87,10 +87,10 @@ donnera :
 }
 ```
 
-### this.$uid
+### this.uid
 
-L'identifiant unique du composant, concaténation du type de composant et de son ID ou de son numéro incrémental, par ex:
-- `<div data-mod="my-component"></div>` donnera `my-component#1`
+L'identifiant unique du composant, concaténation du type de composant et de son ID, par ex:
+- `<div data-mod="my-component"></div>` donnera `my-component`
 - `<div data-mod="my-component" id="plop"></div>` donnera `my-component#plop`
 
 
@@ -108,7 +108,7 @@ Les hooks sont des méthodes automatiquement appelées par Modulus au cours du c
 
 ### this.log(...args)
 
-Log un message dans la console avec l'`$uid` du composant pour une meilleure tracabilité.
+Log un message dans la console avec l'`uid` du composant pour une meilleure tracabilité.
 
 Les niveaux de sévérité `debug`, `info`, `warn` ou `error` peuvent être utilisé de la sorte :
 ```js

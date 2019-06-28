@@ -113,7 +113,6 @@ export default class Router extends Plugin {
 
       // rebuild modulus
       this.pjax.onSwitch()
-      this.$modulus.rebuild(before)
 
       // end transition
       this.onLoaded()

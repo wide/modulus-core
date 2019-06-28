@@ -1,6 +1,6 @@
 import Plugin from '../plugin'
-import attrAnim from './viewport/attr-anim'
-import attrLazy from './viewport/attr-lazy'
+import dataAnim from '../directives/data-anim'
+import dataSrc from '../directives/data-src'
 
 export default class Viewport extends Plugin {
 
@@ -19,11 +19,6 @@ export default class Viewport extends Plugin {
     this.config = Object.assign({
       animOffset: '-120px'
     }, config)
-
-    this.attributes = {
-      'data-anim': attrAnim,
-      'data-src': attrLazy,
-    }
   }
 
 
@@ -31,6 +26,12 @@ export default class Viewport extends Plugin {
    * Bind plugin necessities
    */
   onInit() {
+
+    // add directives
+    this.$modulus.addDirectives({
+      dataAnim,
+      dataSrc,
+    })
 
     // clear observers (@todo reduce scope to root param)
     this.$on('dom.destroyed', root => {
