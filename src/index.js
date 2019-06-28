@@ -1,7 +1,7 @@
 import EventEmitter from 'tiny-emitter'
 import Component from './component'
 import Logger from './logger'
-import { randomHash } from './utils/string'
+import dataMod from './directives/data-mod'
 
 export default class Modulus extends EventEmitter {
 
@@ -11,33 +11,24 @@ export default class Modulus extends EventEmitter {
    * @param {Object} opts 
    * @param {Object}  opts.config
    * @param {Object}  opts.plugins - list of plugins to register
-   * @param {Object}  opts.controllers - list of controller to register
+   * @param {Object}  opts.directives - list of directives to register
    * @param {Object}  opts.components - list of regular components to register
    * @param {Object}  opts.webComponents - list of web components to register
    */
-  constructor({ config = {}, plugins = {}, controllers = {}, components = {}, webComponents = {} }) {
+  constructor({ config = {}, plugins = {}, directives = {}, components = {}, webComponents = {} }) {
 
     super()
 
-    // catalog of available classes
-    this._plugins = plugins
-    this._controllers = controllers
-    this._components = components
-    this._webComponents = webComponents
+    this.entries = []
+    this.plugins = plugins
+    this.components = components
+    this.webComponents = webComponents
 
-    // catalog of instances
-    this.plugins = {}
-    this.controllers = {}
-    this.components = {}
-    this.webComponents = {}
-    this.ready = false
+    this.directives = { dataMod }
+    this.addDirectives(directives)
 
     // assign config
-    this.config = Object.assign({
-      debug: false,
-      expose: false,
-      seekAttribute: 'data-mod'
-    }, config)
+    this.config = Object.assign({ debug: false, expose: false }, config)
 
     // assign logger
     this.log = new Logger({ active: this.config.debug, prefix: '' })
@@ -47,9 +38,12 @@ export default class Modulus extends EventEmitter {
       window.$mod = this
     }
 
-    // start parsing
+    // start building
     this.log(`Modulus start (${process.env.PRODUCTION ? 'PROD' : 'DEV'} mode)`)
     document.addEventListener('DOMContentLoaded', e => this.build())
+
+    // rebuild on specific event
+    this.on('dom.updated', root => this.rebuild(root))
   }
 
 
@@ -57,11 +51,9 @@ export default class Modulus extends EventEmitter {
    * Build plugins, controller and components
    */
   build() {
-    this.registerPlugins()
-    this.registerControllers()
-    this.registerComponents()
-    this.initComponents()
-    this.registerCustomElements()
+    this.setupPlugins()
+    this.setupDirectives()
+    this.bindDirectives()
     this.observeDestruction()
     this.emit('ready')
   }
@@ -72,20 +64,18 @@ export default class Modulus extends EventEmitter {
    * @param {HTMLElement} root
    */
   rebuild(root) {
-    this.registerComponents(root)
-    this.initComponents()
+    this.bindDirectives(root)
     this.emit('ready')
   }
 
 
   /**
-   * Add plugins
+   * Enable plugins
    */
-  registerPlugins() {
-    for(let name in this._plugins) {
+  setupPlugins() {
+    for(let name in this.plugins) {
 
-      // attach plugin to modulus and vice-versa
-      this.plugins[name] = this._plugins[name]
+      // bind modulus and logger
       this.plugins[name].$modulus = this
       this.plugins[name].log = new Logger({
         active: this.config.debug,
@@ -97,186 +87,100 @@ export default class Modulus extends EventEmitter {
 
       // init plugin
       this.log(`- plugin <${name}> registered`)
-      if(this.plugins[name].onSetup) this.plugins[name].onSetup()
-      if(this.plugins[name].onInit) this.plugins[name].onInit()
+      if(this.plugins[name].onInit) {
+        this.plugins[name].onInit()
+      }
     }
   }
 
 
   /**
-   * Register controller components
+   * Add new directives
+   * @param {Object} directives 
    */
-  registerControllers() {
-    for(let name in this._controllers) {
-
-      // instanciate controller component
-      this.controllers[name] = this.instanciateComponent(name, this._controllers[name], document.body, true)
-
-      // init controller
-      this.log(`- controller [${name}] registered`)
-      if(this.controllers[name].onInit) this.controllers[name].onInit()
+  addDirectives(directives) {
+    for(let n in directives) {
+      this.directives[n] = directives[n]
     }
   }
 
 
   /**
-   * Parse document and instanciate all components in [data-mod] attributes
+   * Add directives
+   */
+  setupDirectives() {
+    for(let n in this.directives) {
+      this.directives[n].setup(this)
+    }
+  }
+  
+
+  /**
+   * Bind directives to elements
    * @param {HTMLElement} root
    */
-  registerComponents(root = document.body) {
-    const els = root.querySelectorAll(`[${this.config.seekAttribute}]`)
-    for(let i = 0; i < els.length; i++) {
+  bindDirectives(root = document.body) {
+    for(let n in this.directives) {
 
-      // seek related module class
-      const name = els[i].getAttribute(this.config.seekAttribute)
-      const ComponentClass = this._components[name]
+      // get target elements
+      const els = root.querySelectorAll(this.directives[n].seek)
+      this.log('- directive', this.directives[n].seek)
+      for(let i = 0; i < els.length; i++) {
 
-      // register component instance
-      if(ComponentClass) {
+        // create entry
+        if(!this.entries.includes(els[i])) {
+          this.entries.push(els[i])
+          els[i].__directives = []
+        }
 
-        // new regular component
-        const instance = this.instanciateComponent(name, ComponentClass, els[i])
-        this.components[instance.$uid] = instance
-        this.log(`- component [${instance.$uid}] registered`)
+        // bind directive
+        this.directives[n].bind(this, els[i])
+        els[i].__directives.push(n)
       }
-      else this.log.error(`Unknown component [${name}]`)
     }
   }
 
 
   /**
-   * Observe component removal from DOM
+   * Bind directives to elements
+   */
+  unbindDirectives() {
+    for(let i = 0; i < this.entries.length; i++) {
+      if(!document.body.contains(this.entries[i])) {
+
+        // unbind directives
+        for(let j = 0; j < this.entries[i].__directives.length; j++) {
+          const n = this.entries[i].__directives[j]
+          this.directives[n].unbind(this, this.entries[i])
+        }
+
+        // removed entry
+        this.entries[i] = false
+      }
+    }
+
+    // clear removed entries
+    this.entries = this.entries.filter(Boolean)
+  }
+
+
+  /**
+   * Observe element removal from DOM
    */
   observeDestruction() {
-    new MutationObserver(e => {
-
-      for(let uid in this.components) {
-        if(!document.body.contains(this.components[uid].el)) {
-          if(this.components[uid].onDestroy) {
-            this.components[uid].onDestroy()
-          }
-          delete this.components[uid]
-        }
-      }
-
-    }).observe(document.body, { childList: true, subtree: true })
+    new MutationObserver(e => this.unbindDirectives())
+      .observe(document.body, { childList: true, subtree: true })
   }
-
+  
 
   /**
-   * Run onInit on regular components
-   */
-  initComponents() {
-    for(let uid in this.components) {
-      if(this.components[uid].onInit && !this.components[uid].__initialized) {
-        this.components[uid].onInit()
-        this.components[uid].__initialized = true
-      }
-    }
-  }
-
-
-  /**
-   * Register components as native custom elements
-   */
-  registerCustomElements() {
-    for(let name in this._webComponents) {
-
-      try {
-
-        // hyphenize tag name (FooBar -> foo-bar)
-        let tagname = name.replace(/[A-Z]/g, m => '-' + m.toLowerCase())
-        if(tagname[0] === '-') tagname = tagname.substr(1)
-
-        // attach modulus instance to component
-        const ComponentClass = this._webComponents[name]
-        ComponentClass.prototype.$modulus = this
-
-        // register to custom elements registry
-        const self = this
-        this.log(`Custom Element [${tagname}] registered`)
-        window.customElements.define(tagname, class extends HTMLElement {
-
-          // new web component
-          constructor() {
-            super()
-            const instance = self.instanciateComponent(name, ComponentClass, this)
-            self.components[instance.$uid] = instance
-          }
-
-          // attached to DOM
-          connectedCallback() {
-            if(this.$component.onInit) this.$component.onInit()
-            if(self.ready && this.$component.onReady) this.$component.onReady()
-          }
-
-          // detached from DOM
-          disconnectedCallback() {
-            if(this.$component.onDestroy) this.$component.onDestroy()
-          }
-
-        })
-      }
-      catch(err) {
-        this.log.error(err)
-        continue
-      }
-
-    }
-  }
-
-
-  /**
-   * Instance component and bind related data
-   * @param {String} name 
-   * @param {Component} ModuleClass 
-   * @param {HTMLElement} el 
-   * @param {Boolean} unique 
+   * Get component by selector
+   * @param {String} selector 
    * @return {Component}
    */
-  instanciateComponent(name, ComponentClass, el, unique = false) {
-
-    // parse attributes and data-attributes
-    const attrs = {}
-    for(let i = 0; i < el.attributes.length; i++) {
-      attrs[el.attributes[i]] = el.getAttribute(el.attributes[i])
-    }
-
-    // lookup [ref] children
-    const refs = {}
-    const els = Array.from(el.querySelectorAll(`*:not([${this.config.seekAttribute}]) [ref]`))
-    els.concat(...Array.from(el.children).filter(child => child.hasAttribute('ref'))) // ie11 fix for direct child ref
-    for(let i = 0; i < els.length; i++) {
-      const ref = els[i].getAttribute('ref')
-      refs[ref] = els[i]
-    }
-
-    // instanciate component object with attributes
-    const instance = new ComponentClass(el, { attrs, refs, dataset: el.dataset })
-
-    // bind identity data to instance
-    instance.$uid = (unique) ? name : `${name}#${el.id || randomHash()}`
-
-    // bind logger to instance
-    instance.log = new Logger({ active: this.config.debug, prefix: `[${instance.$uid}]` })
-
-    // bind modulus to instance (needed for event dispatching)
-    instance.$modulus = this
-
-    // bind instance to element
-    el.$component = instance
-
-    return instance
-  }
-
-
-  /**
-   * Get component by uid
-   * @param {String} uid 
-   * @return {Component}
-   */
-  get(uid) {
-    return this.components[uid]
+  get(selector) {
+    const el = document.querySelector(selector)
+    if(el && el.__mod) return el.__mod
   }
 
 }

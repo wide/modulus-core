@@ -3,14 +3,12 @@ import CustomEvent            from '../utils/custom-event'
 import { slideUp, slideDown } from '../utils/dom'
 import hotkeys                from 'hotkeys-js'
 
-
 export const DEFAULT_CLASSES = {
   list: 'dropdown_list',
   current: 'dropdown_current',
   item: 'dropdown_item',
   open: '-open'
 }
-
 
 export default class extends Component {
 

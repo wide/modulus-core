@@ -1,9 +1,7 @@
 import Component              from '../component'
 import { slideUp, slideDown } from '../utils/dom'
 
-
 export default class extends Component {
-
 
   /**
    * Initialize accordion component

@@ -1,4 +1,5 @@
 import EventEmitter from 'tiny-emitter'
+import Logger from './logger'
 
 export default class Component extends EventEmitter {
 
@@ -6,16 +7,31 @@ export default class Component extends EventEmitter {
    * New Component
    * @param {HTMLElement}   el
    * @param {Object}        opts
+   * @param {String}        opts.uid - unique id
    * @param {Object}        opts.attrs - element attributes
    * @param {DOMStringMap}  opts.dataset - element dataset attributes
    * @param {Object}        opts.refs - HTMLElement found by `[ref]`
+   * @param {Modulus}       opts.modulus
    */
-  constructor(el, { attrs, dataset, refs }) {
+  constructor(el, { uid, attrs, dataset, refs, modulus }) {
     super()
+
+    // props
     this.el = el
+    this.uid = uid
     this.attrs = attrs
     this.dataset = dataset
     this.refs = refs
+
+    // bind to element
+    el.__mod = this
+    this.$modulus = modulus
+
+    // instanciate logger
+    this.log = new Logger({
+      active: modulus.config.debug,
+      prefix: `[${uid}]`
+    })
   }
 
 

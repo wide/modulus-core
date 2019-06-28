@@ -2,14 +2,12 @@ import Component from '../component'
 import Swiper from 'swiper'
 import hotkeys from 'hotkeys-js'
 
-
 export const DEFAULT_CONFIG = {
   loop: true,
   autoplay: true,
   spaceBetween: 40,
   slidesPerView: 3
 }
-
 
 export const DEFAULT_CLASSES = {
   prev: 'swiper-button-prev',
@@ -21,7 +19,6 @@ export const DEFAULT_CLASSES = {
   slideVisible: 'swiper-slide-visible',
   slideActive: 'swiper-slide-active',
 }
-
 
 export default class extends Component {
 

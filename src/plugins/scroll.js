@@ -4,15 +4,15 @@ import updateOnScroll from 'uos'
 import sticky from 'stickybits'
 import jump from 'jump.js'
 
-import attrScrollTo from './scroll/attr-scroll-to'
-import attrParallax from './scroll/attr-parallax'
-import attrSticky from './scroll/attr-sticky'
+import dataScrollTo from '../directives/data-scroll-to'
+import dataParallax from '../directives/data-parallax'
+import dataSticky from '../directives/data-sticky'
 
 export default class Scroll extends Plugin {
 
   constructor({ config } = {}) {
     super()
-
+    this.config = config
     this.progresses = []
     this.stickied = []
     this.state = {
@@ -21,13 +21,6 @@ export default class Scroll extends Plugin {
       value: 0,
       progress: 0
     }
-    
-    this.config = config
-    this.attributes = {
-      'data-scroll-to': attrScrollTo,
-      'data-parallax': attrParallax,
-      'data-sticky': attrSticky
-    }
   }
   
 
@@ -35,6 +28,13 @@ export default class Scroll extends Plugin {
    * Build plugin necessities
    */
   onInit() {
+
+    // add directives
+    this.$modulus.addDirectives({
+      dataParallax,
+      dataScrollTo,
+      dataSticky
+    })
     
     // set first state
     this.computeScroll(0)
