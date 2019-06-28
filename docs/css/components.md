@@ -1,14 +1,9 @@
 # Components
 
-Le SASS des composants est directement crée à la racine du composant.
+Sur Modulus, la création de style d'un composant s'effectue directement dans son dossier racine. 
 
+**Exemple:**
 
-Exemple d'un composant nommé `my-component` 
+Si le composant `my-component` est créé au préalable avec la commande `npm run create:component my-component`. 
 
-Le composant est créer au préalable avec la commande `npm run create:component my-component` 
-
-`src/views/components/my-component`
-
-
-```scss
-``` 
+Le fichier Sass sera présent à l'emplacement suivant: `src/views/components/my-component/my-component.scss`.
