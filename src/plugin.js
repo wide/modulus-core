@@ -1,9 +1,5 @@
 export default class Plugin {
 
-  constructor() {
-    this.attributes = {}
-  }
-
   
   /**
    * Initialize component 

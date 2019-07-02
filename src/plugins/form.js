@@ -3,22 +3,37 @@ import hotkeys from 'hotkeys-js'
 
 export default class Form extends Plugin {
 
+  constructor(classes) {
+    super()
+    this.classes = Object.assign({
+      parent: 'form-line',
+      required: '-required',
+      empty: '-empty',
+      touched: '-touched',
+      changed: '-changed',
+      submitted: '-submitted',
+      invalid: '-invalid'
+    }, classes)
+  }
+
 
   /**
    * Build plugin necessities
    */
   onInit() {
-    this.forms = []
-    this.listenForms()
+    this.listenForms(document.body)
+    this.$on('dom.updated', root => this.listenForms(root))
   }
 
 
   /**
    * Watch all present forms
    */
-  listenForms() {
-    this.forms = document.body.querySelectorAll('form')
-    this.forms.forEach(form => this.watchForm(form))
+  listenForms(root) {
+    const forms = root.querySelectorAll('form')
+    for(let i = 0; i < forms.length; i++) {
+      this.watchForm(forms[i])
+    }
   }
 
 
@@ -28,39 +43,44 @@ export default class Form extends Plugin {
    */
   watchForm(form) {
     
+    // get relative inputs
     const els = form.querySelectorAll('input, textarea, select')
 
+    // set initial required state
+    for(let i = 0; i < els.length; i++) {
+      if(els[i].required) this.setState(els[i], this.classes.required)
+    }
+
     // initial form check
-    this.checkFormState(form)
+    this.checkState(form)
     form.addEventListener('reset', e => {
-      this.setSubmitted(form, els)
-      this.checkFormState(form)
+      this.checkState(form)
     })
 
     // watch children
     els.forEach(el => {
 
       // check validity
-      ['keyup', 'blur'].forEach(event => {
+      ['keyup', 'click', 'blur'].forEach(event => {
         el.addEventListener(event, e => {
-          el.classList.add('-touched')
-          form.classList.add('-touched')
+          this.setState(el, this.classes.touched)
           this.checkState(el)
-          this.checkFormState(form)
+          this.setState(form, this.classes.touched)
+          this.checkState(form)
         })
       })
 
       // add -changed when value changes
       el.addEventListener('change', e => {
-        el.classList.add('-changed')
-        form.classList.add('-changed')
+        this.setState(el, this.classes.changed)
         this.checkState(el)
-        this.checkFormState(form)
+        this.setState(form, this.classes.changed)
+        this.checkState(form)
       })
 
       // check submit
       hotkeys('enter', { element: el }, e => {
-        this.setSubmitted(form, els)
+        this.setState(form, this.classes.submitted)
       })
 
       // initial check
@@ -70,22 +90,23 @@ export default class Form extends Plugin {
     // watch submit
     const btn = form.querySelector('[type=submit]')
     if(btn) btn.addEventListener('click', e => {
-      this.setSubmitted(form, els)
+      this.setState(form, this.classes.submitted)
     })
   }
 
 
   /**
-   * Set whol form as submitted
-   * @param {HTMLELement} form 
-   * @param {NodeList} els 
+   * Set state to input, parent
+   * @param {HTMLElement} el 
+   * @param {String} state 
+   * @param {Boolean} add 
    */
-  setSubmitted(form, els) {
-    form.classList.add('-submitted')
-    els.forEach(el => {
-      el.blur()
-      el.classList.add('-touched')
-    })
+  setState(el, state, add = true) {
+    el.classList[add ? 'add' : 'remove'](state)
+    const parent = el.closest(`.${this.classes.parent}`)
+    if(parent) {
+      parent.classList[add ? 'add' : 'remove'](state)
+    }
   }
 
 
@@ -94,23 +115,10 @@ export default class Form extends Plugin {
    * @param {HTMLElement} el 
    */
   checkState(el) {
-    
-    // empty value
-    el.classList[el.value ? 'remove' : 'add']('-empty')
-
-    // invalid value
-    const isInvalid = !el.checkValidity()
-    el.classList[isInvalid ? 'add' : 'remove']('-invalid')
-  }
-
-
-  /**
-   * Check invalid form state
-   * @param {HTMLElement} form 
-   */
-  checkFormState(form) {
-    const isInvalid = !form.checkValidity()
-    form.classList[isInvalid ? 'add' : 'remove']('-invalid')
+    if(!(el instanceof HTMLFormElement)) {
+      this.setState(el, this.classes.empty, !!el.value)
+    }
+    this.setState(el, this.classes.invalid, !el.checkValidity())
   }
 
 }
