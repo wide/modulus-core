@@ -121,7 +121,11 @@ export default class extends Component {
     this.els.current.setAttribute('aria-expanded', true)
 
     // focus first item
-    this.els.list.querySelector(`.${this.classes.item}`).focus()
+    for(let i = 0; i < this.els.select.options.length; i++) {
+      if(this.els.select.options[i].selected) {
+        this.els.list.querySelectorAll(`.${this.classes.item}`)[i].focus()
+      }
+    }
   }
 
 
@@ -156,12 +160,21 @@ export default class extends Component {
 
     // update <select> value
     this.els.select.value = value
-    if(notify) {
-      this.els.select.dispatchEvent(new CustomEvent('change'))
+    for(let i = 0; i < this.els.select.options.length; i++) {
+      if(this.els.select.options[i].value === value) {
+        this.els.select.selectedIndex = i
+        this.els.select.options[i].setAttribute('selected', 'selected')
+      }
+      else {
+        this.els.select.options[i].removeAttribute('selected')
+      }
     }
 
     // spread component event
     this.emit('change')
+    if(notify) {
+      this.els.select.dispatchEvent(new CustomEvent('change'))
+    }
 
     // close list
     this.close()
