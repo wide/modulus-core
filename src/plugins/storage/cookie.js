@@ -1,5 +1,4 @@
 import Manager from './manager'
-import { setExpires } from '../../utils/cookie'
 
 export default class Cookie extends Manager {
   constructor(params = {}) {
@@ -44,7 +43,7 @@ export default class Cookie extends Manager {
   clear() {
     document.cookie.split(';').forEach((cookie) => {
       if (cookie !== '') {
-        document.cookie = setExpires(cookie)
+        document.cookie = Cookie.setExpires(cookie)
       }
     })
   }
@@ -88,4 +87,16 @@ export default class Cookie extends Manager {
   unset(key) {
     document.cookie = `${encodeURIComponent(key)}=;expires=${new Date().toUTCString()}`
   }
+
+  /**
+   * Set expires for cookie
+   * @param {string} cookie
+   * @return {String}
+   */
+  static setExpires(cookie) {
+    return cookie
+      .replace(/^ +/, '')
+      .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`)
+  }
+
 }
