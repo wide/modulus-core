@@ -1,5 +1,4 @@
 import EventEmitter from 'tiny-emitter'
-import Component from './component'
 import Logger from './logger'
 import dataMod from './directives/data-mod'
 
@@ -81,9 +80,6 @@ export default class Modulus extends EventEmitter {
         active: this.config.debug,
         prefix: `<${name}>`
       })
-
-      // attach plugin to Component class
-      Component.prototype[`$${name}`] = this.plugins[name]
 
       // init plugin
       this.log(`- plugin <${name}> registered`)

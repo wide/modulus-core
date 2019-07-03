@@ -11,9 +11,8 @@ export default class Component extends EventEmitter {
    * @param {Object}        opts.attrs - element attributes
    * @param {DOMStringMap}  opts.dataset - element dataset attributes
    * @param {Object}        opts.refs - HTMLElement found by `[ref]`
-   * @param {Modulus}       opts.modulus
    */
-  constructor(el, { uid, attrs, dataset, refs, modulus }) {
+  constructor(el, { uid, attrs, dataset, refs }) {
     super()
 
     // props
@@ -25,11 +24,10 @@ export default class Component extends EventEmitter {
 
     // bind to element
     el.__mod = this
-    this.$modulus = modulus
 
     // instanciate logger
     this.log = new Logger({
-      active: modulus.config.debug,
+      active: this.$modulus.config.debug,
       prefix: `[${uid}]`
     })
   }
@@ -78,13 +76,12 @@ export default class Component extends EventEmitter {
 
 
   /**
-   * Emit to both global and local event bus
+   * Emit to global event bus
    * @param {String} event 
    * @param  {...any} args 
    */
   $emit(event, ...args) {
-    this.emit(event, ...args) // local
-    this.$modulus.emit(event, ...args) // global
+    this.$modulus.emit(event, ...args)
   }
 
 }

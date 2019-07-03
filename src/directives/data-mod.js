@@ -1,10 +1,11 @@
+import Component from '../component'
+
 export default {
 
   /**
    * Props
    */
   seek: '[data-mod]',
-  components: [],
 
 
   /**
@@ -13,41 +14,18 @@ export default {
    */
   setup(modulus) {
 
-    // register web-component
-    const self = this
+    // bind modulus and plugins to component prototype
+    Component.prototype.$modulus = modulus
+    for(let name in modulus.plugins) {
+      Component.prototype[`$${name}`] = modulus.plugins[name]
+    }
+
+    // register web-components
     for(let tagname in modulus.webComponents) {
-
       try {
-
-        // attach modulus instance to component
         const ComponentClass = modulus.webComponents[tagname]
-
-        // register to custom elements registry
         modulus.log(`Custom Element [${tagname}] registered`)
-        window.customElements.define(tagname, class extends HTMLElement {
-
-          // new web component
-          constructor() {
-            super()
-            this.style.display = 'block' // immediat oveflow issue
-            self.instanciateComponent(this, tagname, ComponentClass, modulus)
-          }
-
-          // attached to DOM
-          connectedCallback() {
-            if(this.__mod.onInit) {
-              this.__mod.onInit()
-            }
-          }
-
-          // detached from DOM
-          disconnectedCallback() {
-            if(this.__mod.onDestroy) {
-              this.__mod.onDestroy()
-            }
-          }
-
-        })
+        this.registerWebComponent(tagname, ComponentClass)
       }
       catch(err) {
         this.log.error(err)
@@ -68,19 +46,62 @@ export default {
     // resolve component class
     const name = el.dataset.mod
     const ComponentClass = modulus.components[name]
+    if(!ComponentClass) {
+      modulus.log.error(`Unknown component [${name}]`)
+      return
+    }
 
     // instanciate component
-    if(ComponentClass) {
-      const instance = this.instanciateComponent(el, name, ComponentClass, modulus)
-      this.components.push(instance)
-      modulus.log(`  - component [${instance.uid}] initialized`)
-      if(instance.onInit) {
-        instance.onInit()
+    this.register(el, name, ComponentClass)
+    modulus.log(`  - component [${el.__mod.uid}] added`)
+  },
+
+
+  /**
+   * Define and register standard element
+   * @param {HTMLElement} el 
+   * @param {String} name 
+   * @param {Component} ComponentClass 
+   */
+  register(el, name, ComponentClass) {
+    const instance = this.instanciate(el, name, ComponentClass)
+    if(instance.onInit) {
+      instance.onInit()
+    }
+  },
+
+
+  /**
+   * Define and register custom element
+   * @param {String} tagname 
+   * @param {Component} ComponentClass 
+   */
+  registerWebComponent(tagname, ComponentClass) {
+    const self = this
+    window.customElements.define(tagname, class extends HTMLElement {
+
+      // new web component
+      constructor() {
+        super()
+        this.style.display = 'block' // immediat oveflow issue
+        self.instanciate(this, tagname, ComponentClass)
       }
-    }
-    else {
-      modulus.log.error(`Unknown component [${name}]`)
-    }
+
+      // attached to DOM
+      connectedCallback() {
+        if(this.__mod.onInit) {
+          this.__mod.onInit()
+        }
+      }
+
+      // detached from DOM
+      disconnectedCallback() {
+        if(this.__mod.onDestroy) {
+          this.__mod.onDestroy()
+        }
+      }
+
+    })
   },
 
 
@@ -89,16 +110,14 @@ export default {
    * @param {HTMLElement} el 
    * @param {String} name 
    * @param {Object} ComponentClass 
-   * @param {Modulus} modulus 
    * @return {Object}
    */
-  instanciateComponent(el, name, ComponentClass, modulus) {
+  instanciate(el, name, ComponentClass) {
     return new ComponentClass(el, {
       uid: el.id ? `${name}#${el.id}` : name,
       dataset: el.dataset,
       attrs: this.parseAttrs(el),
-      refs: this.parseRefs(el),
-      modulus
+      refs: this.parseRefs(el)
     })
   },
 
@@ -140,16 +159,8 @@ export default {
    * @param {HTMLElement} el 
    */
   unbind(modulus, el) {
-
-    // trigger onDestroy hook
     if(el.__mod && el.__mod.onDestroy) {
       el.__mod.onDestroy()
-    }
-
-    // remove from collection
-    const index = this.components.indexOf(el.__mod)
-    if(index >= 0) {
-      this.components.splice(index, 1)
     }
   }
 
