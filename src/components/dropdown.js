@@ -131,8 +131,9 @@ export default class extends Component {
 
   /**
    * Close list and remove `-open` to dropdown element
+   * @param {Boolean} refocus
    */
-  close() {
+  close(refocus = true) {
 
     // ignore if already close
     if(!this.isOpen) return;
@@ -144,7 +145,9 @@ export default class extends Component {
     this.els.current.setAttribute('aria-expanded', false)
 
     // focus current
-    this.els.current.focus()
+    if(refocus) {
+      this.els.current.focus()
+    }
   }
 
 
@@ -211,7 +214,7 @@ export default class extends Component {
    */
   closeOnBlur(e) {
     if(this.el !== e.target && !this.el.contains(e.target)) {
-      this.close()
+      this.close(false)
     }
   }
 
