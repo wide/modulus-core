@@ -1,5 +1,5 @@
-/dist
-/node_modules
+dist
+node_modules
 .DS_Store
 *.log
 .idea
@@ -7,3 +7,4 @@
 .eslintcache
 package-lock.json
 Thumbs.db
+lib

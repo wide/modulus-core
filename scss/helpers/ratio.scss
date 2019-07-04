@@ -1,0 +1,54 @@
+// =============================================================================
+// 7# Modulus / Helpers / Ratio
+// =============================================================================
+
+///
+/// Create ratio-bound content blocks, to keep media (e.g. images, videos) in
+/// their correct aspect ratios.
+///
+/// @example html
+///   <div class="ratio ratio-16:9">
+///     <div class="ratio_content"></div>
+///   </div>
+///
+/// @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
+///
+/// 1. Default cropping is a 1:1 ratio (i.e. a perfect square).
+///
+.ratio {
+  position: relative;
+  display: block;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-bottom: 100%; /* [1] */
+    width: 100%;
+  }
+
+  &_content,
+  & > iframe,
+  & > embed,
+  & > object {
+    @include position();
+  }
+
+  @each $ratio in $aspect-ratios {
+    @each $antecedent, $consequent in $ratio {
+      @if (type-of($antecedent) != number) {
+        @error "`#{$antecedent}` needs to be a number.";
+      }
+
+      @if (type-of($consequent) != number) {
+        @error "`#{$consequent}` needs to be a number.";
+      }
+
+      &.ratio-#{$antecedent}\:#{$consequent} {
+        &::before {
+          padding-bottom: ($consequent / $antecedent) * 100%;
+        }
+      }
+    }
+  }
+}

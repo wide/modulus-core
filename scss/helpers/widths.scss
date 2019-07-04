@@ -1,0 +1,29 @@
+// =============================================================================
+// 7# Modulus / Helpers / Width
+// =============================================================================
+
+///
+/// A series of width helper classes that you can use to size things like grid
+/// systems. Classes take a fraction-like format (e.g. `.w-2/3`). Use these in
+/// your markup:
+///
+/// <div class="w-7/12"></div>
+///
+/// The following will generate widths helper classes based on the fractions
+/// defined in the `$widths-fractions` list.
+///
+@include widths($widths-fractions);
+
+///
+/// If we’re using Sass-MQ, automatically generate grid system(s) for each of our
+/// defined breakpoints, and give them a Responsive Suffix, e.g.:
+///
+/// <div class="w-3/12@md"></div>
+///
+@if (variable-exists(breakpoints)) {
+  @each $breakpoint, $value in $breakpoints {
+    @include bp($breakpoint) {
+      @include widths($widths-fractions, #{$breakpoint-delimiter}#{$breakpoint});
+    }
+  }
+}

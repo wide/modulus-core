@@ -1,0 +1,201 @@
+// =============================================================================
+// 2# Modulus / Tools / Breakpoints
+// =============================================================================
+//
+// based on mappy-breakpoints:
+// https://github.com/zellwk/mappy-breakpoints/blob/v0.2.3/_mappy-breakpoints.scss
+//
+
+///
+/// Breakpoint mixins.
+///
+/// @param  {String|Number} $queries  - Format: <min-width> <max-width> h <min-height> <max-height> <key> <value>
+/// @param  {String} $type            - Media type: `all`, `screen`, `print`...
+/// @param  {String} $query-fallback  - Selector class
+/// @param  {Map} $breakpoints        - Breakpoints list
+/// @output media css
+///
+@mixin bp($queries, $type: all, $query-fallback: null, $breakpoints: $breakpoints) {
+  $map: breakpoint($queries, $type, $query-fallback, $breakpoints);
+
+  // outputs media string
+  @media #{map-get($map, type) 'and' map-get($map, media-string)} {
+    @content;
+  }
+
+  // if a query fallback is provided
+  @if $query-fallback {
+    #{$query-fallback} & {
+      @content;
+    }
+  }
+}
+
+///
+/// Breakpoint function. Returns a map with 3 keys:
+///   * type: media type
+///   * media-string: media query string
+///   * query-fallback: query fallback
+///
+/// @param  {String|Number} $queries
+/// @param  {String} $type
+/// @param  {String} $query-fallback
+/// @param  {Map} $breakpoints
+/// @return {Map}
+///
+/// @access private
+///
+@function breakpoint($queries, $type: all, $query-fallback: null, $breakpoints: $breakpoints) {
+  $media-string: ();
+  $media-map: breakpoint-parse($queries, $breakpoints);
+
+  @each $key, $value in $media-map {
+    @if $value and $value != 0 {
+      @if $media-string == (()) {
+        $media-string: append($media-string, unquote('(#{$key}: #{$value})'));
+      } @else {
+        $media-string: append($media-string, unquote('and (#{$key}: #{$value})'));
+      }
+    }
+  }
+
+  @return (
+    type: $type,
+    media-string: implode($media-string),
+    query-fallback: $query-fallback
+  );
+}
+
+///
+/// Parse breakpoint arguments and returns a map with 4 keys.
+///
+/// @param  {String|Number} $query
+/// @param  {Map} $breakpoints
+/// @return {Map}
+///
+/// @access private
+///
+@function breakpoint-parse($queries, $breakpoints) {
+  $return: ();
+  $i: 1;
+  $minWidth: null;
+  $maxWidth: null;
+  $minHeight: null;
+  $maxHeight: null;
+  $length: length($queries);
+
+  // checks for width queries
+  $minWidth: nth($queries, 1);
+  $minWidth: breakpoint-validate($minWidth, $breakpoints);
+
+  // check for width queries
+  @if $minWidth {
+    $minWidth: breakpoint-convert-to-em($minWidth);
+    $return: map-merge($return, (min-width: $minWidth));
+    $queries: set-nth($queries, 1, null);
+  }
+
+  // checks if there is a max width query
+  @if $minWidth and $length >= 2 {
+    $maxWidth: nth($queries, 2);
+    $maxWidth: breakpoint-validate($maxWidth, $breakpoints);
+  }
+
+  @if $maxWidth {
+    $maxWidth: breakpoint-convert-to-em($maxWidth - 1px);
+    $return: map-merge($return, (max-width: $maxWidth));
+    $queries: set-nth($queries, 2, null);
+  }
+
+  // checks for height queries
+  $height: index($queries, h) or index($queries, height);
+  @if $height {
+    $minHeight: nth($queries, $height + 1);
+    $minHeight: breakpoint-validate($minHeight, $breakpoints);
+
+    @if $minHeight {
+      $minHeight: breakpoint-convert-to-em($minHeight);
+      $return: map-merge($return, (min-height: $minHeight));
+      $queries: set-nth($queries, $height + 1, null);
+    }
+
+    // checks if there is a max height query
+    @if $length - $height >= 2 {
+      $maxHeight: nth($queries, $height + 2);
+      $maxHeight: breakpoint-validate($maxHeight, $breakpoints);
+    }
+
+    @if $maxHeight {
+      $maxHeight: breakpoint-convert-to-em($maxHeight - 1px);
+      $return: map-merge($return, (max-height: $maxHeight));
+      $queries: set-nth($queries, $height + 2, null);
+    }
+
+    // reset h marker
+    $queries: set-nth($queries, $height, null);
+  }
+
+  // checks for other queries
+  @while $i <= length($queries) {
+    $key: nth($queries, $i);
+
+    @if $key and $length - $i >= 1 {
+      $value: nth($queries, $i + 1);
+      $return: map-merge($return, (#{$key}: $value));
+      $queries: set-nth($queries, $i, null);
+      $queries: set-nth($queries, $i + 1, null);
+    } @else if $key {
+      @warn unquote('"Breakpoints is missing value for media feature "#{$key}""');
+    }
+    $i: $i + 1;
+  }
+
+  @return $return;
+}
+
+///
+/// Checks if $query given is one of the following:
+///   * is a $key in the $breakpoints map
+///   * is a number
+///   * is a "max", "max-width" or "max-height" string
+///
+/// @param  {String|Number} $query
+/// @param  {Map} $breakpoints
+/// @return {Any}
+///
+/// @access private
+///
+@function breakpoint-validate($query, $breakpoints) {
+  $return: null;
+
+  @if map-has-key($breakpoints, $query) {
+    $return: map-get($breakpoints, $query);
+  } @else if type-of($query) == number {
+    $return: $query;
+  } @else if $query == 'max' or $query == 'max-height' or $query == 'max-width' {
+    $return: 0;
+  } @else {
+    $return: null;
+  }
+  @return $return;
+}
+
+///
+/// Checks and converts px values to em.
+///
+/// @param  {Number} $value - The pixel or rem value to convert.
+/// @return {Number} Scalable value in EMs.
+///
+/// @access private
+///
+@function breakpoint-convert-to-em($value) {
+  @if unit($value) == 'px' or $value == 0 {
+    @return em($value);
+  } @else if unit($value) == 'em' {
+    @return $value;
+  } @else if unit($value) == 'rem' {
+    @return ($value / ($value * 0 + 1)) * 1em; // hack ($value * 1em) not working
+  } @else {
+    @error 'Breakpoint value must have a unit if it\'s a number';
+  }
+}

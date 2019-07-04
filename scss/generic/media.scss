@@ -1,0 +1,65 @@
+// =============================================================================
+// 4# Modulus / Generic / Media
+// =============================================================================
+
+///
+/// Apply a consistent margin strategy (matches our type styles).
+///
+figure {
+  margin: 0 0 1rem;
+}
+
+///
+/// 1. Setting `vertical-align` removes the whitespace that appears under `img`
+///    elements when they are dropped into a page as-is. Safer alternative to
+///    using `display: block;`.
+///
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle; /* [1] */
+}
+
+///
+/// Add the correct display in iOS 4-7.
+///
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+///
+/// 2. Fluid media for responsive purposes.
+/// 3. If a `width` and/or `height` attribute have been explicitly defined, let’s
+///    not make the image fluid.
+///
+img,
+svg {
+  max-width: 100%; /* [2] */
+  height: auto;
+
+  &[width],
+  &[height] {
+    max-width: none; /* [3] */
+  }
+}
+
+///
+/// 4. Offset `alt` text from surrounding copy.
+///
+img {
+  font-style: italic; /* [4] */
+}
+
+///
+/// 5. SVG elements should fallback to their surrounding text color.
+/// 6. Workaround for the SVG overflow bug in IE10/11 is still required.
+///    See https://github.com/twbs/bootstrap/issues/26878
+///
+svg {
+  fill: currentColor; /* [5] */
+  overflow: hidden; /* [6] */
+}

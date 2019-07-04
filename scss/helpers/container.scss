@@ -1,0 +1,24 @@
+// =============================================================================
+// 7# Modulus / Helpers / Container
+// =============================================================================
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+
+  @if (variable-exists(containers)) {
+    @each $container, $value in $containers {
+      @if ($container == 'default') {
+        padding-right: map-get($value, 'padding');
+        padding-left: map-get($value, 'padding');
+        max-width: map-get($value, 'max-width');
+      } @else {
+        @include bp($container) {
+          padding-right: map-get($value, 'padding');
+          padding-left: map-get($value, 'padding');
+          max-width: map-get($value, 'max-width');
+        }
+      }
+    }
+  }
+}

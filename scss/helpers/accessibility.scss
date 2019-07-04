@@ -1,0 +1,27 @@
+// =============================================================================
+// 7# Modulus / Helpers / Accessibility
+// =============================================================================
+
+// ARIA roles display visual cursor hints
+// =============================================================================
+[aria-busy='true'] {
+  cursor: progress;
+}
+
+[aria-controls] {
+  cursor: pointer;
+}
+
+[aria-disabled] {
+  cursor: default;
+}
+
+// Screen readers
+// =============================================================================
+.a11y-sr-only {
+  @include accessibly-hidden;
+
+  &.-focus {
+    @include accessibly-focusable;
+  }
+}

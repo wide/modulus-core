@@ -1,0 +1,104 @@
+// =============================================================================
+// 4# Modulus / Generic / Print mode
+// =============================================================================
+@media print {
+  *,
+  *::before,
+  *::after,
+  *::first-letter,
+  *::first-line {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    width: auto;
+    margin: auto;
+    font-family: serif;
+    font-size: 12pt;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  blockquote,
+  label,
+  ul,
+  ol {
+    color: $html-default-color;
+    margin: auto;
+  }
+
+  .print {
+    display: block;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  p,
+  blockquote {
+    orphans: 3;
+    widows: 3;
+  }
+
+  pre,
+  blockquote,
+  ul,
+  ol,
+  tr,
+  img {
+    break-inside: avoid;
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid $html-default-color;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  h1,
+  h2,
+  h3,
+  caption {
+    break-after: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  a,
+  a:visited {
+    color: $html-default-color;
+    text-decoration: underline;
+  }
+
+  a[href] {
+    &::after {
+      content: ' ('attr(href)')';
+    }
+  }
+
+  abbr[title] {
+    &::after {
+      content: ' ('attr(title)')';
+    }
+  }
+
+  a[href^='javascript:'],
+  a[href^='#'] {
+    &::after {
+      content: '';
+    }
+  }
+}
