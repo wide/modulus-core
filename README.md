@@ -42,7 +42,7 @@ Pour apporter des contributions sur la librairie de Modulus, vous devez utiliser
 npm run dev:modulus
 ```
 
-La commande `npm link modulus` remplacera automatiquement la  
+La commande `npm link modulus` remplacera automatiquement la reference dans le starterkit.
 
 
 ## Contribution

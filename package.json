@@ -1,8 +1,11 @@
 {
-  "private": true,
-  "version": "0.3.0",
+  "version": "1.0.0",
   "name": "modulus",
-  "author": "Wide <hello@wideagency.com>",
+  "author": "Wide Agency <hello@wideagency.com>",
+  "contributors": [
+    "Aymeric Assier <aassier@wideagency.com>",
+    "Julien Martins Da Costa <jmartinsdacosta@wideagency.com>"
+  ],
   "main": "lib/index.js",
   "engines": {
     "node": ">=10.13.0"

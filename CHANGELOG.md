@@ -6,29 +6,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## UNRELEASED
-### Added
-- Split appart from main repo as NPM package
-- CHANGELOG.md file
-- Cookie, LocalStorage and SessionStorage manager
-- Add `html.js`: escapeHtml(), unscapeHtml() and getNodeData()
-- New Gulp builder
-- Gulp task for generate SVG sprite icons
-
-### Changed
-- Enhance docs files for better explanation on how to use the boilerplate
-- Fix `Swiper` import
-- Remove gulp `notifyError` for use `gulp-plumber`
-
-## [0.3.0](https://git.cross-systems.ch/wide-front/boilerplate-integration/tags/v0.3.0) - 2019/03/15
-### Added
-- Add single-component structure
-
-## [0.2.0](https://git.cross-systems.ch/wide-front/boilerplate-integration/tags/v0.2.0) - 2019/03/08
-### Added
-- Initial modulus system
-- Initial SASS structure
-
-## [0.1.0](https://git.cross-systems.ch/wide-front/boilerplate-integration/tags/v0.1.0) - 2019/02/13
-### Added
-- Initial sources
+## [1.0.0](https://git.cross-systems.ch/wide-front/modulus/tags/v1.0.0) - 2019/07/04
+- Initial working sources
