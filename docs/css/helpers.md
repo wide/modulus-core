@@ -13,7 +13,6 @@ Les helpers sont importés à partir du fichier `main.scss`. Afin de réduire le
 @import 'modulus/helpers/embed';
 @import 'modulus/helpers/grid';
 @import 'modulus/helpers/layout';
-@import 'modulus/helpers/print';
 @import 'modulus/helpers/ratio';
 @import 'modulus/helpers/states';
 @import 'modulus/helpers/widths';
@@ -28,7 +27,6 @@ Les helpers sont importés à partir du fichier `main.scss`. Afin de réduire le
 - [Embed](css/helpers/embed.md)
 - [Grid](css/helpers/grid.md)
 - [Layout](css/helpers/layout.md)
-- [Print](css/helpers/print.md)
 - [Ratio](css/helpers/ratio.md)
 - [States](css/helpers/states.md)
 - [Widths](css/helpers/widths.md)
