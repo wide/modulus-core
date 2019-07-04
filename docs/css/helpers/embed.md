@@ -2,7 +2,7 @@
 
 Helper destiné à la gestion du responsive des contenus externes embarqués.
 
-Consulter le fichier : [embed.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/embed.scss).
+Consulter le fichier: [embed.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/embed.scss).
 
 
 ## Utilisation 

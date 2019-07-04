@@ -2,7 +2,7 @@
 
 Helper destiné à la gestion des différents états.
 
-Consulter le fichier : [states.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/states.scss).
+Consulter le fichier: [states.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/states.scss).
 
 
 ## Contrôler la visibilité sans affecter le flux

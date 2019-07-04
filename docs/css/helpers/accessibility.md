@@ -2,7 +2,7 @@
 
 Helper destiné à l'accessibilité et aux lecteurs d'écran.
 
-Consulter le fichier : [accessibility.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/accessibility.scss).
+Consulter le fichier: [accessibility.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/accessibility.scss).
 
 
 ## Lecteurs d'écrans

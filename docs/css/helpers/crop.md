@@ -2,7 +2,7 @@
 
 Helper destiné à la gestion du crop. Il permet de pouvoir cropper facilement un élément de type block.
 
-Consulter le fichier : [crop.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/crop.scss).
+Consulter le fichier: [crop.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/crop.scss).
 
 
 ## Configuration

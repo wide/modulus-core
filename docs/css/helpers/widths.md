@@ -2,7 +2,9 @@
 
 Helper destiné à la gestion des largeurs dynamiques sous forme de fraction.
 
-Consulter le fichier : [widths.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/widths.scss).
+Consulter le fichier: [widths.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/widths.scss).
+
+Ce helper, utilise le mixin: [widths.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/tools/widths.scss).
 
 ## Configuration
 

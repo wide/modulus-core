@@ -2,7 +2,7 @@
 
 Helper destiné à la gestion du ratio. Il permet de définir un ratio à un élément de type block.
 
-Consulter le fichier : [ratio.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/ratio.scss).
+Consulter le fichier: [ratio.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/ratio.scss).
 
 
 ## Configuration
