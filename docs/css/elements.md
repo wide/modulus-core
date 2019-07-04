@@ -8,4 +8,4 @@ Par défaut, Modulus propose certains styles communs:
 - [`section.scss`](https://git.cross-systems.ch/wide-front/modulus-starterkit/blob/develop/src/assets/scss/elements/section.scss)
 - [`table.scss`](https://git.cross-systems.ch/wide-front/modulus-starterkit/blob/develop/src/assets/scss/elements/table.scss)
 
-!> **Note importante :** Si vous aajoutez des fichiers dans le dossier `elements/`, ils seront auto-importés par Modulus.
+!> **Note importante :** Si vous ajoutez des fichiers dans le dossier `elements/`, ils seront auto-importés par Modulus.
