@@ -2,7 +2,7 @@
 
 Helper destiné à l'alignement du contenu (textes, blocs...).
 
-Consulter le fichier : [alignment.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/alignment.scss).
+Consulter le fichier: [alignment.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/alignment.scss).
 
 
 ## Flottants

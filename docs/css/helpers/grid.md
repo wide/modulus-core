@@ -2,10 +2,9 @@
 
 Helper destiné à la gestion de la grille présente dans Modulus. 
 
-Consulter le fichier : [grid.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/grid.scss).
+Consulter le fichier: [grid.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/grid.scss).
 
-## Configuration
-
+Ce helper, utilise le mixin: [grid.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/tools/grid.scss).
 
 
 ## Utilisation

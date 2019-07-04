@@ -2,7 +2,7 @@
 
 Helper destiné à la gestion du conteneur.
 
-Consulter le fichier : [container.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/container.scss).
+Consulter le fichier: [container.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/container.scss).
 
 
 ## Configuration

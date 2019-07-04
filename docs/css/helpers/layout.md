@@ -2,7 +2,7 @@
 
 Helper destiné à la gestion du layout.
 
-Consulter le fichier : [layout.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/layout.scss).
+Consulter le fichier: [layout.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/layout.scss).
 
 
 ## Clearfix
