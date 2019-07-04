@@ -112,7 +112,8 @@ Log un message dans la console avec l'`uid` du composant pour une meilleure trac
 
 Les niveaux de sévérité `debug`, `info`, `warn` ou `error` peuvent être utilisé de la sorte :
 ```js
-this.log.warn('oops')
+this.log('all good')
+this.log.warn('not good')
 ```
 
 ### this.child(selector)

@@ -42,7 +42,8 @@ export default new Modulus({
 
 ```js
 config: {
-  debug: !process.env.PRODUCTION
+  debug: !process.env.PRODUCTION,
+  expose: true
 }
 ```
 
@@ -51,8 +52,7 @@ La `config` permet d'assigner des variables de fonctionnement, elle est accessib
 | variable        | par défaut | description                                                          |
 | ---             | ---        | ---                                                                  |
 | `debug`         | `false`    | active ou désactive les logs interne                                 |
-| `expose`        | `false`    | attache l'instance à `window.$mod` pour un accès externe         |
-| `seekAttribute` | `data-mod` | le nom de l'attribut pour lier un élement `HTML` avec un `Component` |
+| `expose`        | `false`    | attache l'instance à `window.__mod` pour un accès externe            |
 
 
 ### modulus.plugins
@@ -74,7 +74,7 @@ Il est accessible avec `this.$viewport` dans un `Component`.
 
 Voir la partie [Plugin](#plugin) pour la liste et l'utilisation des plugins.
 
-!> **Note importante :** il est préférable d'enlever les plugins qui ne vous servent pas pour diminuer le payload de sortie.
+!> **Note importante :** il est préférable d'enlever les plugins qui ne vous servent pas pour diminuer le poids des fichiers JS.
 
 
 ### modulus.components
@@ -92,23 +92,24 @@ Les `Components` sont le coeur de Modulus, il s'agit des classes qui seront lié
 Voir la partie [Component](modulus/component.md) pour leur utilisation.
 
 
-## Alias
+## Alias d'import
 
 Trois alias sont disponibles pour accéder plus rapidement à des fichiers lors des `import` :
+- `[ROOT]` -> `./`
 - `~` -> `./src/assets/js/`
 - `@` -> `./src/views/components/`
-- `[ROOT]` -> `./`
 
 Ex:
 ```js
-import Page from '~/controllers/page'
+import Slider from '~/slider/slider'
+import { BREAKPOINTS } from '@/consts'
 ```
 
 
 ## Cycle de vie
 
 1. `Modulus` est instancié
-2. les `Plugins` et `Controllers` sont instanciés
+2. les `Plugins` sont instanciés
 3. les élements ayant l'attribut `[data-mod]` sont enregistrés et :
   - le `Component` spécifié dans l'attribute est instancié
   - la méthode `onInit()` est appelée
