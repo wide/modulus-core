@@ -1,6 +1,6 @@
 import Component from '../component'
 import hotkeys from 'hotkeys-js'
-import { getFocusable } from '../utils/dom'
+import { getFocusables } from '../utils/dom'
 
 export const DEFAULT_CLASSES = {
   close: 'modal_close',
@@ -100,9 +100,9 @@ export default class extends Component {
    * Set focus on the first focusable element
    */
   setInnerFocus() {
-    const focusable = getFocusable(el)
-    if(focusable) {
-      focusable.focus()
+    const focusables = getFocusables(el)
+    if(focusables.length) {
+      focusables[0].focus()
     }
   }
 

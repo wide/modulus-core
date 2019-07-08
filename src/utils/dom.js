@@ -83,8 +83,8 @@ export function animateFrom(els, from, to, duration = DEFAULT_DURATION, stagger 
 /**
  * Get the first focusable in element
  * @param {HTMLElement} el 
- * @return {HTMLElement}
+ * @return {NodeList}
  */
-export function getFocusable(el) {
-  return el.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+export function getFocusables(el) {
+  return el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
 }

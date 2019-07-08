@@ -1,4 +1,5 @@
 import Component from '../component'
+import { getFocusables } from '../utils/dom'
 import Swiper from 'swiper'
 import hotkeys from 'hotkeys-js'
 
@@ -108,18 +109,20 @@ export default class extends Component {
    * Re-affect visibility and focus for accessibility purpose
    */
   onSlideChange() {
+    this.log('onSlideChange')
 
     // set aria-hidden and tabindex
     const slides = this.el.querySelectorAll(`.${this.classes.slide}`)
     for (let i = 0; i < slides.length; i++) {
 
       // to slide
-      const isVisible = slides[i].classList.contains(`.${this.classes.slideVisible}`)
+      const isVisible = slides[i].classList.contains(this.classes.slideVisible)
+      this.log(isVisible)
       slides[i].setAttribute('aria-hidden', !isVisible)
       slides[i].setAttribute('tabindex', isVisible ? 0 : -1)
 
       // and to its focusable content
-      const focusables = slides[i].querySelectorAll('a, button')
+      const focusables = getFocusables(slides[i])
       for (let j = 0; j < focusables.length; j++) {
         focusables[j].setAttribute('aria-hidden', !isVisible)
         focusables[j].setAttribute('tabindex', isVisible ? 0 : -1)
@@ -128,6 +131,7 @@ export default class extends Component {
 
     // set focus on active slide
     if (this.manualChange) {
+      this.log('plop')
       this.el.querySelector(`.${this.classes.slideActive}`).focus()
       this.manualChange = false
     }
