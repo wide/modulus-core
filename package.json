@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "modulus",
   "author": "Wide Agency <hello@wideagency.com>",
   "contributors": [
@@ -13,7 +13,8 @@
   "scripts": {
     "doc": "docsify serve docs --port 3100 --open true",
     "docs": "docsify serve docs --port 3100 --open true",
-    "compile": "babel -d lib/ src/"
+    "compile": "babel -d lib/ src/",
+    "postinstall": "npm run compile"
   },
   "dependencies": {
     "bowser": "2.4.0",

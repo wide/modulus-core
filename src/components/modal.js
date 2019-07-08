@@ -1,5 +1,6 @@
 import Component from '../component'
 import hotkeys from 'hotkeys-js'
+import { getFocusables } from '../utils/dom'
 
 export const DEFAULT_CLASSES = {
   close: 'modal_close',
@@ -24,12 +25,23 @@ export default class extends Component {
       shadow: this.el.querySelector(`.${this.classes.shadow}`)
     }
 
+    // trap focus
+    document.addEventListener('focus', this.trapFocus.bind(this), true)
+
     // close en button click or shadow click
     this.els.close.addEventListener('click', e => this.close())
     this.els.shadow.addEventListener('click', e => this.close())
 
     // close on ESC keydown
     hotkeys('esc', e => this.close())
+  }
+
+
+  /**
+   * Clear component
+   */
+  onDestroy() {
+    document.removeEventListener('focus', this.trapFocus.bind(this), true)
   }
 
 
@@ -53,7 +65,7 @@ export default class extends Component {
     this.$emit('body.lock', this.el)
 
     // set focus inside modal
-    this.el.focus()
+    this.setInnerFocus()
   }
 
 
@@ -81,6 +93,29 @@ export default class extends Component {
         this.src = null
       }
     }, 400)
+  }
+
+
+  /**
+   * Set focus on the first focusable element
+   */
+  setInnerFocus() {
+    const focusables = getFocusables(this.el)
+    if(focusables.length) {
+      focusables[0].focus()
+    }
+  }
+
+
+  /**
+   * Keep focus inside modal while it's open
+   */
+  trapFocus(e) {
+    if(this.isOpen && e.target !== this.el && !this.el.contains(e.target)) {
+      e.preventDefault()
+      this.setInnerFocus()
+      return false
+    }
   }
 
 
