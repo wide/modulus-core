@@ -84,6 +84,9 @@ export default class extends Component {
     hotkeys('up', e => this.moveFocus(true, e))
     hotkeys('down', e => this.moveFocus(false, e))
 
+    // close on ESC key
+    hotkeys('esc', e => this.close())
+
     // close on blur (click outside)
     document.addEventListener('click', this.closeOnBlur.bind(this))
   }
