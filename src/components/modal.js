@@ -24,12 +24,23 @@ export default class extends Component {
       shadow: this.el.querySelector(`.${this.classes.shadow}`)
     }
 
+    // trap focus
+    document.addEventListener('focus', this.trapFocus.bind(this), true)
+
     // close en button click or shadow click
     this.els.close.addEventListener('click', e => this.close())
     this.els.shadow.addEventListener('click', e => this.close())
 
     // close on ESC keydown
     hotkeys('esc', e => this.close())
+  }
+
+
+  /**
+   * Clear component
+   */
+  onDestroy() {
+    document.removeEventListener('focus', this.trapFocus.bind(this), true)
   }
 
 
@@ -53,7 +64,7 @@ export default class extends Component {
     this.$emit('body.lock', this.el)
 
     // set focus inside modal
-    this.el.focus()
+    this.setInnerFocus()
   }
 
 
@@ -81,6 +92,29 @@ export default class extends Component {
         this.src = null
       }
     }, 400)
+  }
+
+
+  /**
+   * Set focus the first focusable element
+   */
+  setInnerFocus() {
+    const focusable = this.el.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+    if(focusable) {
+      focusable.focus()
+    }
+  }
+
+
+  /**
+   * Keep focus inside modal while it's open
+   */
+  trapFocus(e) {
+    if(this.isOpen && e.target !== this.el && !this.el.contains(e.target)) {
+      e.preventDefault()
+      this.setInnerFocus()
+      return false
+    }
   }
 
 

@@ -78,3 +78,13 @@ export function animateFrom(els, from, to, duration = DEFAULT_DURATION, stagger 
     new TimelineLite({ onComplete }).staggerFromTo(target, duration/1000, from, to, stagger/1000)
   })
 }
+
+
+/**
+ * Get the first focusable in element
+ * @param {HTMLElement} el 
+ * @return {HTMLElement}
+ */
+export function getFocusable(el) {
+  return el.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+}
