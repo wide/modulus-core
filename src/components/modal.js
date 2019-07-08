@@ -100,7 +100,7 @@ export default class extends Component {
    * Set focus on the first focusable element
    */
   setInnerFocus() {
-    const focusables = getFocusables(el)
+    const focusables = getFocusables(this.el)
     if(focusables.length) {
       focusables[0].focus()
     }
