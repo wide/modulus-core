@@ -47,6 +47,16 @@ const componentHTMLTemplate = (name) =>
 
 
 /**
+ * Generate component HTML template
+ * @param {String} name
+ */
+const webComponentHTMLTemplate = (name) =>
+`<${name} class="${name}">
+
+</${name}>`
+
+
+/**
  * Generate component SCSS template
  * @param {String} name
  */
@@ -64,22 +74,6 @@ const componentJSTemplate = (name) =>
 `import Component from 'modulus/component'
 
 export default class extends Component {
-
-  onInit() {
-
-  }
-
-}`
-
-
-/**
- * Generate controller JS template
- * @param {String} name
- */
-const controllerJSTemplate = (name) =>
-`import Component from 'modulus/component'
-
-export default class ${toCamel(name)} extends Component {
 
   onInit() {
 
@@ -127,20 +121,22 @@ export function createComponent(root, name, done) {
 
 
 /**
- * Create an empty controller
+ * Create an empty web-component
  * @param {String} root
  * @param {String} name
  * @param {Function} done
  */
-export function createController(root, name, done) {
+export function createWebComponent(root, name, done) {
   try {
-    console.log(`Creating "${name}" controller:`)
-    createFile(root, name, 'js', controllerJSTemplate(name))
-    console.log(`Note: you need to register this controller in your "main.js"`)
+    console.log(`Creating "${name}" web-component:`)
+    createFolder(root, name)
+    createFile(root, name, 'html', webComponentHTMLTemplate(name))
+    createFile(root, name, 'scss', componentSCSSTemplate(name))
+    createFile(root, name, 'js', componentJSTemplate(name))
     done()
   }
   catch(err) {
-    console.error('Cannot create controller:', err)
+    console.error('Cannot create web-component:', err)
     throw err
   }
 }

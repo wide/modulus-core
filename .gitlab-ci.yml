@@ -1,0 +1,8 @@
+include:
+  - https://gitlab-cik8s.cross-systems.ch/front/.gitlab-ci-html.yml
+
+Build and Push Docker image:
+  script:
+    - mkdir -p public/$CI_COMMIT_REF_NAME
+    - rm -rf public/$CI_COMMIT_REF_NAME/*
+    - cp -R docs/* public/$CI_COMMIT_REF_NAME/
