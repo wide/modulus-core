@@ -12,7 +12,7 @@ import Form from 'modulus/plugins/form'
 
 export default new Modulus({
   plugins: {
-    breakpoint: new Form({
+    form: new Form({
       parent: 'form-line',
       required: '-required',
       empty: '-empty',
