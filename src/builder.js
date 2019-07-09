@@ -126,7 +126,7 @@ export function createComponent(root, name, done) {
  * @param {String} name
  * @param {Function} done
  */
-export function createComponent(root, name, done) {
+export function createWebComponent(root, name, done) {
   try {
     console.log(`Creating "${name}" web-component:`)
     createFolder(root, name)
