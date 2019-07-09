@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Remove Controller builder method
 - Add WebComponent builder method
+- Add Gitlab CI for the documentation
 
 ## [1.0.1](https://git.cross-systems.ch/wide-front/modulus/tags/v1.0.1) - 2019/07/08
 - Trap focus in open modal
