@@ -1,6 +1,6 @@
 # Utilisation
 
-- [Installation](/utilisation/installation.md)
+- [Installation & Commandes](/utilisation/commandes.md)
 - [Quickstart](/utilisation/quickstart.md)
 
 

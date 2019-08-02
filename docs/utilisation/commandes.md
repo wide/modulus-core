@@ -1,4 +1,4 @@
-# Installation
+# Commandes
 
 
 ## Pré-requis
@@ -7,7 +7,7 @@
 - NPM `5.6.0` (livré avec Node)
 
 
-## Dépendances
+## Installation
 
 Pour récupérer les dépendances nécessaire à l'execution et à la compilation, lancer la commande suivante :
 ```
@@ -33,7 +33,7 @@ npm run build
 ```
 Le livrable sera alors disponibles dans le dossier `/dist`
 
-![Didi it!](https://media.giphy.com/media/TEDFUBxqnLHk4/giphy.gif)
+![Did it!](https://media.giphy.com/media/TEDFUBxqnLHk4/giphy.gif)
 
 
 ## Commandes
@@ -44,6 +44,6 @@ Plusieurs commandes annexes sont disponibles pour des tâches précises :
 - `npm run build:css` : compile le CSS dans `/dist`
 - `npm run build:js` : compile le JS dans `/dist`
 - `npm run create:plugin` : génère un plugin Modulus vide dans `/src`
-- `npm run create:controller` : génère un contrôleur Modulus vide dans `/src`
 - `npm run create:component` : génère un composant Modulus vide dans `/src`
+- `npm run create:webcomponent` : génère un web-composant Modulus vide dans `/src`
 - `npm run docs` : ouvre la documentation dans le navigateur
