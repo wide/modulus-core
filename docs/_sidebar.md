@@ -1,6 +1,6 @@
 - [Introduction](/)
 - [Utilisation](/utilisation/readme.md)
-  - [Installation](/utilisation/installation.md)
+  - [Commandes](/utilisation/commandes.md)
   - [Quickstart](/utilisation/quickstart.md)
 - [Javascript](/js/readme.md)
   - [Component](/js/component.md)

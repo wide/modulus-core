@@ -109,7 +109,6 @@ export default class extends Component {
    * Re-affect visibility and focus for accessibility purpose
    */
   onSlideChange() {
-    this.log('onSlideChange')
 
     // set aria-hidden and tabindex
     const slides = this.el.querySelectorAll(`.${this.classes.slide}`)
@@ -117,7 +116,6 @@ export default class extends Component {
 
       // to slide
       const isVisible = slides[i].classList.contains(this.classes.slideVisible)
-      this.log(isVisible)
       slides[i].setAttribute('aria-hidden', !isVisible)
       slides[i].setAttribute('tabindex', isVisible ? 0 : -1)
 
@@ -131,7 +129,6 @@ export default class extends Component {
 
     // set focus on active slide
     if (this.manualChange) {
-      this.log('plop')
       this.el.querySelector(`.${this.classes.slideActive}`).focus()
       this.manualChange = false
     }

@@ -15,7 +15,6 @@ import Scroll from 'modulus/plugins/scroll'
 import Viewport from 'modulus/plugins/viewport'
 import Breakpoint from 'modulus/plugins/breakpoint'
 
-import Page from '~/controllers/page'
 import components from '[ROOT]/build/import-components'
 
 import animations from '~/utils/animations'

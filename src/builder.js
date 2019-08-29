@@ -83,6 +83,18 @@ export default class extends Component {
 
 
 /**
+ * Generate component MD doc
+ * @param {String} name
+ */
+const componentMDTemplate = (name) =>
+`# ${name}
+
+{{{{demo}}}}
+{{> ${name}}}
+{{{{/demo}}}}`
+
+
+/**
  * Generate plugin JS template
  * @param {String} name
  */
@@ -111,6 +123,7 @@ export function createComponent(root, name, done) {
     createFile(root, name, 'html', componentHTMLTemplate(name))
     createFile(root, name, 'scss', componentSCSSTemplate(name))
     createFile(root, name, 'js', componentJSTemplate(name))
+    createFile(root, name, 'md', componentMDTemplate(name))
     done()
   }
   catch(err) {
@@ -133,6 +146,7 @@ export function createWebComponent(root, name, done) {
     createFile(root, name, 'html', webComponentHTMLTemplate(name))
     createFile(root, name, 'scss', componentSCSSTemplate(name))
     createFile(root, name, 'js', componentJSTemplate(name))
+    createFile(root, name, 'md', componentMDTemplate(name))
     done()
   }
   catch(err) {

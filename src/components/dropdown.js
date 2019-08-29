@@ -50,7 +50,9 @@ export default class extends Component {
       btn.type = 'button'
       btn.classList.add(this.classes.item)
       btn.value = this.els.select.options[i].value
-      btn.innerHTML = this.els.select.options[i].text
+
+      // render button content
+      btn.append(this.renderOption(this.els.select.options[i]))
 
       // update value on item button click
       btn.addEventListener('click', e => this.change(btn.value, true))
@@ -66,6 +68,14 @@ export default class extends Component {
 
     // set current
     this.change(this.els.select.value)
+  }
+
+
+  /**
+   * Generate dropdown option
+   */
+  renderOption(option) {
+    return option.text
   }
 
 
