@@ -5,7 +5,9 @@ import Bowser from 'bowser'
 // resolve browser features
 const browser = Bowser.getParser(window.navigator.userAgent)
 const platform = browser.getPlatformType(true)
-const name = browser.getBrowserName(true).replace('internet explorer', 'ie')
+const name = browser.getBrowserName(true)
+  .replace('internet explorer', 'ie')
+  .replace('microsoft edge', 'edge')
 
 // resolve browser capabilities
 const capabilities = {
