@@ -21,18 +21,8 @@ export default {
     }
 
     // register web-components
-    for(let tagname in modulus.webComponents) {
-      try {
-        const ComponentClass = modulus.webComponents[tagname]
-        modulus.log(`Custom Element [${tagname}] registered`)
-        this.registerWebComponent(tagname, ComponentClass)
-      }
-      catch(err) {
-        this.log.error(err)
-        continue
-      }
-
-    }
+    if(window.customElements) this.registerWebComponents(modulus)
+    else this.registerWebComponentsWhenReady(modulus)
   },
 
 
@@ -67,6 +57,40 @@ export default {
     const instance = this.instanciate(el, name, ComponentClass)
     if(instance.onInit) {
       instance.onInit()
+    }
+  },
+
+
+  /**
+   * Check when document is ready to register custom elements (Edge fix)
+   * @param {Number} wait
+   * @param {Modulus} modulus
+   */
+  registerWebComponentsWhenReady(modulus, wait = 250) {
+    let int = setInterval(() => {
+      if(window.customElements) {
+        clearInterval(int)
+        this.registerWebComponents(modulus)
+      }
+    }, wait)
+  },
+
+
+  /**
+   * Define all custom elements
+   * @param {Modulus} modulus 
+   */
+  registerWebComponents(modulus) {
+    for(let tagname in modulus.webComponents) {
+      try {
+        const ComponentClass = modulus.webComponents[tagname]
+        modulus.log(`Custom Element [${tagname}] registered`)
+        this.registerWebComponent(tagname, ComponentClass)
+      }
+      catch(err) {
+        modulus.log.error(err)
+        continue
+      }
     }
   },
 
