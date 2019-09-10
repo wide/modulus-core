@@ -52,7 +52,9 @@ export default class extends Component {
       btn.value = this.els.select.options[i].value
 
       // render button content
-      btn.append(this.renderOption(this.els.select.options[i]))
+      const current = this.renderOption(this.els.select.options[i])
+      if(typeof current === 'object') btn.appendChild(current)
+      else btn.innerHTML = current
 
       // update value on item button click
       btn.addEventListener('click', e => this.change(btn.value, true))
