@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - Fix npm task `assets:ico.symbols` for use with the watcher
 - Fix doc url for `ratio.md`
+- Replace `gulp-svg-sprites` by `gulp-svg-sprite` for icons build task
 
 ## [1.0.5](https://git.cross-systems.ch/wide-front/modulus/tags/v1.0.5) - 2019/09/10
 - Fix IE/Edge customElements supports for web components
