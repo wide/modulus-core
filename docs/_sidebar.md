@@ -28,7 +28,7 @@
     - [Embed](/css/helpers/embed.md)
     - [Grid](/css/helpers/grid.md)
     - [Layout](/css/helpers/layout.md)
-    - [Ratio](/css/helpers/ratiomd)
+    - [Ratio](/css/helpers/ratio.md)
     - [States](/css/helpers/states.md)
     - [Widths](/css/helpers/widths.md)
   - [Mixins](/css/mixins.md)
