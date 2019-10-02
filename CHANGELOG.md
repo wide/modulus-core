@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.6](https://git.cross-systems.ch/wide-front/modulus/tags/v1.0.6) - 2019/10/2
 - Fix npm task `assets:ico.symbols` for use with the watcher
 - Fix doc url for `ratio.md`
 - Replace `gulp-svg-sprites` by `gulp-svg-sprite` for icons build task
