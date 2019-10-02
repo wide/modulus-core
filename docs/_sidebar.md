@@ -2,6 +2,7 @@
 - [Utilisation](/utilisation/readme.md)
   - [Commandes](/utilisation/commandes.md)
   - [Quickstart](/utilisation/quickstart.md)
+- [Panini](/view/readme.md)
 - [Javascript](/js/readme.md)
   - [Component](/js/component.md)
     - [Accordion](/js/components/accordion.md)
