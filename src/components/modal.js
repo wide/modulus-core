@@ -22,11 +22,15 @@ export default class extends Component {
     this.classes = classes || DEFAULT_CLASSES
     this.els = {
       close: this.el.querySelector(`.${this.classes.close}`),
-      shadow: this.el.querySelector(`.${this.classes.shadow}`)
+      shadow: this.el.querySelector(`.${this.classes.shadow}`),
+      togglers: document.querySelectorAll(`[data-toggle="modal"][data-target="${this.id}"]`)
     }
 
     // trap focus
     document.addEventListener('focus', this.trapFocus.bind(this), true)
+
+    // Set event listener on HTML action elements
+    this.setElementsListener()
 
     // close en button click or shadow click
     this.els.close.addEventListener('click', e => this.close())
@@ -42,6 +46,7 @@ export default class extends Component {
    */
   onDestroy() {
     document.removeEventListener('focus', this.trapFocus.bind(this), true)
+    this.setElementsListener(false)
   }
 
 
@@ -115,6 +120,17 @@ export default class extends Component {
       e.preventDefault()
       this.setInnerFocus()
       return false
+    }
+  }
+
+
+  /**
+   * Set event listener on HTML action elements
+   * @param {Boolean} addEvent
+   */
+  setElementsListener(addEvent = true) {
+    for (let i = 0; i < this.els.togglers.length; i++) {
+      this.els.togglers[i][addEvent ? 'addEventListener' : 'removeListener']('click', e => this.open())
     }
   }
 
