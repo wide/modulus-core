@@ -38,7 +38,7 @@ dicrbmcmjxs9voq2czlhhb
 - Générer le code HTML pour l'utilisation d'une icône présente dans le sprite SVG :
 
 ```panini
-{{ icon name="beer" }}
+{{{ icon "beer" }}}
 ```
 
 ```output 
@@ -48,7 +48,7 @@ dicrbmcmjxs9voq2czlhhb
 - Il est possible d'ajouter un label pour l'accessibilité :
 
 ```panini
-{{ icon name="beer" label="I like my beer" }}
+{{{ icon "beer" "I like my beer" }}}
 ```
 
 ```output 
