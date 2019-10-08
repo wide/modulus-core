@@ -13,7 +13,7 @@ export default class extends Component {
 
 
   /**
-   * Initialize component 
+   * Initialize component
    */
   onInit(classes) {
 
@@ -23,7 +23,7 @@ export default class extends Component {
     this.els = {
       close: this.el.querySelector(`.${this.classes.close}`),
       shadow: this.el.querySelector(`.${this.classes.shadow}`),
-      togglers: document.querySelectorAll(`[data-toggle="modal"][data-target="${this.id}"]`)
+      togglers: document.querySelectorAll(`[data-toggle="modal"][data-target="${this.el.id}"]`)
     }
 
     // trap focus
@@ -137,8 +137,8 @@ export default class extends Component {
 
   /**
    * Create modal not as a component
-   * @param {HTMLElement} el 
-   * @param {Object} classes 
+   * @param {HTMLElement} el
+   * @param {Object} classes
    */
   static create(el, classes) {
     const instance = new this(el, {})
