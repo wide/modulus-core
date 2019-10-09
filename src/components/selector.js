@@ -253,7 +253,7 @@ export default class extends Component {
     // spread component event
     this.emit('change')
     if(notify) {
-      this.el.dispatchEvent(new CustomEvent('change'))
+      CustomEvent.trigger(this.el, 'change')
     }
 
     // close list
