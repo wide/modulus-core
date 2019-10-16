@@ -98,3 +98,7 @@ sera transformée en :
   </ul>
 </li>
 ```
+
+## Ouverture vers le haut
+
+La position du selector est calculée à l'ouverture et la class `-top` est ajouté si le selector est dans le tier bas du viewport.
