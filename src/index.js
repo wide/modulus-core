@@ -30,7 +30,10 @@ export default class Modulus extends EventEmitter {
     this.config = Object.assign({ debug: false, expose: false }, config)
 
     // assign logger
-    this.log = new Logger({ active: this.config.debug, prefix: '' })
+    this.log = new Logger({
+      active: () => this.config.debug,
+      prefix: ''
+    })
 
     // assign itself to window object if expose requested
     if(this.config.expose) {
@@ -77,12 +80,12 @@ export default class Modulus extends EventEmitter {
       // bind modulus and logger
       this.plugins[name].$modulus = this
       this.plugins[name].log = new Logger({
-        active: this.config.debug,
-        prefix: `<${name}>`
+        active: () => this.config.debug,
+        prefix: `$${name}`
       })
 
       // init plugin
-      this.log(`- plugin <${name}> registered`)
+      this.log(`-> add plugin $${name}`)
       if(this.plugins[name].onInit) {
         this.plugins[name].onInit()
       }
@@ -120,7 +123,7 @@ export default class Modulus extends EventEmitter {
 
       // get target elements
       const els = root.querySelectorAll(this.directives[n].seek)
-      this.log('- directive', this.directives[n].seek)
+      this.log(`-> add directive`, this.directives[n].seek)
       for(let i = 0; i < els.length; i++) {
 
         // create entry

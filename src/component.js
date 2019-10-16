@@ -27,8 +27,8 @@ export default class Component extends EventEmitter {
 
     // instanciate logger
     this.log = new Logger({
-      active: this.$modulus.config.debug,
-      prefix: `[${uid}]`
+      active: () => this.$modulus.config.debug,
+      prefix: `<${uid}>`
     })
   }
 

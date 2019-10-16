@@ -37,13 +37,13 @@ export default {
     const name = el.dataset.mod
     const ComponentClass = modulus.components[name]
     if(!ComponentClass) {
-      modulus.log.error(`Unknown component [${name}]`)
+      modulus.log.error(`Unknown component '${name}'`)
       return
     }
 
     // instanciate component
     this.register(el, name, ComponentClass)
-    modulus.log(`  - component [${el.__mod.uid}] added`)
+    modulus.log(`-> add component <${el.__mod.uid}>`)
   },
 
 
@@ -84,7 +84,7 @@ export default {
     for(let tagname in modulus.webComponents) {
       try {
         const ComponentClass = modulus.webComponents[tagname]
-        modulus.log(`Custom Element [${tagname}] registered`)
+        modulus.log(`-> add custom element <${tagname}>`)
         this.registerWebComponent(tagname, ComponentClass)
       }
       catch(err) {
