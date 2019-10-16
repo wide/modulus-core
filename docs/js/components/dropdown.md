@@ -1,6 +1,8 @@
 # Dropdown
 
-Custom select accessible AA.
+**Obsolete depuis la v1.0.7 !**
+
+
 
 ## Usage
 
@@ -17,5 +19,3 @@ export default class extends Dropdown {
 
 }
 ```
-
-@todo
