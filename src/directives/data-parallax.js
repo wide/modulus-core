@@ -1,4 +1,4 @@
-import CustomEvent from '../utils/custom-event'
+import { fireEvent } from '../utils/custom-event'
 
 export default {
 
@@ -25,7 +25,7 @@ export default {
       coef: parseFloat(el.dataset.parallax) || undefined,
       axis: el.dataset['parallax.axis'] || undefined
     })
-    CustomEvent.trigger(window, 'scroll')
+    fireEvent(window, 'scroll')
   },
 
 

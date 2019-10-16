@@ -1,5 +1,5 @@
 import Component              from '../component'
-import CustomEvent            from '../utils/custom-event'
+import { fireEvent }          from '../utils/custom-event'
 import { inViewport }         from '../utils/dom'
 import hotkeys                from 'hotkeys-js'
 
@@ -253,7 +253,7 @@ export default class extends Component {
     // spread component event
     this.emit('change')
     if(notify) {
-      CustomEvent.trigger(this.el, 'change')
+      fireEvent(this.el, 'change')
     }
 
     // close list
