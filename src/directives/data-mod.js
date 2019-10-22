@@ -3,7 +3,7 @@ import Component from '../component'
 export default {
 
   /**
-   * Props
+   * Selector
    */
   seek: '[data-mod]',
 
@@ -23,6 +23,14 @@ export default {
     // register web-components
     if(window.customElements) this.registerWebComponents(modulus)
     else this.registerWebComponentsWhenReady(modulus)
+
+    // setup components
+    for(let name in modulus.components) {
+      modulus.log.debug(`» load component <${name}>`)
+      if(modulus.components[name].onSetup) {
+        modulus.components[name].onSetup(modulus)
+      }
+    }
   },
 
 
@@ -37,24 +45,13 @@ export default {
     const name = el.dataset.mod
     const ComponentClass = modulus.components[name]
     if(!ComponentClass) {
-      modulus.log.error(`Unknown component '${name}'`)
+      modulus.log.error(`Unknown component '${name}'`, el)
       return
     }
 
     // instanciate component
-    this.register(el, name, ComponentClass)
-    modulus.log(`-> add component <${el.__mod.uid}>`)
-  },
-
-
-  /**
-   * Define and register standard element
-   * @param {HTMLElement} el 
-   * @param {String} name 
-   * @param {Component} ComponentClass 
-   */
-  register(el, name, ComponentClass) {
-    const instance = this.instanciate(el, name, ComponentClass)
+    const instance = new ComponentClass(el)
+    modulus.log.debug(`  ↳ init component <${el.__mod.uid}>`)
     if(instance.onInit) {
       instance.onInit()
     }
@@ -84,7 +81,7 @@ export default {
     for(let tagname in modulus.webComponents) {
       try {
         const ComponentClass = modulus.webComponents[tagname]
-        modulus.log(`-> add custom element <${tagname}>`)
+        modulus.log.debug(`  ↳ load web component <${tagname}>`)
         this.registerWebComponent(tagname, ComponentClass)
       }
       catch(err) {
@@ -101,18 +98,18 @@ export default {
    * @param {Component} ComponentClass 
    */
   registerWebComponent(tagname, ComponentClass) {
-    const self = this
     window.customElements.define(tagname, class extends HTMLElement {
 
       // new web component
       constructor() {
         super()
-        this.style.display = 'block' // immediat oveflow issue
-        self.instanciate(this, tagname, ComponentClass)
+        this.style.display = 'block' // immediat overflow issue
+        new ComponentClass(el)
       }
 
       // attached to DOM
       connectedCallback() {
+        modulus.log.debug(`  ↳ init web component <${this.__mod.uid}>`)
         if(this.__mod.onInit) {
           this.__mod.onInit()
         }
@@ -120,6 +117,7 @@ export default {
 
       // detached from DOM
       disconnectedCallback() {
+        modulus.log.debug(`  ↳ destroy web component <${this.__mod.uid}>`)
         if(this.__mod.onDestroy) {
           this.__mod.onDestroy()
         }
@@ -130,61 +128,17 @@ export default {
 
 
   /**
-   * Instanciate regular component
-   * @param {HTMLElement} el 
-   * @param {String} name 
-   * @param {Object} ComponentClass 
-   * @return {Object}
-   */
-  instanciate(el, name, ComponentClass) {
-    return new ComponentClass(el, {
-      uid: el.id ? `${name}#${el.id}` : name,
-      dataset: el.dataset,
-      attrs: this.parseAttrs(el),
-      refs: this.parseRefs(el)
-    })
-  },
-
-
-  /**
-   * Parse element attributes
-   * @param {HTMLElement} el 
-   * @return {Object}
-   */
-  parseAttrs(el) {
-    const attrs = {}
-    for(let i = 0; i < el.attributes.length; i++) {
-      attrs[el.attributes[i]] = el.getAttribute(el.attributes[i])
-    }
-    return attrs
-  },
-
-
-  /**
-   * Parse element [ref] children
-   * @param {HTMLElement} el 
-   * @return {Object}
-   */
-  parseRefs(el) {
-    const refs = {}
-    const els = Array.from(el.querySelectorAll(`*:not([data-mod]) [ref]`))
-    els.concat(...Array.from(el.children).filter(child => child.hasAttribute('ref'))) // ie11 fix for direct child ref
-    for(let i = 0; i < els.length; i++) {
-      const ref = els[i].getAttribute('ref')
-      refs[ref] = els[i]
-    }
-    return refs
-  },
-
-
-  /**
    * Unbind directive from element
    * @param {Modulus} modulus 
    * @param {HTMLElement} el 
    */
   unbind(modulus, el) {
-    if(el.__mod && el.__mod.onDestroy) {
-      el.__mod.onDestroy()
+    if(el.__mod) {
+      modulus.log.debug(`  ↳ destroy component <${el.__mod.uid}>`)
+      if(el.__mod.onDestroy) {
+        el.__mod.onDestroy()
+      }
+      delete el.__mod
     }
   }
 

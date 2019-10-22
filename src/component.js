@@ -1,26 +1,23 @@
 import EventEmitter from 'tiny-emitter'
 import Logger from './logger'
+import { getUID, getAttrs } from './utils/html'
+import { getChildrenByAttr } from './utils/dom'
 
 export default class Component extends EventEmitter {
 
   /**
    * New Component
    * @param {HTMLElement}   el
-   * @param {Object}        opts
-   * @param {String}        opts.uid - unique id
-   * @param {Object}        opts.attrs - element attributes
-   * @param {DOMStringMap}  opts.dataset - element dataset attributes
-   * @param {Object}        opts.refs - HTMLElement found by `[ref]`
    */
-  constructor(el, { uid, attrs, dataset, refs }) {
+  constructor(el) {
     super()
 
     // props
     this.el = el
-    this.uid = uid
-    this.attrs = attrs
-    this.dataset = dataset
-    this.refs = refs
+    this.uid = getUID(el)
+    this.dataset = el.dataset
+    this.attrs = getAttrs(el)
+    this.refs = getChildrenByAttr(el, 'ref')
 
     // bind to element
     el.__mod = this
@@ -28,9 +25,16 @@ export default class Component extends EventEmitter {
     // instanciate logger
     this.log = new Logger({
       active: () => this.$modulus.config.debug,
-      prefix: `<${uid}>`
+      prefix: `<${this.uid}>`
     })
   }
+
+
+  /**
+   * Setup component once
+   * @param {Modulus} modulus
+   */
+  static onSetup(modulus) {}
 
 
   /**
@@ -82,6 +86,17 @@ export default class Component extends EventEmitter {
    */
   $emit(event, ...args) {
     this.$modulus.emit(event, ...args)
+  }
+
+
+  /**
+   * Create component programatically
+   * @param {HTMLElement} el
+   */
+  static create(el, ...args) {
+    const instance = new this(el)
+    instance.onInit(...args)
+    return instance
   }
 
 }

@@ -233,16 +233,4 @@ export default class extends Component {
     }
   }
 
-
-  /**
-   * Create slider not as a component
-   * @param {HTMLElement} el 
-   * @param {Object} classes 
-   */
-  static create(el, classes) {
-    const instance = new this(el, {})
-    instance.onInit(classes)
-    return instance
-  }
-
 }

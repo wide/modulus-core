@@ -3,16 +3,9 @@ import { fireEvent } from '../utils/custom-event'
 export default {
 
   /**
-   * Props
+   * Selector
    */
   seek: '[data-parallax]',
-
-
-  /**
-   * Setup hook, called once
-   * @param {Modulus} modulus 
-   */
-  setup(modulus) {},
 
 
   /**

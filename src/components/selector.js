@@ -125,6 +125,7 @@ export default class extends Component {
     main.classList.add(this.classes.main)
     main.innerHTML = html
 
+    this.el.removeAttribute('data-mod') // fix recursion issue
     this.el.parentNode.insertBefore(main, this.el)
     main.appendChild(this.el)
     return main
@@ -293,18 +294,6 @@ export default class extends Component {
     if(this.els.main !== e.target && !this.els.main.contains(e.target)) {
       this.close(false)
     }
-  }
-
-
-  /**
-   * Create selector not as a component
-   * @param {HTMLElement} el 
-   * @param {cfg} classes 
-   */
-  static create(el, cfg) {
-    const instance = new this(el, {})
-    instance.onInit(cfg)
-    return instance
   }
 
 }

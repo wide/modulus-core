@@ -1,6 +1,10 @@
 import EventEmitter from 'tiny-emitter'
 import Logger from './logger'
 import dataMod from './directives/data-mod'
+import pkg from '../package.json'
+
+const DEFAULT_DIRECTIVES = { dataMod }
+let perf = 0
 
 export default class Modulus extends EventEmitter {
 
@@ -17,32 +21,30 @@ export default class Modulus extends EventEmitter {
   constructor({ config = {}, plugins = {}, directives = {}, components = {}, webComponents = {} }) {
 
     super()
+    perf = performance.now()
 
+    // props
     this.entries = []
+    this.running = false
     this.plugins = plugins
     this.components = components
     this.webComponents = webComponents
-
-    this.directives = { dataMod }
-    this.addDirectives(directives)
+    this.directives = {}
 
     // assign config
     this.config = Object.assign({ debug: false, expose: false }, config)
 
     // assign logger
-    this.log = new Logger({
-      active: () => this.config.debug,
-      prefix: ''
-    })
+    this.log = new Logger({ active: () => this.config.debug })
 
     // assign itself to window object if expose requested
     if(this.config.expose) {
       window.__mod = this
     }
 
-    // start building
-    this.log(`Modulus start (${process.env.PRODUCTION ? 'PROD' : 'DEV'} mode)`)
-    document.addEventListener('DOMContentLoaded', e => this.build())
+    // start process
+    this.log.debug(`Modulus v${pkg.version} - ${process.env.PRODUCTION ? 'production' : 'dev'} mode`)
+    document.addEventListener('DOMContentLoaded', e => this.build(directives))
 
     // rebuild on specific event
     this.on('dom.updated', root => this.rebuild(root))
@@ -52,22 +54,32 @@ export default class Modulus extends EventEmitter {
   /**
    * Build plugins, controller and components
    */
-  build() {
+  build(directives) {
+
+    // build once
+    if(this.running) return;
+    this.running = true
+
     this.setupPlugins()
-    this.setupDirectives()
+    this.addDirectives(DEFAULT_DIRECTIVES)
+    this.addDirectives(directives)
     this.bindDirectives()
-    this.observeDestruction()
+    this.observeDOM()
+    this.log.debug(`» loading done in ${(performance.now() - perf).toFixed(2)}ms`)
     this.emit('ready')
   }
 
 
   /**
    * Rebuild components
-   * @param {HTMLElement} root
    */
-  rebuild(root) {
-    this.bindDirectives(root)
-    this.emit('ready')
+  rebuild() {
+    perf = performance.now()
+    let rebuilt = this.bindDirectives()
+    rebuilt += this.unbindEntries()
+    if(rebuilt) {
+      this.log.debug(`» reloading done in ${(performance.now() - perf).toFixed(2)}ms`)
+    }
   }
 
 
@@ -85,7 +97,7 @@ export default class Modulus extends EventEmitter {
       })
 
       // init plugin
-      this.log(`-> add plugin $${name}`)
+      this.log.debug(`» load plugin $${name}`)
       if(this.plugins[name].onInit) {
         this.plugins[name].onInit()
       }
@@ -96,79 +108,140 @@ export default class Modulus extends EventEmitter {
   /**
    * Add new directives
    * @param {Object} directives 
+   * @param {Boolean} rebind 
    */
-  addDirectives(directives) {
-    for(let n in directives) {
-      this.directives[n] = directives[n]
+  addDirectives(directives, rebind = false) {
+    for(let name in directives) {
+
+      // setup directive
+      this.log.debug(`» load directive [${name}]`)
+      if(directives[name].setup) {
+        directives[name].setup(this)
+      }
+
+      // register
+      this.directives[name] = directives[name]
+    }
+
+    // rebind if requested
+    if(rebind) {
+      this.bindDirectives()
     }
   }
 
 
   /**
-   * Add directives
-   */
-  setupDirectives() {
-    for(let n in this.directives) {
-      this.directives[n].setup(this)
-    }
-  }
-  
-
-  /**
-   * Bind directives to elements
+   * Bind all directives
    * @param {HTMLElement} root
+   * @return {Number}
    */
-  bindDirectives(root = document.body) {
-    for(let n in this.directives) {
-
-      // get target elements
-      const els = root.querySelectorAll(this.directives[n].seek)
-      this.log(`-> add directive`, this.directives[n].seek)
+  bindDirectives(root = document) {
+    let binded = 0
+    for(let name in this.directives) {
+      const els = root.querySelectorAll(this.directives[name].seek)
       for(let i = 0; i < els.length; i++) {
-
-        // create entry
-        if(!this.entries.includes(els[i])) {
-          this.entries.push(els[i])
-          els[i].__directives = []
-        }
-
-        // bind directive
-        this.directives[n].bind(this, els[i])
-        els[i].__directives.push(n)
+        binded += this.bindDirective(name, this.directives[name], els[i])
       }
     }
+    return binded
   }
 
 
   /**
-   * Bind directives to elements
+   * Bind directive to element
+   * @param {String} name
+   * @param {Object} directive
+   * @param {HTMLElement} el
+   * @return {Number}
    */
-  unbindDirectives() {
+  bindDirective(name, directive, el) {
+
+    // already applied
+    if(el.__directives && el.__directives[name]) {
+      return 0
+    }
+
+    // register directive in element
+    el.__directives = el.__directives || {}
+    el.__directives[name] = true
+
+    // bind directive to element
+    this.log.debug(`» bind directive [${name}] to`, el)
+    directive.bind(this, el)
+
+    // keep element instance for further unbinding
+    this.entries.push(el)
+
+    return 1
+  }
+
+
+  /**
+   * Unbind all entries
+   * @return {Number}
+   */
+  unbindEntries() {
+
+    // unbind unconnected entries
+    let unbinded = 0
     for(let i = 0; i < this.entries.length; i++) {
-      if(!document.body.contains(this.entries[i])) {
-
-        // unbind directives
-        for(let j = 0; j < this.entries[i].__directives.length; j++) {
-          const n = this.entries[i].__directives[j]
-          this.directives[n].unbind(this, this.entries[i])
-        }
-
-        // removed entry
-        this.entries[i] = false
+      if(!this.entries[i].isConnected) {
+        unbinded += this.unbindEntry(i, this.entries[i])
       }
     }
 
-    // clear removed entries
+    // clear list
     this.entries = this.entries.filter(Boolean)
+    return unbinded
   }
 
 
   /**
-   * Observe element removal from DOM
+   * Unbind all directives of element
+   * @param {Number} i
+   * @param {HTMLElement} entry
+   * @return {Number}
    */
-  observeDestruction() {
-    new MutationObserver(e => this.unbindDirectives())
-      .observe(document.body, { childList: true, subtree: true })
+  unbindEntry(i, entry) {
+    let unbinded = 0
+    for(let name in this.directives) {
+      if(entry.__directives && entry.__directives[name]) {
+
+        // unregister directive from element
+        delete entry.__directives[name]
+
+        // unbind directive
+        if(this.directives[name].unbind) {
+          this.log.debug(`» unbind directive [${name}] from`, entry)
+          this.directives[name].unbind(this, entry)
+        }
+
+        // remove from entry list
+        this.entries[i] = false
+
+        unbinded++
+      }
+    }
+    return unbinded
+  }
+
+
+  /**
+   * Observe element in DOM
+   */
+  observeDOM() {
+    new MutationObserver(mutations => {
+      for(let i = 0; i < mutations.length; i++) {
+        if(mutations[i].addedNodes.length || mutations[i].removedNodes.length) {
+          setTimeout(() => this.rebuild(), 25)
+          break
+        }
+      }
+    })
+    .observe(document.body, {
+      childList: true,
+      subtree: true
+    })
   }
   
 

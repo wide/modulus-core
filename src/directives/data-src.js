@@ -1,16 +1,9 @@
 export default {
 
   /**
-   * Props
+   * Selector
    */
   seek: '[data-src]',
-
-
-  /**
-   * Setup hook, called once
-   * @param {Modulus} modulus 
-   */
-  setup(modulus) {},
 
 
   /**
@@ -25,14 +18,6 @@ export default {
       offset: '200px', // trigger 200px before entering viewport
       callback: item => item.src = item.dataset.src
     })
-  },
-
-
-  /**
-   * Unbind directive from element
-   * @param {Modulus} modulus 
-   * @param {HTMLElement} el 
-   */
-  unbind(modulus, el) {}
+  }
 
 }

@@ -4,7 +4,7 @@
  * @param {Function} opts.active 
  * @param {String} opts.prefix 
  */
-export default function({ active, prefix }) {
+export default function({ active, prefix = '' }) {
 
   const logger = function(...args) {
     if(active()) console.log(prefix, ...args)

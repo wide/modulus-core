@@ -84,15 +84,4 @@ export default class extends Component {
     return slideUp(answer).then(e => answer.hidden = true)
   }
 
-
-  /**
-   * Create accordion not as a component
-   * @param {HTMLElement} el 
-   */
-  static create(el) {
-    const instance = new this(el, {})
-    instance.onInit()
-    return instance
-  }
-
 }

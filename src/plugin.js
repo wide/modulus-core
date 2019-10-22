@@ -18,7 +18,7 @@ export default class Plugin {
 
 
   /**
-   * Emit to both global and local event bus
+   * Emit to both global event bus
    * @param {String} event 
    * @param  {...any} args 
    */
