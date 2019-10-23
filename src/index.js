@@ -35,7 +35,7 @@ export default class Modulus extends EventEmitter {
     this.config = Object.assign({ debug: false, expose: false }, config)
 
     // assign logger
-    this.log = new Logger({ active: () => this.config.debug })
+    this.log = new Logger()
 
     // assign itself to window object if expose requested
     if(this.config.expose) {
@@ -43,7 +43,7 @@ export default class Modulus extends EventEmitter {
     }
 
     // start process
-    this.log.debug(`Modulus v${pkg.version} - ${process.env.PRODUCTION ? 'production' : 'dev'} mode`)
+    this.log(`Modulus v${pkg.version} - ${process.env.PRODUCTION ? 'production' : 'dev'} mode`)
     document.addEventListener('DOMContentLoaded', e => this.build(directives))
 
     // rebuild on specific event
@@ -65,7 +65,7 @@ export default class Modulus extends EventEmitter {
     this.addDirectives(directives)
     this.bindDirectives()
     this.observeDOM()
-    this.log.debug(`» loading done in ${(performance.now() - perf).toFixed(2)}ms`)
+    this.log(`» loading done in ${(performance.now() - perf).toFixed(2)}ms`)
     this.emit('ready')
   }
 
@@ -78,7 +78,7 @@ export default class Modulus extends EventEmitter {
     let rebuilt = this.bindDirectives()
     rebuilt += this.unbindEntries()
     if(rebuilt) {
-      this.log.debug(`» reloading done in ${(performance.now() - perf).toFixed(2)}ms`)
+      this.log(`» reloading done in ${(performance.now() - perf).toFixed(2)}ms`)
     }
   }
 
@@ -91,13 +91,10 @@ export default class Modulus extends EventEmitter {
 
       // bind modulus and logger
       this.plugins[name].$modulus = this
-      this.plugins[name].log = new Logger({
-        active: () => this.config.debug,
-        prefix: `$${name}`
-      })
+      this.plugins[name].log = new Logger(`$${name}`)
 
       // init plugin
-      this.log.debug(`» load plugin $${name}`)
+      this.log(`» load plugin $${name}`)
       if(this.plugins[name].onInit) {
         this.plugins[name].onInit()
       }
@@ -114,7 +111,7 @@ export default class Modulus extends EventEmitter {
     for(let name in directives) {
 
       // setup directive
-      this.log.debug(`» load directive [${name}]`)
+      this.log(`» load directive [${name}]`)
       if(directives[name].setup) {
         directives[name].setup(this)
       }
@@ -166,7 +163,7 @@ export default class Modulus extends EventEmitter {
     el.__directives[name] = true
 
     // bind directive to element
-    this.log.debug(`» bind directive [${name}] to`, el)
+    this.log(`» bind directive [${name}] to`, el)
     directive.bind(this, el)
 
     // keep element instance for further unbinding
@@ -212,7 +209,7 @@ export default class Modulus extends EventEmitter {
 
         // unbind directive
         if(this.directives[name].unbind) {
-          this.log.debug(`» unbind directive [${name}] from`, entry)
+          this.log(`» unbind directive [${name}] from`, entry)
           this.directives[name].unbind(this, entry)
         }
 

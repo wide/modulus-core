@@ -23,10 +23,7 @@ export default class Component extends EventEmitter {
     el.__mod = this
 
     // instanciate logger
-    this.log = new Logger({
-      active: () => this.$modulus.config.debug,
-      prefix: `<${this.uid}>`
-    })
+    this.log = new Logger(`<${this.uid}>`)
   }
 
 

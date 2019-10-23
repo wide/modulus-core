@@ -26,7 +26,7 @@ export default {
 
     // setup components
     for(let name in modulus.components) {
-      modulus.log.debug(`» load component <${name}>`)
+      modulus.log(`» load component <${name}>`)
       if(modulus.components[name].onSetup) {
         modulus.components[name].onSetup(modulus)
       }
@@ -51,7 +51,7 @@ export default {
 
     // instanciate component
     const instance = new ComponentClass(el)
-    modulus.log.debug(`  ↳ init component <${el.__mod.uid}>`)
+    modulus.log(`  › init component <${el.__mod.uid}>`)
     if(instance.onInit) {
       instance.onInit()
     }
@@ -81,7 +81,7 @@ export default {
     for(let tagname in modulus.webComponents) {
       try {
         const ComponentClass = modulus.webComponents[tagname]
-        modulus.log.debug(`  ↳ load web component <${tagname}>`)
+        modulus.log(`  › load web component <${tagname}>`)
         this.registerWebComponent(tagname, ComponentClass)
       }
       catch(err) {
@@ -109,7 +109,7 @@ export default {
 
       // attached to DOM
       connectedCallback() {
-        modulus.log.debug(`  ↳ init web component <${this.__mod.uid}>`)
+        modulus.log(`  › init web component <${this.__mod.uid}>`)
         if(this.__mod.onInit) {
           this.__mod.onInit()
         }
@@ -117,7 +117,7 @@ export default {
 
       // detached from DOM
       disconnectedCallback() {
-        modulus.log.debug(`  ↳ destroy web component <${this.__mod.uid}>`)
+        modulus.log(`  › destroy web component <${this.__mod.uid}>`)
         if(this.__mod.onDestroy) {
           this.__mod.onDestroy()
         }
@@ -134,7 +134,7 @@ export default {
    */
   unbind(modulus, el) {
     if(el.__mod) {
-      modulus.log.debug(`  ↳ destroy component <${el.__mod.uid}>`)
+      modulus.log(`  › destroy component <${el.__mod.uid}>`)
       if(el.__mod.onDestroy) {
         el.__mod.onDestroy()
       }
