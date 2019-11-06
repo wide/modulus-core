@@ -90,7 +90,7 @@
 
   // check for width queries
   @if $minWidth {
-    $minWidth: breakpoint-convert-to-em($minWidth);
+    $minWidth: $minWidth;
     $return: map-merge($return, (min-width: $minWidth));
     $queries: set-nth($queries, 1, null);
   }
@@ -102,7 +102,7 @@
   }
 
   @if $maxWidth {
-    $maxWidth: breakpoint-convert-to-em($maxWidth - 1px);
+    $maxWidth: $maxWidth - 0.02px;
     $return: map-merge($return, (max-width: $maxWidth));
     $queries: set-nth($queries, 2, null);
   }
@@ -114,7 +114,7 @@
     $minHeight: breakpoint-validate($minHeight, $breakpoints);
 
     @if $minHeight {
-      $minHeight: breakpoint-convert-to-em($minHeight);
+      $minHeight: $minHeight;
       $return: map-merge($return, (min-height: $minHeight));
       $queries: set-nth($queries, $height + 1, null);
     }
@@ -126,7 +126,7 @@
     }
 
     @if $maxHeight {
-      $maxHeight: breakpoint-convert-to-em($maxHeight - 1px);
+      $maxHeight: $maxHeight - 0.02px;
       $return: map-merge($return, (max-height: $maxHeight));
       $queries: set-nth($queries, $height + 2, null);
     }
@@ -178,24 +178,4 @@
     $return: null;
   }
   @return $return;
-}
-
-///
-/// Checks and converts px values to em.
-///
-/// @param  {Number} $value - The pixel or rem value to convert.
-/// @return {Number} Scalable value in EMs.
-///
-/// @access private
-///
-@function breakpoint-convert-to-em($value) {
-  @if unit($value) == 'px' or $value == 0 {
-    @return em($value);
-  } @else if unit($value) == 'em' {
-    @return $value;
-  } @else if unit($value) == 'rem' {
-    @return ($value / ($value * 0 + 1)) * 1em; // hack ($value * 1em) not working
-  } @else {
-    @error 'Breakpoint value must have a unit if it\'s a number';
-  }
 }
