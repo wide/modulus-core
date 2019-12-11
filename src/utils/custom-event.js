@@ -1,13 +1,13 @@
 /**
  * CustomEvent polyfill
- * @param {String} name 
- * @param {Object} params 
+ * @param {String} name
+ * @param {Object} params
  * @return {Boolean}
  */
 export default function CustomEvent(name, params = {}) {
 
   // modern browsers
-  if(typeof Event === 'function') {
+  if (typeof Event === 'function') {
     return new Event(name, params)
   }
 
@@ -17,12 +17,11 @@ export default function CustomEvent(name, params = {}) {
   return event
 }
 
-
 /**
- * 
- * @param {HTMLElement} el 
- * @param {String} name 
- * @param {Object} params 
+ *
+ * @param {HTMLElement} el
+ * @param {String} name
+ * @param {Object} params
  */
 export function fireEvent(el, name, params) {
   el.dispatchEvent(new CustomEvent(name), params)
