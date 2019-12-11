@@ -6,6 +6,7 @@
 - [Javascript](/js/readme.md)
   - [Component](/js/component.md)
     - [Accordion](/js/components/accordion.md)
+    - [Selector](/js/components/selector.md)
     - [Dropdown](/js/components/dropdown.md)
     - [Slider](/js/components/slider.md)
     - [Modal](/js/components/modal.md)
