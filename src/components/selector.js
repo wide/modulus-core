@@ -1,5 +1,5 @@
 import Component              from '../component'
-import CustomEvent            from '../utils/custom-event'
+import { fireEvent }          from '../utils/custom-event'
 import { inViewport }         from '../utils/dom'
 import hotkeys                from 'hotkeys-js'
 
@@ -71,7 +71,7 @@ export default class extends Component {
 
   /**
    * Render list HTML
-   * @param {Array} items 
+   * @param {Array} items
    * @return {String}
    */
   renderItems(items) {
@@ -87,7 +87,7 @@ export default class extends Component {
 
   /**
    * Render group HTML
-   * @param {HTMLElement} optgroup 
+   * @param {HTMLElement} optgroup
    * @return {String}
    */
   renderGroup(optgroup) {
@@ -102,7 +102,7 @@ export default class extends Component {
 
   /**
    * Render option HTML
-   * @param {HTMLElement} opt 
+   * @param {HTMLElement} opt
    * @return {String}
    */
   renderItem(opt) {
@@ -117,7 +117,7 @@ export default class extends Component {
 
   /**
    * Connect generated HTML into the DOM
-   * @param {String} html 
+   * @param {String} html
    */
   attachToDOM(html) {
 
@@ -253,7 +253,7 @@ export default class extends Component {
     // spread component event
     this.emit('change')
     if(notify) {
-      CustomEvent.trigger(this.el, 'change')
+      fireEvent(this.el, 'change')
     }
 
     // close list
@@ -298,8 +298,8 @@ export default class extends Component {
 
   /**
    * Create selector not as a component
-   * @param {HTMLElement} el 
-   * @param {cfg} classes 
+   * @param {HTMLElement} el
+   * @param {cfg} classes
    */
   static create(el, cfg) {
     const instance = new this(el, {})
