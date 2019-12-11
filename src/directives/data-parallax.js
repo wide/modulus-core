@@ -25,7 +25,7 @@ export default {
       coef: parseFloat(el.dataset.parallax) || undefined,
       axis: el.dataset['parallax.axis'] || undefined
     })
-    window.dispatchEvent(new CustomEvent('scroll'))
+    CustomEvent.trigger(window, 'scroll')
   },
 
 

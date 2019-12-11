@@ -88,3 +88,18 @@ export function animateFrom(els, from, to, duration = DEFAULT_DURATION, stagger 
 export function getFocusables(el) {
   return el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
 }
+
+
+/**
+ * Get element position in viewport
+ * false -> out of viewport
+ * 0..100 -> in viewport
+ * @param {HTMLElement} el 
+ * @return {Float}
+ */
+export function inViewport(el) {
+  const r = el.getBoundingClientRect()
+  return ((r.top + r.height) >= 0 && r.top <= window.innerHeight)
+    ? (r.top + r.height) * 100 / (window.innerHeight + r.height)
+    : false
+}
