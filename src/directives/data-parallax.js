@@ -1,4 +1,4 @@
-import CustomEvent from '../utils/custom-event'
+import { fireEvent } from '../utils/custom-event'
 
 export default {
 
@@ -10,29 +10,29 @@ export default {
 
   /**
    * Setup hook, called once
-   * @param {Modulus} modulus 
+   * @param {Modulus} modulus
    */
   setup(modulus) {},
 
 
   /**
    * Bind directive to element
-   * @param {Modulus} modulus 
-   * @param {HTMLElement} el 
+   * @param {Modulus} modulus
+   * @param {HTMLElement} el
    */
   bind(modulus, el) {
     modulus.plugins.scroll.parallax(el, {
       coef: parseFloat(el.dataset.parallax) || undefined,
       axis: el.dataset['parallax.axis'] || undefined
     })
-    CustomEvent.trigger(window, 'scroll')
+    fireEvent(window, 'scroll')
   },
 
 
   /**
    * Unbind directive from element
-   * @param {Modulus} modulus 
-   * @param {HTMLElement} el 
+   * @param {Modulus} modulus
+   * @param {HTMLElement} el
    */
   unbind(modulus, el) {
     modulus.plugins.scroll.clearParallax(el)

@@ -1,5 +1,5 @@
 import Component              from '../component'
-import CustomEvent            from '../utils/custom-event'
+import { fireEvent }          from '../utils/custom-event'
 import { slideUp, slideDown } from '../utils/dom'
 import hotkeys                from 'hotkeys-js'
 
@@ -191,7 +191,7 @@ export default class extends Component {
     // spread component event
     this.emit('change')
     if(notify) {
-      this.els.select.dispatchEvent(new CustomEvent('change'))
+      fireEvent(this.els.select, 'change')
     }
 
     // close list
@@ -236,8 +236,8 @@ export default class extends Component {
 
   /**
    * Create slider not as a component
-   * @param {HTMLElement} el 
-   * @param {Object} classes 
+   * @param {HTMLElement} el
+   * @param {Object} classes
    */
   static create(el, classes) {
     const instance = new this(el, {})
