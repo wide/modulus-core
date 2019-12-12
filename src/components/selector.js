@@ -125,6 +125,7 @@ export default class extends Component {
     main.classList.add(this.classes.main)
     main.innerHTML = html
 
+    this.el.removeAttribute('data-mod') // fix recursion issue
     this.el.parentNode.insertBefore(main, this.el)
     main.appendChild(this.el)
     return main

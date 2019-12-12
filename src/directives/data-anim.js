@@ -1,16 +1,9 @@
 export default {
 
   /**
-   * Props
+   * Selector
    */
   seek: '[data-anim]',
-
-
-  /**
-   * Setup hook, called once
-   * @param {Modulus} modulus 
-   */
-  setup(modulus) {},
 
 
   /**
@@ -74,14 +67,6 @@ export default {
 
       }
     })
-  },
-
-
-  /**
-   * Unbind directive from element
-   * @param {Modulus} modulus 
-   * @param {HTMLElement} el 
-   */
-  unbind(modulus, el) {}
+  }
 
 }

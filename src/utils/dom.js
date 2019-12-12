@@ -103,3 +103,21 @@ export function inViewport(el) {
     ? (r.top + r.height) * 100 / (window.innerHeight + r.height)
     : false
 }
+
+
+/**
+ * Glob children by attribute
+ * @param {HTMLElement} el 
+ * @param {HTMLElement} attr 
+ * @return {Object}
+ */
+export function getChildrenByAttr(el, attr) {
+  const glob = {}
+  const els = Array.from(el.querySelectorAll(`*:not([data-mod]) [${attr}]`)) // exclude data-mod elements
+  els.concat(...Array.from(el.children).filter(child => child.hasAttribute(attr))) // ie11 fix for direct child ref
+  for(let i = 0; i < els.length; i++) {
+    const name = els[i].getAttribute(attr)
+    glob[name] = els[i]
+  }
+  return glob
+}

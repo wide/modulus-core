@@ -1,16 +1,9 @@
 export default {
 
   /**
-   * Props
+   * Selector
    */
   seek: '[data-sticky]',
-
-
-  /**
-   * Setup hook, called once
-   * @param {Modulus} modulus 
-   */
-  setup(modulus) {},
 
 
   /**

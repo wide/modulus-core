@@ -1,19 +1,21 @@
 import Plugin from '../plugin'
 import hotkeys from 'hotkeys-js'
 
+const DEFAULT_CLASSES = {
+  parent:     'form-line',
+  required:   '-required',
+  empty:      '-empty',
+  touched:    '-touched',
+  changed:    '-changed',
+  submitted:  '-submitted',
+  invalid:    '-invalid'
+}
+
 export default class Form extends Plugin {
 
   constructor(classes) {
     super()
-    this.classes = Object.assign({
-      parent: 'form-line',
-      required: '-required',
-      empty: '-empty',
-      touched: '-touched',
-      changed: '-changed',
-      submitted: '-submitted',
-      invalid: '-invalid'
-    }, classes)
+    this.classes = Object.assign(DEFAULT_CLASSES, classes)
   }
 
 

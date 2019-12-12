@@ -1,29 +1,23 @@
 /**
  * Logger factory
- * @param {Object} opts 
- * @param {Boolean} opts.active 
- * @param {String} opts.prefix 
+ * @param {String} prefix 
  */
-export default function({ active, prefix }) {
+export default function(prefix = '') {
 
   const logger = function(...args) {
-    if(active) console.log(prefix, ...args)
+    console.debug(prefix, ...args)
   }
 
   logger.info = function(...args) {
-    if(active) console.info(prefix, ...args)
-  }
-
-  logger.debug = function(...args) {
-    if(active) console.debug(prefix, ...args)
+    console.log(prefix, ...args)
   }
 
   logger.warn = function(...args) {
-    if(active) console.warn(prefix, ...args)
+    console.warn(prefix, ...args)
   }
 
   logger.error = function(...args) {
-    console.error(prefix, ...args) // always show errors
+    console.error(prefix, ...args)
   }
 
   return logger
