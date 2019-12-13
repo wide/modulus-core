@@ -27,7 +27,7 @@ Votre composant doit hériter la class `Dropdown` pour activer les fonctionnalit
 ```html
 <select data-mod="selector">
   <option>Choose an option</option>
-  <option value="1">Tyrannosaurus</option>
+  <option value="1" class="my-option">Tyrannosaurus</option>
   <option value="2">Velociraptor</option>
   <option value="3">Deinonychus</option>
 </select>
@@ -36,14 +36,14 @@ Votre composant doit hériter la class `Dropdown` pour activer les fonctionnalit
 Sera transformé en :
 ```html
 <div class="selector">
-  <button class="selector_current">Choose an option</button>
+  <button class="selector_current" data-index="0">Choose an option</button>
   <span class="selector_caret"></span>
   <ul class="selector_list">
     <li>
       <button class="selector_item">Choose an option</button>
     </li>
     <li>
-      <button class="selector_item" value="1">Tyrannosaurus</button>
+      <button class="selector_item my-option" value="1">Tyrannosaurus</button>
     </li>
     <li>
       <button class="selector_item" value="2">Velociraptor</button>
@@ -74,8 +74,8 @@ sera transformé en :
 
 La balise `<optgroup>` est prise en compte :
 ```html
-<optgroup label="Theropods">
-  <option>Tyrannosaurus</option>
+<optgroup label="Theropods" class="my-group">
+  <option class="my-option">Tyrannosaurus</option>
   <option>Velociraptor</option>
   <option>Deinonychus</option>
 </optgroup>
@@ -84,10 +84,10 @@ La balise `<optgroup>` est prise en compte :
 sera transformée en :
 ```html
 <li>
-  <ul class="selector_group">
+  <ul class="selector_group my-group">
     <li class="selector_label">Theropods</li>
     <li>
-      <button class="selector_item" value="Tyrannosaurus">Tyrannosaurus</button>
+      <button class="selector_item my-option" value="Tyrannosaurus">Tyrannosaurus</button>
     </li>
     <li>
       <button class="selector_item" value="Velociraptor">Velociraptor</button>

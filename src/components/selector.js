@@ -53,12 +53,13 @@ export default class extends Component {
    * @return {String}
    */
   renderMain() {
-    return `<button type="button"
-                    class="${this.classes.current}"
-                    id="${this.el.id}-current"
-                    aria-haspopup="listbox"
-                    aria-expanded="false"
-                    aria-controls="${this.el.id}-list"></button>
+    return `
+      <button type="button"
+              class="${this.classes.current}"
+              id="${this.el.id}-current"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="${this.el.id}-list"></button>
       <span class="${this.classes.caret}"></span>
       <ul class="${this.classes.list}"
           id="${this.el.id}-list"
@@ -91,12 +92,13 @@ export default class extends Component {
    * @return {String}
    */
   renderGroup(optgroup) {
-    return `<li>
-      <ul class="${this.classes.group}" role="group">
-        <li class="${this.classes.label}">${optgroup.label}</li>
-        ${this.renderItems(optgroup.children)}
-      </ul>
-    </li>`
+    return `
+      <li>
+        <ul class="${this.classes.group} ${optgroup.classList}" role="group">
+          <li class="${this.classes.label}">${optgroup.label}</li>
+          ${this.renderItems(optgroup.children)}
+        </ul>
+      </li>`
   }
 
 
@@ -106,12 +108,13 @@ export default class extends Component {
    * @return {String}
    */
   renderItem(opt) {
-    return `<li>
-      <button type="button"
-              class="${this.classes.item}"
-              value="${opt.value}"
-              role="option">${opt.dataset.content || opt.text}</button>
-    </li>`
+    return `
+      <li>
+        <button type="button"
+                value="${opt.value}"
+                class="${this.classes.item} ${opt.classList}"
+                role="option">${opt.dataset.content || opt.text}</button>
+      </li>`
   }
 
 
@@ -236,8 +239,10 @@ export default class extends Component {
   change(value, notify = false) {
 
     // update selector
-    const itemCurrent = Array.from(this.el.options).find(o => o.value === value)
+    const itemIndex = Array.from(this.el.options).findIndex(o => o.value === value)
+    const itemCurrent = this.el.options[itemIndex]
     this.els.current.innerHTML = itemCurrent.dataset.content || itemCurrent.text
+    this.els.current.setAttribute('data-index', itemIndex) // keep current index
 
     // update <select> value
     this.el.value = value
