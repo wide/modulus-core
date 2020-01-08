@@ -4,7 +4,7 @@ import dataModal from '../directives/data-modal'
 import hotkeys from 'hotkeys-js'
 
 export const DEFAULT_CLASSES = {
-  close:  'modal_close',
+  close:  '[data-close]',
   shadow: 'modal_shadow',
   open:   '-open',
   active: '-active'
@@ -30,7 +30,7 @@ export default class extends Component {
     this.src = null
     this.classes = classes || DEFAULT_CLASSES
     this.els = {
-      close: this.el.querySelector(`.${this.classes.close}`),
+      close: this.el.querySelectorAll(this.classes.close),
       shadow: this.el.querySelector(`.${this.classes.shadow}`)
     }
 
@@ -38,7 +38,9 @@ export default class extends Component {
     document.addEventListener('focus', this.trapFocus.bind(this), true)
 
     // close en button click or shadow click
-    this.els.close.addEventListener('click', e => this.close())
+    for (let i = 0; i < this.els.close.length; i++) {
+      this.els.close[i].addEventListener('click', e => this.close())
+    }
     this.els.shadow.addEventListener('click', e => this.close())
 
     // close on ESC keydown
