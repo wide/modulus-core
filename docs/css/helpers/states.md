@@ -1,5 +1,7 @@
 # States
 
+!> ATTENTION : Déprécié à partir de Modulus v1.1.2, supprimé sur Modulus v2
+
 Helper destiné à la gestion des différents états.
 
 Consulter le fichier: [states.scss](https://git.cross-systems.ch/wide-front/modulus/blob/develop/scss/helpers/states.scss).
