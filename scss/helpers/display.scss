@@ -24,7 +24,7 @@ $displays: (
   @each $breakpoint, $value in $breakpoints {
     @if $breakpoint != 'xs' {
       @each $display in $displays {
-        .d-#{$display}\@#{$breakpoint} {
+        .d-#{$display}#{$breakpoint-delimiter}#{$breakpoint} {
           @include bp($breakpoint) {
             @include display($display, true);
           }
@@ -37,7 +37,7 @@ $displays: (
         $only-breakpoint: ($breakpoint $next-breakpoint);
 
         @each $display in $displays {
-          .d-#{$display}\@#{$breakpoint}-only {
+          .d-#{$display}#{$breakpoint-delimiter}#{$breakpoint}-only {
             @include bp($only-breakpoint) {
               @include display($display, true);
             }
@@ -50,7 +50,7 @@ $displays: (
 
 @media print {
   @each $display in $displays {
-    .d-#{$display}\@print {
+    .d-#{$display}#{$breakpoint-delimiter}print {
       @include display($display, true);
     }
   }
@@ -58,7 +58,7 @@ $displays: (
 
 @media not print {
   @each $display in $displays {
-    .d-#{$display}\@screen {
+    .d-#{$display}#{$breakpoint-delimiter}screen {
       @include display($display, true);
     }
   }

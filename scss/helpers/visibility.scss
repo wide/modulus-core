@@ -15,14 +15,14 @@
 @if (variable-exists(breakpoints)) {
   @each $breakpoint, $value in $breakpoints {
     @if $breakpoint != 'xs' {
-      .h-visible\@#{$breakpoint} {
+      .h-visible#{$breakpoint-delimiter}#{$breakpoint} {
         @include bp($breakpoint) {
           visibility: visible !important;
           opacity: 1 !important;
         }
       }
 
-      .h-hidden\@#{$breakpoint} {
+      .h-hidden#{$breakpoint-delimiter}#{$breakpoint} {
         @include bp($breakpoint) {
           visibility: hidden !important;
           opacity: 0 !important;
@@ -34,14 +34,14 @@
       @if $next-breakpoint {
         $only-breakpoint: ($breakpoint $next-breakpoint);
 
-        .h-visible\@#{$breakpoint}-only  {
+        .h-visible#{$breakpoint-delimiter}#{$breakpoint}-only  {
           @include bp($only-breakpoint) {
             visibility: visible !important;
             opacity: 1 !important;
           }
         }
 
-        .h-hidden\@#{$breakpoint}-only  {
+        .h-hidden#{$breakpoint-delimiter}#{$breakpoint}-only  {
           @include bp($only-breakpoint) {
             visibility: hidden !important;
             opacity: 0 !important;
@@ -53,24 +53,24 @@
 }
 
 @media print {
-  .h-visible\@print {
+  .h-visible#{$breakpoint-delimiter}print {
     visibility: visible !important;
     opacity: 1 !important;
   }
 
-  .h-hidden\@print {
+  .h-hidden#{$breakpoint-delimiter}print {
     visibility: hidden !important;
     opacity: 0 !important;
   }
 }
 
 @media not print {
-  .h-visible\@screen {
+  .h-visible#{$breakpoint-delimiter}screen {
     visibility: visible !important;
     opacity: 1 !important;
   }
 
-  .h-hidden\@screen {
+  .h-hidden#{$breakpoint-delimiter}screen {
     visibility: hidden !important;
     opacity: 0 !important;
   }

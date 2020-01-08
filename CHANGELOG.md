@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://git.cross-systems.ch/wide-front/modulus/tags/v1.1.1) - 2020/01/08
+- Add helper `display` (`states` is now deprecated)
+- Add helper `visibility` (`states` is now deprecated)
+- Update helper documentation
+- Replace class for close modal `modal_close` -> `[data-close]`
+
 ## [1.1.1](https://git.cross-systems.ch/wide-front/modulus/tags/v1.1.1) - 2019/12/13
 - Enhance `Selector` component with css classes mirroring and new `[data-index]` value
 
