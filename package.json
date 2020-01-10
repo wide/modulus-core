@@ -1,17 +1,17 @@
 {
   "version": "1.1.2",
   "name": "modulus",
-  "author": "Wide Agency <hello@wideagency.com>",
+  "author": "WIDE Agency <tech@wideagency.com>",
   "contributors": [
-    "Aymeric Assier <aassier@wideagency.com>",
-    "Julien Martins Da Costa <jmartinsdacosta@wideagency.com>"
+    "Aymeric Assier",
+    "Julien Martins Da Costa"
   ],
+  "licence": "MIT",
   "main": "lib/index.js",
   "engines": {
     "node": ">=10.13.0"
   },
   "scripts": {
-    "doc": "docsify serve docs --port 3100 --open true",
     "docs": "docsify serve docs --port 3100 --open true",
     "compile": "babel -d lib/ src/",
     "postinstall": "npm run compile"
